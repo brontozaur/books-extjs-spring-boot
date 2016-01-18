@@ -9,8 +9,6 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.popa.books.dao.AbstractDB;
-import com.popa.books.dao.Database;
-import com.popa.books.dao.DatabaseException;
 import com.popa.books.dao.Editura;
 
 public class GetEdituriEventHandler extends EventHandler {
@@ -20,10 +18,10 @@ public class GetEdituriEventHandler extends EventHandler {
 	@Override
 	public String handleEvent(HttpServletRequest request) throws ServletException {
 		try {
-			List<AbstractDB> edituri = Database.getDbObjectsList(Editura.class);
+			List<AbstractDB> edituri = null;//Database.getDbObjectsList(Editura.class);
 			System.err.println(new Gson().toJson(edituri));
 			return new Gson().toJson(edituri);
-		} catch (DatabaseException e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new ServletException(e);
 		}

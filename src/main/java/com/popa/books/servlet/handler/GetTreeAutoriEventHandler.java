@@ -10,8 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
-import com.popa.books.dao.Database;
-import com.popa.books.dao.DatabaseException;
 import com.popa.books.servlet.bean.AutorNode;
 import com.popa.books.servlet.bean.Node;
 
@@ -31,7 +29,7 @@ public class GetTreeAutoriEventHandler extends EventHandler {
                     String sql = "SELECT @firstletter as SUBSTRING(a.nume,1,1), "
                             + "(SELECT COUNT(1) FROM Autor a1 WHERE SUBSTRING(a1.nume,1,1) LIKE @firstletter) AS autorsNumber,"
                             + "(SELECT COUNT(1) FROM Book b WHERE b.idAutor = a.autorId) AS booksNumber " + "FROM Autor a GROUP BY @firstletter";
-                    List<Object[]> lettersList = Database.getDataObject(sql);
+                    List<Object[]> lettersList = new ArrayList<>();//Database.getDataObject(sql);
                     for (Object[] data : lettersList) {
                         AutorNode bean = new AutorNode();
                         String letter = String.valueOf(data[0]);
@@ -63,7 +61,7 @@ public class GetTreeAutoriEventHandler extends EventHandler {
                     }
                 } else {
                     String sql = "SELECT a.nume, (SELECT COUNT(1) FROM Book b WHERE b.idAutor = a.autorId) AS bookCount FROM Autor a";
-                    List<Object[]> lettersList = Database.getDataObject(sql);
+                    List<Object[]> lettersList = new ArrayList<>();//Database.getDataObject(sql);
                     for (Object[] data : lettersList) {
                         AutorNode bean = new AutorNode();
                         String numeAutor = String.valueOf(data[0]);
@@ -87,7 +85,7 @@ public class GetTreeAutoriEventHandler extends EventHandler {
                             + "AND a.nume NOT LIKE 'Z%'";
                 }
                 String sql = "SELECT a.nume, (SELECT COUNT(1) FROM Book b WHERE b.idAutor = a.autorId) AS bookCount FROM Autor a where " + where;
-                List<Object[]> lettersList = Database.getDataObject(sql);
+                List<Object[]> lettersList = new ArrayList<>();//Database.getDataObject(sql);
                 for (Object[] data : lettersList) {
                     AutorNode bean = new AutorNode();
                     String numeAutor = String.valueOf(data[0]);
@@ -105,7 +103,7 @@ public class GetTreeAutoriEventHandler extends EventHandler {
             }
             System.err.println(new Gson().toJson(nodeList));
             return new Gson().toJson(nodeList);
-        } catch (DatabaseException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new ServletException(e);
         }

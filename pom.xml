@@ -105,12 +105,6 @@
           <artifactId>javax.servlet-api</artifactId>
       </dependency>
 
-      <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-c3p0</artifactId>
-          <version>4.3.11.Final</version>
-      </dependency>
-
 
 <!--Spring boot-->
 
@@ -118,16 +112,12 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-data-jpa</artifactId>
       </dependency>
+
       <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-web</artifactId>
       </dependency>
 
-      <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <scope>runtime</scope>
-      </dependency>
       <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -137,6 +127,30 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-test</artifactId>
           <scope>test</scope>
+      </dependency>
+
+      <!-- Database mysql -->
+      <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+      </dependency>
+
+      <!-- DataSource (HikariCP) -->
+      <!--<dependency>
+          <groupId>com.zaxxer</groupId>
+          <artifactId>HikariCP</artifactId>
+      </dependency>-->
+
+      <!-- JPA Provider (Hibernate) -->
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-entitymanager</artifactId>
+      </dependency>
+
+      <!-- Spring Data JPA -->
+      <dependency>
+          <groupId>org.springframework.data</groupId>
+          <artifactId>spring-data-jpa</artifactId>
       </dependency>
 
 

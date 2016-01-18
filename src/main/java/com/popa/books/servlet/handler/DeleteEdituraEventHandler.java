@@ -10,7 +10,6 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.popa.books.dao.Editura;
 import com.popa.books.dao.ExceptionUtil;
-import com.popa.books.dao.persistence.BorgPersistence;
 
 public class DeleteEdituraEventHandler extends EventHandler {
 
@@ -18,34 +17,24 @@ public class DeleteEdituraEventHandler extends EventHandler {
 
 	@Override
 	public String handleEvent(HttpServletRequest request) throws ServletException {
-		EntityManager conn = null;
 		try {
-			conn = BorgPersistence.getEntityManager();
-			conn.getTransaction().begin();
 			String idEditura = request.getParameter("idEditura");
 			if (StringUtils.isEmpty(idEditura)){
 				logger.error("editura id is incorrect: "+ idEditura);
 				throw new ServletException("editura id is incorrect: "+idEditura);
 			}
-			Editura editura = conn.createNamedQuery("Editura.findById", Editura.class).setParameter("idEditura", Long.valueOf(idEditura))
-					.getSingleResult();
-			conn.remove(editura);
-			conn.getTransaction().commit();
+//			Editura editura = conn.createNamedQuery("Editura.findById", Editura.class).setParameter("idEditura", Long.valueOf(idEditura))
+//					.getSingleResult();
+//			conn.remove(editura);
+//			conn.getTransaction().commit();
 			return null;
 		} catch (Exception exc) {
-			if (conn.getTransaction().isActive()) {
-				conn.getTransaction().rollback();
-			}
 			logger.error(exc.getMessage(), exc);
 			if (exc.getCause().getCause() instanceof ConstraintViolationException){
 				setErrorMessage("Editura este utilizata pe una sau mai multe carti!");
 				throw new ServletException(ExceptionUtil.getExceptionCause(exc));
 			}
 			throw new ServletException(exc);
-		} finally {
-			if (conn != null) {
-				conn.close();
-			}
 		}
 	}
 }

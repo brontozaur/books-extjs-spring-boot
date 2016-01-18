@@ -18,8 +18,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
-import com.popa.books.dao.persistence.BorgPersistence;
-
 public class SaveBookEventHandler extends EventHandler {
 
     private static final Logger logger = Logger.getLogger(SaveBookEventHandler.class);
@@ -28,7 +26,6 @@ public class SaveBookEventHandler extends EventHandler {
     public String handleEvent(final HttpServletRequest request) throws ServletException {
         EntityManager conn = null;
         try {
-            conn = BorgPersistence.getEntityManager();
             conn.getTransaction().begin();
             Book book = new Book();
             String bookId = request.getParameter("bookId");
@@ -48,19 +45,19 @@ public class SaveBookEventHandler extends EventHandler {
 
             String autorId = request.getParameter("autorId");
             if (StringUtils.isNotEmpty(autorId)) {
-                Autor autor = (Autor) Database.getDbObjectById(Autor.class, Long.valueOf(autorId));
+                Autor autor = null;//(Autor) Database.getDbObjectById(Autor.class, Long.valueOf(autorId));
                 book.setAuthor(autor);
             }
 
             String idCategorie = request.getParameter("idCategorie");
             if (StringUtils.isNotEmpty(idCategorie)) {
-                Categorie categorie = (Categorie) Database.getDbObjectById(Categorie.class, Long.valueOf(idCategorie));
+                Categorie categorie = null;//(Categorie) Database.getDbObjectById(Categorie.class, Long.valueOf(idCategorie));
                 book.setCategorie(categorie);
             }
 
             String idEditura = request.getParameter("idEditura");
             if (StringUtils.isNotEmpty(idEditura)) {
-                Editura editura = (Editura) Database.getDbObjectById(Editura.class, Long.valueOf(idEditura));
+                Editura editura = null;//(Editura) Database.getDbObjectById(Editura.class, Long.valueOf(idEditura));
                 book.setEditura(editura);
             }
             book.setIsbn(request.getParameter("isbn"));

@@ -17,6 +17,9 @@ import java.io.IOException;
 @RestController
 public class BooksController {
 
+//    @Autowired -aici merge!
+//    BookRepository repository;
+
     @RequestMapping(value = "/books",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)

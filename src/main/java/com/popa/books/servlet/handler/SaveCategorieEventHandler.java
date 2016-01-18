@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.popa.books.dao.Categorie;
-import com.popa.books.dao.persistence.BorgPersistence;
 
 public class SaveCategorieEventHandler extends EventHandler {
 
@@ -18,7 +17,6 @@ public class SaveCategorieEventHandler extends EventHandler {
 	public String handleEvent(final HttpServletRequest request) throws ServletException {
 		EntityManager conn = null;
 		try {
-			conn = BorgPersistence.getEntityManager();
 			conn.getTransaction().begin();
 			Categorie categorie = new Categorie();
 			String idCategorie = request.getParameter("idCategorie");

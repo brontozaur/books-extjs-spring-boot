@@ -6,12 +6,11 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.popa.books.dao.ExceptionUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
-import com.popa.books.dao.Database;
-import com.popa.books.dao.DatabaseException;
 import com.popa.books.servlet.bean.BookNode;
 import com.popa.books.servlet.bean.Node;
 
@@ -26,7 +25,7 @@ public class GetTreeBooksEventHandler extends EventHandler {
             BookNode nonLetterBean = null;
             String sql = "SELECT @firstletter as SUBSTRING(b.title,1,1), (SELECT COUNT(1) FROM Book b1 WHERE SUBSTRING(b1.title,1,1) LIKE @firstletter) AS booksNumber"
                     + " FROM Book b GROUP BY @firstletter";
-            List<Object[]> lettersList = Database.getDataObject(sql);
+            List<Object[]> lettersList = new ArrayList<>();
             for (Object[] data : lettersList) {
                 BookNode bean = new BookNode();
                 String letter = String.valueOf(data[0]);
@@ -55,7 +54,7 @@ public class GetTreeBooksEventHandler extends EventHandler {
             }
             System.err.println(new Gson().toJson(nodeList));
             return new Gson().toJson(nodeList);
-        } catch (DatabaseException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new ServletException(e);
         }

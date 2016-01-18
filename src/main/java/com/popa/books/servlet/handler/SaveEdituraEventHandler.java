@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.popa.books.dao.Editura;
-import com.popa.books.dao.persistence.BorgPersistence;
 
 public class SaveEdituraEventHandler extends EventHandler {
 
@@ -18,7 +17,6 @@ public class SaveEdituraEventHandler extends EventHandler {
 	public String handleEvent(HttpServletRequest request) throws ServletException {
 		EntityManager conn = null;
 		try {
-			conn = BorgPersistence.getEntityManager();
 			conn.getTransaction().begin();
 			Editura editura = new Editura();
 			String idEditura = request.getParameter("idEditura");

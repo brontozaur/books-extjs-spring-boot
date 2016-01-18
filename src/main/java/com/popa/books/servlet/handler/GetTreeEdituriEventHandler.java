@@ -10,8 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
-import com.popa.books.dao.Database;
-import com.popa.books.dao.DatabaseException;
 import com.popa.books.servlet.bean.EdituraNode;
 import com.popa.books.servlet.bean.Node;
 
@@ -32,7 +30,7 @@ public class GetTreeEdituriEventHandler extends EventHandler {
                             + "(SELECT COUNT(1) FROM Editura a1 WHERE SUBSTRING(a1.numeEditura,1,1) LIKE @firstletter) AS nrEdituri,"
                             + "(SELECT COUNT(1) FROM Book b WHERE b.idEditura = e.idEditura) AS booksNumber "
                             + "FROM Editura e GROUP BY @firstletter";
-                    List<Object[]> lettersList = Database.getDataObject(sql);
+                    List<Object[]> lettersList = new ArrayList<>();
                     for (Object[] data : lettersList) {
                         EdituraNode bean = new EdituraNode();
                         String letter = String.valueOf(data[0]);
@@ -64,7 +62,7 @@ public class GetTreeEdituriEventHandler extends EventHandler {
                     }
                 } else {
                     String sql = "SELECT e.numeEditura, (SELECT COUNT(1) FROM Book b WHERE b.idEditura = e.idEditura) AS bookCount FROM Editura e";
-                    List<Object[]> lettersList = Database.getDataObject(sql);
+                    List<Object[]> lettersList = new ArrayList<>();
                     for (Object[] data : lettersList) {
                         EdituraNode bean = new EdituraNode();
                         String numeAutor = String.valueOf(data[0]);
@@ -88,7 +86,7 @@ public class GetTreeEdituriEventHandler extends EventHandler {
                             + "AND a.numeEditura NOT LIKE 'Z%'";
                 }
                 String sql = "SELECT a.numeEditura, (SELECT COUNT(1) FROM Book b WHERE b.idEditura = a.idEditura) AS bookCount FROM Editura a where " + where;
-                List<Object[]> lettersList = Database.getDataObject(sql);
+                List<Object[]> lettersList = new ArrayList<>();
                 for (Object[] data : lettersList) {
                     EdituraNode bean = new EdituraNode();
                     String numeEditura = String.valueOf(data[0]);
@@ -106,7 +104,7 @@ public class GetTreeEdituriEventHandler extends EventHandler {
             }
             System.err.println(new Gson().toJson(nodeList));
             return new Gson().toJson(nodeList);
-        } catch (DatabaseException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new ServletException(e);
         }

@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.popa.books.dao.Autor;
-import com.popa.books.dao.persistence.BorgPersistence;
 
 public class SaveAutorEventHandler extends EventHandler {
 
@@ -21,7 +20,7 @@ public class SaveAutorEventHandler extends EventHandler {
 	public String handleEvent(HttpServletRequest request) throws ServletException {
 		EntityManager conn = null;
 		try {
-			conn = BorgPersistence.getEntityManager();
+//			conn = BorgPersistence.getEntityManager();
 			conn.getTransaction().begin();
 			Autor autor = new Autor();
 			String autorId = request.getParameter("autorId");

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.JsonObject;
 import com.popa.books.dao.BookCover;
-import com.popa.books.dao.persistence.BorgPersistence;
 import com.popa.books.servlet.util.RequestUtils;
 import org.apache.log4j.Logger;
 
@@ -61,7 +60,7 @@ public class ImageLoaderHandler extends EventHandler {
         File serverFile = new File(RequestUtils.getImagePath(fileName));
         if (serverFile.exists() && serverFile.isFile()) {
             JsonObject response = new JsonObject();
-            response.addProperty("success", true);
+            response.addProperty("success", isFrontCover);
             response.addProperty("fileName", serverFile.getName() + "?time=" + new Date());
             return response.toString();
         }
@@ -92,7 +91,7 @@ public class ImageLoaderHandler extends EventHandler {
     private String exportImageData(final HttpServletRequest request) throws ServletException, IOException {
         EntityManager conn = null;
         try {
-            conn = BorgPersistence.getEntityManager();
+//            conn = BorgPersistence.getEntityManager();
             final String bookId = request.getParameter("bookId");
             final boolean isFrontCover = Boolean.valueOf(request.getParameter("isFrontCover"));
             Query query = conn.createNamedQuery(isFrontCover ? BookCover.QUERY_GET_FRONT : BookCover.QUERY_GET_BACK);
