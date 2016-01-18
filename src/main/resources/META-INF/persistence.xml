@@ -8,18 +8,20 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!--This can be used to specify a jar file containing the addnotated beans! So, there is no need to declare all beans manually, as seen bellow  -->
         <!-- <jar-file>packedEntity.jar</jar-file> -->
-        <class>com.popa.books.dao.Autor</class>
-        <class>com.popa.books.dao.Book</class>
+<!--        <class>com.popa.books.dao.Autor</class>
+        <class>com.popa.books.dao.Book</class>-->
         <properties>
+<!--
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/books_manager?autoReconnect=true&amp;createDatabaseIfNotExist=true" />
             <property name="hibernate.connection.username" value="root" />
             <property name="hibernate.connection.password" value="root" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
-            <property name="hibernate.cache.use_second_level_cache" value="true"/>
-            <property name="hibernate.connection.isolation" value="1" />
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true" />
+
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.connection.isolation" value="1" />
             <property name="hibernate.format_sql" value = "true" />
             <property name="hibernate.c3p0.min_size" value="5" />
             <property name="hibernate.c3p0.max_size" value="20" />
@@ -27,8 +29,9 @@
             <property name="hibernate.c3p0.max_statements" value="50" />
             <property name="hibernate.c3p0.idle_test_period" value="3000" />
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />
-
             <property name="hibernate.current_session_context_class" value ="thread" />
+-->
+
         </properties>
     </persistence-unit>
 </persistence>
