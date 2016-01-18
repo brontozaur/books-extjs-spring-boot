@@ -1,0 +1,59 @@
+.app-header {
+	font-family: Arial, sans-serif;
+	color: #596F8F;
+	font-size: 22px;
+	font-weight: 200;
+	padding: 5px;
+	text-shadow: 0 1px 0 #fff;
+}
+
+.book-info-label {
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	padding: 5px;
+	text-shadow: 0 1px 0 #fff;
+}
+
+.book-info-label-value {
+	font-family: Arial, sans-serif;
+	color: gray;
+	font-size: 16px;
+	font-weight: 100;
+	text-shadow: 0 1px 0 #fff;
+}
+
+.icon-add {
+	background-image: url(images/add.png) !important;
+}
+
+.icon-mod {
+	background-image: url(images/mod.png) !important;
+}
+
+.icon-delete {
+	background-image: url(images/del.png) !important;
+}
+
+.icon-save {
+	background-image: url(images/save.png) !important;
+}
+
+.icon-refresh {
+	background-image: url(images/refresh.png) !important;
+}
+
+.icon-upload {
+	background-image: url(images/upload.png) !important;
+}
+
+.icon-back {
+	background-image: url(images/back.png) !important;
+}
+
+.icon-forward {
+	background-image: url(images/forward.png) !important;
+}
+
+.icon-search {
+	background-image: url(images/search.png) !important;
+}

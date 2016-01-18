@@ -1,0 +1,9 @@
+{
+    "success": true,
+    "books": [
+        {"bookId": 1, "author": 'Stephen King',    "title": "Orasul bantuit", "data" : "04/06/1981"},
+        {"bookId": 2, "author": 'Orson Scott Card', "title": "Amintirea pamantului", "data" : "05/04/1983"},
+        {"bookId": 3, "author": 'Raymond Chandler', "title": "Somnul de veci", "data" : "12/05/1981"},
+		{"bookId": 4, "author": 'Stephen King',    "title": "Carrie", "data" : "05/15/1981"},        
+    ]
+}
