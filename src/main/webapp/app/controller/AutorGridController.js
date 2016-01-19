@@ -95,12 +95,8 @@ Ext.define('BM.controller.AutorGridController', {
                     }
                     var selectedAutor = selectionModel.getSelection()[0];
                     Ext.Ajax.request({
-                                url: 'books',
-                                method: 'POST',
-                                params: {
-                                    event: 'del-autor',
-                                    autorId: selectedAutor.get('autorId')
-                                },
+                                url: 'autor/'+selectedAutor.get('autorId'),
+                                method: 'DELETE',
                                 scope: this,
                                 success: function(result, request) {
                                     enablebuttonsAutor(false);
@@ -120,14 +116,15 @@ Ext.define('BM.controller.AutorGridController', {
 
             saveAutor: function(button, clickEvent, options) {
                 var form = button.up('autorwindow').down('form[itemId=autorform]');
+                var autorId = form.down('hidden[name=autorId]').getValue();
+                var isAdd = Ext.isEmpty(autorId);
                 if (form.isValid()) {
                     form.submit({
-                                url: 'books',
-                                method: 'POST',
+                                url: (isAdd ? 'autor' : 'autor/'+autorId),
+                                method: isAdd ? 'POST' : 'PUT',
                                 params: {
-                                    event: 'save-autor',
-                                    autorId: form.down('hidden[name=autorId]').getValue(),
-                                    nume: form.down('textfield[name=nume]').getValue()
+                                    nume: form.down('textfield[name=nume]').getValue(),
+                                    dataNasterii: form.down('datefield[name=dataNasterii]').getValue()
                                 },
                                 success: function(form, action) {
                                     button.up('autorwindow').close();

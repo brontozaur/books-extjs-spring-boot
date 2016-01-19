@@ -1,66 +1,87 @@
 package com.popa.books.controller.book;
 
-import com.popa.books.controller.Events;
-import com.popa.books.model.AbstractDB;
 import com.popa.books.model.Book;
+import com.popa.books.repository.AutorRepository;
 import com.popa.books.repository.BookRepository;
+import com.popa.books.repository.CategorieRepository;
+import com.popa.books.repository.EdituraRepository;
+import com.popa.books.util.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/book")
 public class BookController {
+
 
     @Autowired
     BookRepository repository;
 
-    @RequestMapping("/booksaas")
-    public List<Book> getAllBooks(@RequestParam String event){
-        if (Events.GET_BOOKS.equals(event)) {
-            List<Book> books =  new ArrayList<>();
-            Iterable<Book> it = repository.findAll();
-            for (Book book: it) {
-                books.add(book);
-            }
-            return books;
+    @Autowired
+    AutorRepository autorRepository;
+
+    @Autowired
+    CategorieRepository categorieRepository;
+
+    @Autowired
+    EdituraRepository edituraRepository;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Book> getAllBooks(){
+        List<Book> books =  new ArrayList<>();
+        Iterable<Book> it = repository.findAll();
+        for (Book book: it) {
+            books.add(book);
         }
-        return null;
+        return books;
     }
 
-/*
-    @RequestMapping(value = "/getbooks",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public void index(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        EventHandler handler = EventHandlerFactory.getHandler(request);
-        try {
-            String responseText = handler.handleEvent(request);
-            response.setContentType("text/html;charset=UTF-8");
-            if (responseText != null) {
-                response.getWriter().write(responseText);
-            } else {
-                JsonObject obj = new JsonObject();
-                obj.addProperty("success", true);
-                response.getWriter().write(obj.toString());
-            }
-        } catch (Exception e) {
-            handler.processError(e);
-            response.addHeader(ResponseKey.ERROR_MESSAGE, handler.getErrorMessage() != null ? handler.getErrorMessage() : "A intervenit o eroare!");
-            response.addHeader(ResponseKey.ERROR_ROOT_CAUSE, handler.getErrorRootCause());
-            response.addHeader(ResponseKey.ERROR_STACKTRACE, handler.getErrorStackTrace());
-            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            throw new ServletException(e);
-        }
+    @Transactional
+    @RequestMapping(method = RequestMethod.POST)
+    public void createNewBook(@RequestParam BookDTO dto){
+        Book book = new Book();
+        book.setBookId(0L);
+        convertDtoToBook(book, dto);
+        repository.save(book);
+
+        //TODO front/back cover save
     }
 
-    @RequestMapping(value = "/getbooks",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public void get(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        index(request, response);
-    }*/
+    @Transactional
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void updateBook(@PathVariable Long id, @RequestParam BookDTO dto){
+        Book book = repository.findOne(id);
+        convertDtoToBook(book, dto);
+        repository.save(book);
+
+        //TODO front/back cover save
+    }
+
+    @Transactional
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteBook(@PathVariable Long id){
+        repository.delete(id);
+
+        //TODO delete front/back covers
+    }
+
+    private void convertDtoToBook(Book book, BookDTO dto) {
+        book.setAuthor(autorRepository.findOne(dto.getIdAutor()));
+        book.setCategorie(categorieRepository.findOne(dto.getIdCategorie()));
+        book.setCitita(dto.getCitita());
+        book.setDataAparitie(RequestUtils.parseDate(dto.getDataAparitie()));
+        book.setEditura(edituraRepository.findOne(dto.getIdEditura()));
+        book.setHeight(dto.getHeight());
+        book.setWidth(dto.getWidth());
+        book.setIsbn(dto.getIsbn());
+        book.setNrPagini(dto.getNrPagini());
+        book.setOriginalTitle(dto.getOriginalTitle());
+        book.setSerie(dto.getSerie());
+        book.setTitle(dto.getTitle());
+    }
+
 }

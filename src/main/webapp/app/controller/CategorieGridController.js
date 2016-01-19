@@ -95,12 +95,8 @@ Ext.define('BM.controller.CategorieGridController', {
                     }
                     var selectedCategorie = selectionModel.getSelection()[0];
                     Ext.Ajax.request({
-                                url: 'books',
-                                method: 'POST',
-                                params: {
-                                    event: 'del-categorie',
-                                    idCategorie: selectedCategorie.get('idCategorie')
-                                },
+                                url: '/categorie/'+ selectedCategorie.get('idCategorie'),
+                                method: 'DELETE',
                                 scope: this,
                                 success: function(result, request) {
                                     enablebuttonsCategorie(false);
@@ -120,13 +116,13 @@ Ext.define('BM.controller.CategorieGridController', {
 
             saveCategorie: function(button, clickEvent, options) {
                 var form = button.up('categoriewindow').down('form[itemId=categorieform]');
+                var idCategorie = form.down('hidden[name=idCategorie]').getValue();
+                var isAdd = Ext.isEmpty(idCategorie);
                 if (form.isValid()) {
                     form.submit({
-                                url: 'books',
-                                method: 'POST',
+                                url: (isAdd ? '/categorie': '/categorie/'+idCategorie),
+                                method: isAdd ? 'POST' : 'PUT',
                                 params: {
-                                    event: 'save-categorie',
-                                    idCategorie: form.down('hidden[name=idCategorie]').getValue(),
                                     title: form.down('textfield[name=numeCategorie]').getValue()
                                 },
                                 success: function(form, action) {

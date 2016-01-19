@@ -8,8 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
-//@ComponentScan("com.popa.books.repository", "com.popa.books")
-@EnableJpaRepositories ("com.popa.books.repository")
+@EnableJpaRepositories
 @EnableTransactionManagement
 public class BooksApplication {
 

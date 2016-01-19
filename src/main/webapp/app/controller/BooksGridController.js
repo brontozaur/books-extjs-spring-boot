@@ -238,12 +238,8 @@ Ext.define('BM.controller.BooksGridController', {
                     }
                     var selectedBook = selectionModel.getSelection()[0];
                     Ext.Ajax.request({
-                                url: 'books',
-                                method: 'POST',
-                                params: {
-                                    event: 'del-book',
-                                    bookId: selectedBook.get('bookId')
-                                },
+                                url: 'book/' + selectedBook.get('bookId'),
+                                method: 'DELETE',
                                 scope: this,
                                 success: function(result, request) {
                                     clearInfoAreaFields();

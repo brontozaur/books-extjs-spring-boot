@@ -12,9 +12,8 @@ Ext.define('BM.store.BookStore', {
 
             proxy: {
                 type: 'ajax',
-                url: 'books',
                 api: {
-                    read: 'books?event=get-books'
+                    read: 'book'
                 }
             },
             sorters: [

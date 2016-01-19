@@ -4,7 +4,7 @@ Ext.define('BM.store.AutorStore', {
             proxy: {
                 type: 'ajax',
                 api: {
-                    read: 'books?event=get-autors'
+                    read: 'autor'
                 }
             },
             sorters: [

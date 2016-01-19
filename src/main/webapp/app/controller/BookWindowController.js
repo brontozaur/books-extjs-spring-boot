@@ -64,17 +64,25 @@ Ext.define('BM.controller.BookWindowController', {
             saveBook: function(button, clickEvent, options) {
                 var form = button.up('bookwindow').down('form[itemId=bookform]');
                 var me = this;
+                var bookId = form.down('hidden[name=bookId]').getValue();
+                var isAdd = Ext.isEmpty(bookId);
                 if (form.isValid()) {
                     form.submit({
-                                url: 'books',
-                                method: 'POST',
+                                url: (isAdd ? 'book' : 'book/' + bookId),
+                                method: isAdd ? 'POST' : 'PUT',
                                 params: { //TODO validare pt editura si autor neselectati (scrii in combo, dar nu ai selectie)
-                                    event: 'save-book',
-                                    bookId: form.down('hidden[name=bookId]').getValue(),
-                                    autorId: form.down('autorCombo[name=authorId]').getValue(),
-                                    idEditura: form.down('edituraCombo[name=idEditura]').getValue(),
-                                    frontCoverImage: Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0].src,
-                                    backCoverImage: Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0].src
+                                        title: 'title',
+                                        originalTitle: 'original title',
+                                        dataAparitie: '',
+                                        idAutor: '1',
+                                        nrPagini: '50',
+                                        width: '20cm',
+                                        height: '12cm',
+                                        isbn: '978-22-290',
+                                        citita: 'true',
+                                        serie: '',
+                                        idEditura: '1',
+                                        idCategorie: '1'
                                 },
                                 success: function(form, action) {
                                     me.closeWindow(button);

@@ -49,14 +49,6 @@ public class Book extends AbstractDB implements Serializable {
         return (Book) this.clone();
     }
 
-    public long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(final long bookId) {
-        this.bookId = bookId;
-    }
-
     public String getTitle() {
         return title;
     }

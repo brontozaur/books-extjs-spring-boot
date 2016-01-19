@@ -6,13 +6,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.popa.books.controller.EventHandler;
-import com.popa.books.controller.autor.SaveAutorEventHandler;
 import com.popa.books.util.RequestUtils;
 import org.apache.log4j.Logger;
 
 public class DeleteUploadEventHandler extends EventHandler {
 
-    private static final Logger logger = Logger.getLogger(SaveAutorEventHandler.class);
+    private static final Logger logger = Logger.getLogger(DeleteUploadEventHandler.class);
 
     @Override
     public String handleEvent(HttpServletRequest request) throws ServletException {

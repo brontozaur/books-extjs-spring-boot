@@ -4,7 +4,7 @@ Ext.define('BM.store.CategorieStore', {
             proxy: {
                 type: 'ajax',
                 api: {
-                    read: 'books?event=get-categorii'
+                    read: '/categorie'
                 }
             },
             sorters: [

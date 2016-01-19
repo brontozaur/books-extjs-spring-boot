@@ -1,6 +1,8 @@
 package com.popa.books.util;
 
 import java.io.*;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +12,12 @@ import com.popa.books.BooksApplication;
 import org.apache.commons.io.IOUtils;
 
 import com.popa.books.util.FormKeys;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 public class RequestUtils {
+
+    private static final Logger logger = Logger.getLogger(RequestUtils.class);
 
     public static String getString(final HttpServletRequest request, final String parameterName) throws ServletException {
         String contentType = request.getContentType();
@@ -94,6 +100,18 @@ public class RequestUtils {
         String path = BooksApplication.class.getClassLoader().getResource("").getPath();
         path += "../../data";
         return path + File.separator + imageName;
+    }
+
+    public static Date parseDate(String date) {
+        try {
+            if (StringUtils.isNotEmpty(date)) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                return new Date(sdf.parse(date).getTime());
+            }
+        } catch (Exception e) {
+            logger.error("cannot parse date: " + date);
+        }
+        return null;
     }
 
 }

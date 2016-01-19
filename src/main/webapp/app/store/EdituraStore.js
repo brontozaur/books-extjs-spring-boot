@@ -4,7 +4,7 @@ Ext.define('BM.store.EdituraStore', {
             proxy: {
                 type: 'ajax',
                 api: {
-                    read: '/editura/loadAll'
+                    read: '/editura'
                 }
             },
             sorters: [

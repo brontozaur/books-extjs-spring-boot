@@ -95,12 +95,8 @@ Ext.define('BM.controller.EdituraGridController', {
                     }
                     var selectedEditura = selectionModel.getSelection()[0];
                     Ext.Ajax.request({
-                                url: 'books',
-                                method: 'POST',
-                                params: {
-                                    event: 'del-editura',
-                                    idEditura: selectedEditura.get('idEditura')
-                                },
+                                url: 'editura/'+ selectedEditura.get('idEditura'),
+                                method: 'DELETE',
                                 scope: this,
                                 success: function(result, request) {
                                     enablebuttonsEditura(false);
@@ -120,14 +116,15 @@ Ext.define('BM.controller.EdituraGridController', {
 
             saveEditura: function(button, clickEvent, options) {
                 var form = button.up('editurawindow').down('form[itemId=edituraform]');
+                var edituraId = form.down('hidden[name=idEditura]').getValue();
+                var isAdd = Ext.isEmpty(edituraId);
+                var title = form.down('textfield[name=numeEditura]').getValue();
                 if (form.isValid()) {
                     form.submit({
-                                url: 'books',
-                                method: 'POST',
+                                url: (isAdd ?  'edituri' : ('edituri/'+edituraId)),
+                                method: isAdd ? 'POST' : 'PUT',
                                 params: {
-                                    event: 'save-editura',
-                                    idEditura: form.down('hidden[name=idEditura]').getValue(),
-                                    title: form.down('textfield[name=numeEditura]').getValue()
+                                    title: title
                                 },
                                 success: function(form, action) {
                                     button.up('editurawindow').close();

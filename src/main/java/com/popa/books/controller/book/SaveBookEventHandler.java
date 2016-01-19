@@ -30,9 +30,9 @@ public class SaveBookEventHandler extends EventHandler {
             conn.getTransaction().begin();
             Book book = new Book();
             String bookId = request.getParameter("bookId");
-            if (StringUtils.isNotEmpty(bookId)) {
-                book.setBookId(Integer.valueOf(bookId));
-            }
+//            if (StringUtils.isNotEmpty(bookId)) {
+//                book.setBookId(Integer.valueOf(bookId));
+//            }
             String dateParam = request.getParameter("dataAparitie");
             try {
                 if (StringUtils.isNotEmpty(dateParam)) {
