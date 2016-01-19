@@ -18,30 +18,30 @@ public class Book extends AbstractDB implements Serializable {
     private Long bookId;
     @Column(name = "title")
     private String title;
-    @Column(name = "originalTitle")
+    @Column(name = "originalTitle", nullable = true)
     private String originalTitle;
-    @Column(name = "dataAparitie")
+    @Column(name = "dataAparitie", nullable = true)
     private Date dataAparitie = null;
     @OneToOne
     @JoinColumn(name = "idAutor")
     private Autor author;
-    @Column(name = "nrPagini")
+    @Column(name = "nrPagini", nullable = true)
     private Integer nrPagini;
-    @Column(name = "width")
+    @Column(name = "width", nullable = true)
     private Integer width;
-    @Column(name = "height")
+    @Column(name = "height", nullable = true)
     private Integer height;
-    @Column(name = "isbn")
+    @Column(name = "isbn", nullable = true)
     private String isbn;
-    @Column(name = "citita")
+    @Column(name = "citita", nullable = true)
     private Boolean citita;
-    @Column(name = "serie")
+    @Column(name = "serie", nullable = true)
     private String serie;
     @OneToOne
-    @JoinColumn(name = "idEditura")
+    @JoinColumn(name = "idEditura", nullable = true)
     private Editura editura;
     @OneToOne
-    @JoinColumn(name = "idCategorie")
+    @JoinColumn(name = "idCategorie", nullable = true)
     private Categorie categorie;
 
     @Override
@@ -86,44 +86,12 @@ public class Book extends AbstractDB implements Serializable {
         this.originalTitle = originalTitle;
     }
 
-    public int getNrPagini() {
-        return nrPagini;
-    }
-
-    public void setNrPagini(final int nrPagini) {
-        this.nrPagini = nrPagini;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(final int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(final int height) {
-        this.height = height;
-    }
-
     public String getIsbn() {
         return isbn;
     }
 
     public void setIsbn(final String isbn) {
         this.isbn = isbn;
-    }
-
-    public boolean isCitita() {
-        return citita;
-    }
-
-    public void setCitita(final boolean citita) {
-        this.citita = citita;
     }
 
     public Editura getEditura() {

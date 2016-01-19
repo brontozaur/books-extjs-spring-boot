@@ -21,10 +21,10 @@ public class Autor extends AbstractDB implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "autorId", nullable = false, unique = true)
-    private Long autorId;
+    private long autorId;
     @Column(name = "nume", unique = true)
     private String nume = EMPTY;
-    @Column(name = "dataNasterii")
+    @Column(name = "dataNasterii", nullable = true)
     private Date dataNasterii = null;
 
     @Override

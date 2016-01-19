@@ -69,7 +69,7 @@ public class SaveBookEventHandler extends EventHandler {
             book.setHeight(NumberUtils.toInt(request.getParameter("height"), 0));
             book.setCitita("on".equals(request.getParameter("citita")));
 
-            book.store(conn);
+//            book.store(conn);
 
             String frontCover = request.getParameter("frontCoverImage");
             String backCover = request.getParameter("backCoverImage");
@@ -109,7 +109,7 @@ public class SaveBookEventHandler extends EventHandler {
             } else {
                 bookCover.setBack(null);
             }
-            bookCover.store(conn);
+//            bookCover.store(conn);
 
             conn.getTransaction().commit();
             return null;

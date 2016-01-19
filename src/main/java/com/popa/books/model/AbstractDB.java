@@ -14,11 +14,4 @@ public abstract class AbstractDB implements Cloneable {
 
     public abstract Long getId();
 
-    public void store(EntityManager em) {
-        if (getId() == null || getId() <= 0) {
-            em.persist(this);
-        } else {
-            em.merge(this);
-        }
-    }
 }
