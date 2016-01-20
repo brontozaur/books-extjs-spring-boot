@@ -13,7 +13,7 @@ Ext.define('BM.view.ErrorWindow', {
                     items: [
                         {
                             xtype: 'image',
-                            src: 'http://localhost:8080/books/css/images/error.png',
+                            src: 'css/images/error.png',
                             padding: '5 5 5 5'
                         },
                         {

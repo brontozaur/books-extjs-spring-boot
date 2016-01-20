@@ -66,63 +66,64 @@ Ext.define('BM.controller.BookWindowController', {
                 var me = this;
                 var bookId = form.down('hidden[name=bookId]').getValue();
                 var isAdd = Ext.isEmpty(bookId);
-                //autorId: form.down('autorCombo[name=authorId]').getValue(),
-                //    idEditura: form.down('edituraCombo[name=idEditura]').getValue(),
-                //    frontCoverImage: Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0].src,
-                //    backCoverImage: Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0].src
-                //var obj = $.formObject($("#bookform"));
-                //obj[idEditura].push(form.down('edituraCombo[name=idEditura]').getValue());
-                //obj[autorId].push(form.down('edituraCombo[name=idEditura]').getValue());
                 var BookDTO = {
-                    title: 'title',
-                    originalTitle: 'original title',
-                    dataAparitie: '',
-                    idAutor: '1',
-                    nrPagini: '50',
-                    width: '20',
-                    height: '12',
-                    isbn: '978-22-290',
-                    citita: 'true',
-                    serie: '',
-                    idEditura: '1',
-                    idCategorie: '1'
+                    title: form.down('textfield[name=title]').getValue(),
+                    originalTitle: form.down('textfield[name=originalTitle]').getValue(),
+                    dataAparitie: form.down('datefield[name=dataAparitie]').getValue(),
+                    idAutor: form.down('autorCombo[name=authorId]').getValue(),
+                    nrPagini: form.down('numberfield[name=nrPagini]').getValue(),
+                    width: form.down('numberfield[name=width]').getValue(),
+                    height: form.down('numberfield[name=height]').getValue(),
+                    isbn: form.down('textfield[name=isbn]').getValue(),
+                    citita: form.down('checkbox[name=citita]').getValue(),
+                    serie: form.down('textfield[name=serie]').getValue(),
+                    idEditura: form.down('edituraCombo[name=idEditura]').getValue(),
+                    idCategorie: form.down('categorieCombo[name=idCategorie]').getValue()
                 };
-                var dtoString = JSON.stringify(DTO);
-
-                $.ajax({
+                //TODO validare pt editura si autor neselectati (scrii in combo, dar nu ai selectie)
+                if (form.isValid()) {
+                    debugger;
+                    Ext.Ajax.request({
+                        url: (isAdd ? 'book' : 'book/' + bookId),
+                        method: isAdd ? 'POST' : 'PUT',
+                        form: form,
+                        isUpload: false,
+                        //headers: {
+                        //    'Content-Type': 'application/json'
+                        //},
+                        //params: {
+                        //    data: JSON.stringify(BookDTO)
+                        //},
+                        scope: this,
+                        //contentType: 'application/json',
+                        success: function(response) {
+                            me.closeWindow(button);
+                            clearInfoAreaFields();
+                            enablebuttons(false);
+                            var grid = Ext.ComponentQuery.query('booksgrid')[0];
+                            grid.getStore().load();
+                        },
+                        failure: function(result, request) {
+                            createErrorWindow(result);
+                        }
+                    });
+                }
+                // Requestul de mai sus e echivalent cu urmatorul:
+              /*
+               $.ajax({
                     url: (isAdd ? 'book' : 'book/' + bookId),
                     contentType: "application/json",
                     dataType: "json",
-                    type: isAdd ? 'post' : 'get',
-                    data: dtoString,
+                    type: isAdd ? 'post' : 'put',
+                    data: JSON.stringify(BookDTO),
                     success: function(response) {
-                        alert('OK, Freddie!');
+                        alert ('Cartea a fost salvata cu succes!');
                     },
                     error: function(xhr) {
-                        alert("Not OK.");
+                        alert ('A intervenit o eroare.');
                     }
                 });
-
-          /*      if (form.isValid()) {
-                    form.submit({
-                                url: (isAdd ? 'book' : 'book/' + bookId),
-                                method: isAdd ? 'POST' : 'PUT',
-                                params: { //TODO validare pt editura si autor neselectati (scrii in combo, dar nu ai selectie)
-                                   dto: dtoString
-                                },
-                                success: function(form, action) {
-                                    me.closeWindow(button);
-                                    clearInfoAreaFields();
-                                    enablebuttons(false);
-                                    var grid = Ext.ComponentQuery.query('booksgrid')[0];
-                                    grid.getStore().load();
-                                },
-
-                                failure: function(form, action) {
-                                    createFormErrorWindow(action);
-                                }
-                            });
-                }*/
+                */
             },
 
             closeWindow: function(button, clickEvent, options) {

@@ -64,11 +64,23 @@ public class BookController {
     }
 
     private void convertDtoToBook(Book book, BookDTO dto) {
-        book.setAuthor(autorRepository.findOne(dto.getIdAutor()));
-        book.setCategorie(categorieRepository.findOne(dto.getIdCategorie()));
+        if (dto.getIdAutor() != null) {
+            book.setAuthor(autorRepository.findOne(dto.getIdAutor()));
+        } else {
+            book.setAuthor(null);
+        }
+        if (dto.getIdCategorie() != null) {
+            book.setCategorie(categorieRepository.findOne(dto.getIdCategorie()));
+        } else {
+            book.setCategorie(null);
+        }
         book.setCitita(dto.getCitita());
         book.setDataAparitie(RequestUtils.parseDate(dto.getDataAparitie()));
-        book.setEditura(edituraRepository.findOne(dto.getIdEditura()));
+        if (dto.getIdEditura() != null) {
+            book.setEditura(edituraRepository.findOne(dto.getIdEditura()));
+        } else {
+            book.setEditura(null);
+        }
         book.setHeight(dto.getHeight());
         book.setWidth(dto.getWidth());
         book.setIsbn(dto.getIsbn());
