@@ -121,7 +121,7 @@ Ext.define('BM.controller.EdituraGridController', {
                 var title = form.down('textfield[name=numeEditura]').getValue();
                 if (form.isValid()) {
                     form.submit({
-                                url: (isAdd ?  'edituri' : ('edituri/'+edituraId)),
+                                url: (isAdd ?  'editura' : ('editura/'+edituraId)),
                                 method: isAdd ? 'POST' : 'PUT',
                                 params: {
                                     title: title
