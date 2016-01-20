@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,17 +31,12 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Book> getAllBooks(){
-        List<Book> books =  new ArrayList<>();
-        Iterable<Book> it = repository.findAll();
-        for (Book book: it) {
-            books.add(book);
-        }
-        return books;
+        return (List<Book>) repository.findAll();
     }
 
     @Transactional
     @RequestMapping(method = RequestMethod.POST)
-    public void createNewBook(@RequestParam BookDTO dto){
+    public void createNewBook(@RequestBody BookDTO dto){
         Book book = new Book();
         book.setBookId(0L);
         convertDtoToBook(book, dto);

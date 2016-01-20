@@ -18,8 +18,6 @@ public class EventHandlerFactory {
         EventHandler handler = null;
         if (Events.SAVE_BOOK.equals(eventName)) {
             handler = new SaveBookEventHandler();
-        } else if (Events.GET_BOOKS.equals(eventName)) {
-            handler = new GetBooksEventHandler();
         } else if (Events.DEL_BOOK.equals(eventName)) {
             handler = new DeleteBookEventHandler();
         } else if (Events.GET_TREE_AUTORI.equals(eventName)) {

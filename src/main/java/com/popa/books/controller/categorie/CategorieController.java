@@ -29,7 +29,7 @@ public class CategorieController {
     @RequestMapping(method = RequestMethod.POST)
     public void createNewCategorie(@RequestParam String title){
         Categorie categorie = new Categorie();
-        categorie.setIdCategorie(0);
+        categorie.setIdCategorie(0L);
         categorie.setNumeCategorie(title);
         repository.save(categorie);
     }

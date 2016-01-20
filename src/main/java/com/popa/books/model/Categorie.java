@@ -12,8 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "categorie")
-@NamedQuery(name = "Categorie.findById", query = "select c from Categorie c where c.idCategorie = :idCategorie")
-public class Categorie extends AbstractDB implements Serializable {
+public class Categorie implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,33 +20,23 @@ public class Categorie extends AbstractDB implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idCategorie", nullable = false, unique = true)
     private Long idCategorie;
-    @Column(name = "numeCategorie", unique = true)
-    private String numeCategorie = EMPTY;
 
-    @Override
-    public Categorie cloneObject() throws CloneNotSupportedException {
-        return (Categorie) this.clone();
+    @Column(name = "numeCategorie", unique = true)
+    private String numeCategorie = "";
+
+    public Long getIdCategorie() {
+        return idCategorie;
+    }
+
+    public void setIdCategorie(Long idCategorie) {
+        this.idCategorie = idCategorie;
     }
 
     public String getNumeCategorie() {
         return numeCategorie;
     }
 
-    public void setNumeCategorie(final String numeCategorie) {
+    public void setNumeCategorie(String numeCategorie) {
         this.numeCategorie = numeCategorie;
     }
-
-    @Override
-    public Long getId() {
-        return this.idCategorie;
-    }
-
-    public long getIdCategorie() {
-        return idCategorie;
-    }
-
-    public void setIdCategorie(final long idCategorie) {
-        this.idCategorie = idCategorie;
-    }
-
 }

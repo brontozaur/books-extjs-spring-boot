@@ -11,7 +11,7 @@ import javax.persistence.*;
         @NamedQuery(name = "BookCover.findBackCover", query = "select b.back from BookCover b where b.book.bookId = :bookId"),
         @NamedQuery(name = "BookCover.findByBookId", query = "select b from BookCover b where b.book.bookId = :bookId")
 })
-public class BookCover extends AbstractDB implements Serializable {
+public class BookCover implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,10 +32,25 @@ public class BookCover extends AbstractDB implements Serializable {
     @Lob
     private byte[] front;
 
-
     @Column(name = "back")
     @Lob
     private byte[] back;
+
+    public Long getBookCoverId() {
+        return bookCoverId;
+    }
+
+    public void setBookCoverId(Long bookCoverId) {
+        this.bookCoverId = bookCoverId;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
 
     public byte[] getFront() {
         return front;
@@ -51,23 +66,5 @@ public class BookCover extends AbstractDB implements Serializable {
 
     public void setBack(byte[] back) {
         this.back = back;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    @Override
-    public BookCover cloneObject() throws CloneNotSupportedException {
-        return (BookCover) this.clone();
-    }
-
-    @Override
-    public Long getId() {
-        return this.bookCoverId;
     }
 }

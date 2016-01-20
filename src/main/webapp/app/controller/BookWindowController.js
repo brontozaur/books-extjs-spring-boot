@@ -66,23 +66,49 @@ Ext.define('BM.controller.BookWindowController', {
                 var me = this;
                 var bookId = form.down('hidden[name=bookId]').getValue();
                 var isAdd = Ext.isEmpty(bookId);
-                if (form.isValid()) {
+                //autorId: form.down('autorCombo[name=authorId]').getValue(),
+                //    idEditura: form.down('edituraCombo[name=idEditura]').getValue(),
+                //    frontCoverImage: Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0].src,
+                //    backCoverImage: Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0].src
+                //var obj = $.formObject($("#bookform"));
+                //obj[idEditura].push(form.down('edituraCombo[name=idEditura]').getValue());
+                //obj[autorId].push(form.down('edituraCombo[name=idEditura]').getValue());
+                var BookDTO = {
+                    title: 'title',
+                    originalTitle: 'original title',
+                    dataAparitie: '',
+                    idAutor: '1',
+                    nrPagini: '50',
+                    width: '20',
+                    height: '12',
+                    isbn: '978-22-290',
+                    citita: 'true',
+                    serie: '',
+                    idEditura: '1',
+                    idCategorie: '1'
+                };
+                var dtoString = JSON.stringify(DTO);
+
+                $.ajax({
+                    url: (isAdd ? 'book' : 'book/' + bookId),
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: isAdd ? 'post' : 'get',
+                    data: dtoString,
+                    success: function(response) {
+                        alert('OK, Freddie!');
+                    },
+                    error: function(xhr) {
+                        alert("Not OK.");
+                    }
+                });
+
+          /*      if (form.isValid()) {
                     form.submit({
                                 url: (isAdd ? 'book' : 'book/' + bookId),
                                 method: isAdd ? 'POST' : 'PUT',
                                 params: { //TODO validare pt editura si autor neselectati (scrii in combo, dar nu ai selectie)
-                                        title: 'title',
-                                        originalTitle: 'original title',
-                                        dataAparitie: '',
-                                        idAutor: '1',
-                                        nrPagini: '50',
-                                        width: '20cm',
-                                        height: '12cm',
-                                        isbn: '978-22-290',
-                                        citita: 'true',
-                                        serie: '',
-                                        idEditura: '1',
-                                        idCategorie: '1'
+                                   dto: dtoString
                                 },
                                 success: function(form, action) {
                                     me.closeWindow(button);
@@ -96,7 +122,7 @@ Ext.define('BM.controller.BookWindowController', {
                                     createFormErrorWindow(action);
                                 }
                             });
-                }
+                }*/
             },
 
             closeWindow: function(button, clickEvent, options) {
