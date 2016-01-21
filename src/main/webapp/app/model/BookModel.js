@@ -17,7 +17,7 @@ Ext.define('BM.model.BookModel', {
                 'width',
                 'height',
                 {
-                    name: 'authorId',
+                    name: 'idAutor',
                     mapping: 'author.autorId'
                 },
                 {

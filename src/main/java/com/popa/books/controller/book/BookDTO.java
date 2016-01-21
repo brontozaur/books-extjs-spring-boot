@@ -12,7 +12,7 @@ public class BookDTO implements Serializable {
     private Integer width;
     private Integer height;
     private String isbn;
-    private Boolean citita;
+    private String citita;
     private String serie;
     private Long idEditura;
     private Long idCategorie;
@@ -85,11 +85,11 @@ public class BookDTO implements Serializable {
         this.isbn = isbn;
     }
 
-    public Boolean getCitita() {
+    public String getCitita() {
         return citita;
     }
 
-    public void setCitita(Boolean citita) {
+    public void setCitita(String citita) {
         this.citita = citita;
     }
 

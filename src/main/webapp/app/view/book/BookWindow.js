@@ -49,7 +49,7 @@ Ext.define('BM.view.book.BookWindow', {
                                         {
                                             xtype: 'autorCombo',
                                             fieldLabel: 'Autor',
-                                            name: 'authorId',
+                                            name: 'idAutor',
                                             labelWidth: 50,
                                             width: 190,
                                             margin: '0 0 5 0'
