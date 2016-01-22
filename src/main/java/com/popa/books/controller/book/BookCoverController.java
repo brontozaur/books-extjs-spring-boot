@@ -3,7 +3,6 @@ package com.popa.books.controller.book;
 
 import com.google.gson.JsonObject;
 import com.popa.books.repository.BookCoverRepository;
-import com.popa.books.util.RequestUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +34,11 @@ public class BookCoverController {
         if (!imageData.isEmpty()) {
             try {
                 byte[] bytes = imageData.getBytes();
-                File output = new File(isFrontCover ? (bookId + "front.jpg") : (bookId + ".jpg"));
 
-                File file = new File(RequestUtils.exportImageToDisk(bookId, true));
+                File file = new File("/usr/local/logs/covers" + File.separator + bookId + (isFrontCover? "front":"")+ ".jpg");
                 file.deleteOnExit();
                 BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(output));
+                        new BufferedOutputStream(new FileOutputStream(file));
                 stream.write(bytes);
                 stream.close();
 

@@ -125,7 +125,7 @@ Ext.define('BM.controller.BookWindowController', {
                         success: function(form, action) {
                             var response = Ext.JSON.decode(action.response.responseText);
                             var imageCanvas = Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0];
-                            imageCanvas.setSrc("/books/data/" + response.fileName);
+                            imageCanvas.setSrc("/covers/" + response.fileName);
                         },
 
                         failure: function(form, action) {
