@@ -115,17 +115,16 @@ Ext.define('BM.controller.BookWindowController', {
                 var bookForm = fileUploadField.up('bookwindow').down('form[itemId=bookform]');
                 if (form.isValid()) {
                     form.submit({
-                        url: 'cover',
+                        url: 'covers/front',
                         method: 'POST',
                         headers: {'Content-type':'multipart/form-data'},
                         params: {
-                            isFrontCover: 'true',
                             bookId: bookForm.down('hidden[name=bookId]').getValue()
                         },
                         success: function(form, action) {
                             var response = Ext.JSON.decode(action.response.responseText);
                             var imageCanvas = Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0];
-                            imageCanvas.setSrc("/covers/" + response.fileName);
+                            imageCanvas.setSrc(response.fileName);
                         },
 
                         failure: function(form, action) {
@@ -136,24 +135,21 @@ Ext.define('BM.controller.BookWindowController', {
             },
 
             deleteFrontCover: function(button, e, eOpts) {
-                var bookForm = button.up('bookwindow').down('form[itemId=bookform]');
-                Ext.Ajax.request({
-                    url: 'books',
-                    method: 'POST',
-                    params: {
-                        event: 'del-upload',
-                        bookId: bookForm.down('hidden[name=bookId]').getValue(),
-                        isFrontCover: true
-                    },
-                    scope: this,
-                    success: function(result, request) {
-                        var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
-                        imageCanvas.setSrc(null);
-                    },
-                    failure: function(result, request) {
-                        createErrorWindow(result);
-                    }
-                });
+                var imageCanvas = Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0];
+                debugger;
+                if (!Ext.isEmpty(imageCanvas.src)) {
+                    Ext.Ajax.request({
+                        url: imageCanvas.src, //de forma /covers/1front_1475865_649420541763405_1202865173_n.jpg?time=Sat%20Jan%2023%2001:05:44%20EET%202016
+                        method: 'DELETE',
+                        scope: this,
+                        success: function(result, request) {
+                            imageCanvas.setSrc(null);
+                        },
+                        failure: function(result, request) {
+                            createErrorWindow(result);
+                        }
+                    });
+                }
             },
 
             uploadBackCover: function(fileUploadField, value, eOpts) {
@@ -161,46 +157,40 @@ Ext.define('BM.controller.BookWindowController', {
                 var bookForm = fileUploadField.up('bookwindow').down('form[itemId=bookform]');
                 if (form.isValid()) {
                     form.submit({
-                                url: 'books',
-                                method: 'POST',
-                                params: {
-                                    event: 'image-loader',
-                                    isUpload: true,
-                                    isFrontCover: 'false',
-                                    bookId: bookForm.down('hidden[name=bookId]').getValue()
-                                },
-                                success: function(form, action) {
-                                    var response = Ext.JSON.decode(action.response.responseText);
-                                    var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
-                                    imageCanvas.setSrc("/books/data/" + response.fileName);
-                                },
+                        url: 'covers/back',
+                        method: 'POST',
+                        headers: {'Content-type':'multipart/form-data'},
+                        params: {
+                            bookId: bookForm.down('hidden[name=bookId]').getValue()
+                        },
+                        success: function(form, action) {
+                            var response = Ext.JSON.decode(action.response.responseText);
+                            var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
+                            imageCanvas.setSrc(response.fileName);
+                        },
 
-                                failure: function(form, action) {
-                                    createFormErrorWindow(action);
-                                }
-                            });
+                        failure: function(form, action) {
+                            createFormErrorWindow(action);
+                        }
+                    });
                 }
             },
 
             deleteBackCover: function(button, e, eOpts) {
-                var bookForm = button.up('bookwindow').down('form[itemId=bookform]');
-                Ext.Ajax.request({
-                    url: 'books',
-                    method: 'POST',
-                    params: {
-                        event: 'del-upload',
-                        bookId: bookForm.down('hidden[name=bookId]').getValue(),
-                        isFrontCover: false
-                    },
-                    scope: this,
-                    success: function(result, request) {
-                        var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
-                        imageCanvas.setSrc(null);
-                    },
-                    failure: function(result, request) {
-                        createErrorWindow(result);
-                    }
-                });
+                var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
+                if (!Ext.isEmpty(imageCanvas.src)) {
+                    Ext.Ajax.request({
+                        url: imageCanvas.src,
+                        method: 'DELETE',
+                        scope: this,
+                        success: function (result, request) {
+                            imageCanvas.setSrc(null);
+                        },
+                        failure: function (result, request) {
+                            createErrorWindow(result);
+                        }
+                    });
+                }
             },
 
             back: function(button, e, eOpts) {
