@@ -68,7 +68,7 @@ public class ImageLoaderHandler extends EventHandler {
     }
 
     private String uploadNewFile(final HttpServletRequest request) throws ServletException, IOException {
-        final String bookId = request.getParameter("bookId");
+        final Long bookId = Long.valueOf(request.getParameter("bookId"));
         final boolean isFrontCover = Boolean.valueOf(request.getParameter("isFrontCover"));
         byte[] imageData;
         if (isFrontCover) {
@@ -92,7 +92,7 @@ public class ImageLoaderHandler extends EventHandler {
         EntityManager conn = null;
         try {
 //            conn = BorgPersistence.getEntityManager();
-            final String bookId = request.getParameter("bookId");
+            final Long bookId = Long.valueOf(request.getParameter("bookId"));
             final boolean isFrontCover = Boolean.valueOf(request.getParameter("isFrontCover"));
             Query query = conn.createNamedQuery(isFrontCover ? BookCover.QUERY_GET_FRONT : BookCover.QUERY_GET_BACK);
             query.setParameter("bookId", Long.valueOf(bookId));

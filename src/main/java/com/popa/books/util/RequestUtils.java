@@ -90,7 +90,7 @@ public class RequestUtils {
         return buffer.toByteArray();
     }
 
-    public static String exportImageToDisk(final String bookId, final boolean isFrontCover) {
+    public static String exportImageToDisk(final Long bookId, final boolean isFrontCover) {
         String path = BooksApplication.class.getClassLoader().getResource("").getPath();
         path += "../../data";
         return path + File.separator + bookId + (isFrontCover? "front":"")+ ".jpg";
