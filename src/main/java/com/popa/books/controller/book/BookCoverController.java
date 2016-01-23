@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 
 @RestController
@@ -115,7 +112,7 @@ public class BookCoverController {
             try {
                 byte[] bytes = imageData.getBytes();
 
-                final String exportFileName = props.getUploadDir() + File.separator + bookId + (isFrontCover? "_front_":"_back_")+ imageData.getOriginalFilename();
+                final String exportFileName = props.getUploadDir() + File.separator + bookId + (isFrontCover? "_front":"_back")+ ".jpg";
                 final String fileName = writeFileToDisk(exportFileName, bytes);
 
                 JsonObject response = new JsonObject();

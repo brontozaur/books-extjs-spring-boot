@@ -70,6 +70,11 @@ Ext.define('BM.view.book.BooksGrid', {
             buildColumns: function() {
                 return [
                     {
+                        header: 'Id',
+                        dataIndex: 'bookId',
+                        flex: 1
+                    },
+                    {
                         header: 'Autor',
                         dataIndex: 'authorName',
                         flex: 2,
