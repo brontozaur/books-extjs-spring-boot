@@ -18,8 +18,6 @@ public class EventHandlerFactory {
         EventHandler handler = null;
         if (Events.SAVE_BOOK.equals(eventName)) {
             handler = new SaveBookEventHandler();
-        } else if (Events.DEL_BOOK.equals(eventName)) {
-            handler = new DeleteBookEventHandler();
         } else if (Events.GET_TREE_AUTORI.equals(eventName)) {
             handler = new GetTreeAutoriEventHandler();
         } else if (Events.GET_TREE_BOOKS.equals(eventName)) {
@@ -28,8 +26,6 @@ public class EventHandlerFactory {
             handler = new GetTreeEdituriEventHandler();
         } else if (Events.IMAGE_LOADER.equals(eventName)) {
             handler = new ImageLoaderHandler();
-        } else if (Events.DELETE_UPLOAD.equals(eventName)) {
-            handler = new DeleteUploadEventHandler();
         }
         if (handler == null) {
             throw new NullPointerException("no handler was found for event: " + eventName);
