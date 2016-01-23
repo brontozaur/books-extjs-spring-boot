@@ -105,51 +105,36 @@ Ext.define('BM.controller.BooksGridController', {
                 genField.setVisible(!Ext.isEmpty(genField.getValue()));
 
                 var frontImageContainer = bookInfo.down('image[itemId=frontCoverInfo]');
-                $.ajax({
-                    url: 'books',
-                    type: "get",
-                    data:{
-                        event: 'image-loader',
-                        bookId: record.get('bookId'),
-                        isFrontCover: true
+                var backImageContainer = bookInfo.down('image[itemId=backCoverInfo]');
+
+                Ext.Ajax.request({
+                    url: 'cover',
+                    method: 'GET',
+                    scope: this,
+                    params: {
+                        bookId: record.get('bookId')
                     },
-                    success: function(response) {
-                        var responseDecoded = Ext.JSON.decode(response);
-                        var hasFrontCover = !Ext.isEmpty(responseDecoded.fileName);
+                    success: function (result, request) {
+                        var responseDecoded = Ext.JSON.decode(result.responseText);
+                        //update front cover fields
+                        var hasFrontCover = !Ext.isEmpty(responseDecoded.frontCoverPath);
                         var label = bookInfo.down('label[itemId=frontCoverLabel]');
                         label.setVisible(hasFrontCover);
                         frontImageContainer.setVisible(hasFrontCover);
                         if (hasFrontCover) {
-                            frontImageContainer.setSrc("/books/data/"+responseDecoded.fileName);
+                            frontImageContainer.setSrc(responseDecoded.frontCoverPath);
                         }
-                    },
-                    error: function(xhr) {
-                        alert("error loading covers");
-                    }
-                });
-
-
-                var backImageContainer = bookInfo.down('image[itemId=backCoverInfo]');
-                $.ajax({
-                    url: 'books',
-                    type: "get", //send it through get method
-                    data:{
-                        event: 'image-loader',
-                        bookId: record.get('bookId'),
-                        isFrontCover: false
-                    },
-                    success: function(response) {
-                        var responseDecoded = Ext.JSON.decode(response);
-                        var hasbackCover = !Ext.isEmpty(responseDecoded.fileName);
+                        //update back cover fields
+                        var hasBackCover = !Ext.isEmpty(responseDecoded.backCoverPath);
                         var label = bookInfo.down('label[itemId=backCoverLabel]');
-                        label.setVisible(hasbackCover);
-                        backImageContainer.setVisible(hasbackCover);
-                        if (hasbackCover) {
-                            backImageContainer.setSrc("/books/data/"+responseDecoded.fileName);
+                        label.setVisible(hasBackCover);
+                        backImageContainer.setVisible(hasBackCover);
+                        if (hasBackCover) {
+                            backImageContainer.setSrc(responseDecoded.backCoverPath);
                         }
                     },
-                    error: function(xhr) {
-                        alert("error loading covers");
+                    failure: function (result, request) {
+                        createErrorWindow(result);
                     }
                 });
             },
@@ -179,41 +164,31 @@ Ext.define('BM.controller.BooksGridController', {
                 bookForm.loadRecord(selectedBook);
                 var coversComponent = window.down('component[itemId=cardLayoutPanel]');
 
-                $.ajax({
-                    url: 'books',
-                    type: "get", //send it through get method
-                    data:{
-                        event: 'image-loader',
-                        bookId: selectedBook.get('bookId'),
-                        isFrontCover: true},
-                    success: function(response) {
-                        var responseDecoded = Ext.JSON.decode(response);
-                        var frontCoverUploadForm = coversComponent.down('form[itemId=frontUploadform]');
-                        if (!Ext.isEmpty(responseDecoded.fileName)) {
-                            frontCoverUploadForm.down('image[itemId=frontCoverPreview]').setSrc("/books/data/"+responseDecoded.fileName);
-                        }
+                //load covers
+                Ext.Ajax.request({
+                    url: 'cover',
+                    method: 'GET',
+                    scope: this,
+                    params: {
+                        bookId: selectedBook.get('bookId')
                     },
-                    error: function(xhr) {
-                        alert("error loading covers");
-                    }
-                });
+                    success: function (result, request) {
+                        var responseDecoded = Ext.JSON.decode(result.responseText);
 
-                $.ajax({
-                    url: 'books',
-                    type: "get", //send it through get method
-                    data:{
-                        event: 'image-loader',
-                        bookId: selectedBook.get('bookId'),
-                        isFrontCover: false},
-                    success: function(response) {
-                        var responseDecoded = Ext.JSON.decode(response);
+                        //update front cover fields
+                        var frontCoverUploadForm = coversComponent.down('form[itemId=frontUploadform]');
+                        if (!Ext.isEmpty(responseDecoded.frontCoverPath)) {
+                            frontCoverUploadForm.down('image[itemId=frontCoverPreview]').setSrc(responseDecoded.frontCoverPath);
+                        }
+
+                        //update back cover fields
                         var backCoverUploadForm = coversComponent.down('form[itemId=backUploadform]');
-                        if (!Ext.isEmpty(responseDecoded.fileName)) {
-                            backCoverUploadForm.down('image[itemId=backCoverPreview]').setSrc("/books/data/" + responseDecoded.fileName);
+                        if (!Ext.isEmpty(responseDecoded.backCoverPath)) {
+                            backCoverUploadForm.down('image[itemId=backCoverPreview]').setSrc(responseDecoded.backCoverPath);
                         }
                     },
-                    error: function(xhr) {
-                        alert("error loading covers");
+                    failure: function (result, request) {
+                        createErrorWindow(result);
                     }
                 });
 
