@@ -115,7 +115,7 @@ Ext.define('BM.controller.BookWindowController', {
                 var bookForm = fileUploadField.up('bookwindow').down('form[itemId=bookform]');
                 if (form.isValid()) {
                     form.submit({
-                        url: 'covers/front',
+                        url: 'cover/front',
                         method: 'POST',
                         headers: {'Content-type':'multipart/form-data'},
                         params: {
@@ -136,20 +136,7 @@ Ext.define('BM.controller.BookWindowController', {
 
             deleteFrontCover: function(button, e, eOpts) {
                 var imageCanvas = Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0];
-                debugger;
-                if (!Ext.isEmpty(imageCanvas.src)) {
-                    Ext.Ajax.request({
-                        url: imageCanvas.src, //de forma /covers/1front_1475865_649420541763405_1202865173_n.jpg?time=Sat%20Jan%2023%2001:05:44%20EET%202016
-                        method: 'DELETE',
-                        scope: this,
-                        success: function(result, request) {
-                            imageCanvas.setSrc(null);
-                        },
-                        failure: function(result, request) {
-                            createErrorWindow(result);
-                        }
-                    });
-                }
+                this.deleteUpload(imageCanvas);
             },
 
             uploadBackCover: function(fileUploadField, value, eOpts) {
@@ -157,7 +144,7 @@ Ext.define('BM.controller.BookWindowController', {
                 var bookForm = fileUploadField.up('bookwindow').down('form[itemId=bookform]');
                 if (form.isValid()) {
                     form.submit({
-                        url: 'covers/back',
+                        url: 'cover/back',
                         method: 'POST',
                         headers: {'Content-type':'multipart/form-data'},
                         params: {
@@ -178,10 +165,22 @@ Ext.define('BM.controller.BookWindowController', {
 
             deleteBackCover: function(button, e, eOpts) {
                 var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
+                this.deleteUpload(imageCanvas);
+            },
+
+            deleteUpload: function(imageCanvas) {
                 if (!Ext.isEmpty(imageCanvas.src)) {
                     Ext.Ajax.request({
-                        url: imageCanvas.src,
+                        url: '/cover',
                         method: 'DELETE',
+                        //de forma /covers/1front_whatever.jpg?time=Sat%20Jan%2023%2001:05:44%20EET%202016
+                        params: {
+                            imageName: JSON.stringify(imageCanvas.src)
+                        },
+                        /* JSON data to use as the post. Note: This will be used instead of params for the post data.
+                            Any params will be appended to the URL.
+                        */
+                        jsonData: true,
                         scope: this,
                         success: function (result, request) {
                             imageCanvas.setSrc(null);

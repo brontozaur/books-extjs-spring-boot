@@ -111,7 +111,8 @@ Ext.define('BM.controller.BooksGridController', {
                     data:{
                         event: 'image-loader',
                         bookId: record.get('bookId'),
-                        isFrontCover: true},
+                        isFrontCover: true
+                    },
                     success: function(response) {
                         var responseDecoded = Ext.JSON.decode(response);
                         var hasFrontCover = !Ext.isEmpty(responseDecoded.fileName);
@@ -135,7 +136,8 @@ Ext.define('BM.controller.BooksGridController', {
                     data:{
                         event: 'image-loader',
                         bookId: record.get('bookId'),
-                        isFrontCover: false},
+                        isFrontCover: false
+                    },
                     success: function(response) {
                         var responseDecoded = Ext.JSON.decode(response);
                         var hasbackCover = !Ext.isEmpty(responseDecoded.fileName);

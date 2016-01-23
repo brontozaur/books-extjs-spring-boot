@@ -17,7 +17,7 @@ import java.io.FileOutputStream;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/covers")
+@RequestMapping("/cover")
 public class BookCoverController {
 
     private static final Logger logger = Logger.getLogger(BookCoverController.class);
@@ -34,12 +34,15 @@ public class BookCoverController {
         return handleFileUpload(imageData, bookId, true);
     }
 
-    @RequestMapping(value = "/{imageName}", method=RequestMethod.DELETE)
-    public void deleteFrontCover(@PathVariable("imageName") String imageName) throws ServletException {
+    @RequestMapping(method=RequestMethod.DELETE)
+    public void deleteFrontCover(@RequestParam("imageName") String imageName) throws ServletException {
         if (StringUtils.isEmpty(imageName)) {
             throw new ServletException("No upload to delete!");
         }
-        File file = new File(props.getUploadDir() + File.separator + imageName.substring(imageName.indexOf("/"))+1);
+        //de forma /covers/1front_whatever.jpg?time=Sat%20Jan%2023%2001:05:44%20EET%202016
+        String image = imageName.substring(imageName.indexOf(props.getCoversUploadPath())+ props.getCoversUploadPath().length());
+        image = image.substring(0, image.lastIndexOf('?'));
+        File file = new File(props.getUploadDir() + image);
         if (!file.exists() || !file.isFile()) {
             throw new ServletException("File '" + imageName + "' does not exist on '" +
                     props.getUploadDir() + "' location.");
