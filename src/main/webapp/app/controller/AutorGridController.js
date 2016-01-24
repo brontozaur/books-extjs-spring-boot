@@ -70,8 +70,8 @@ Ext.define('BM.controller.AutorGridController', {
                     return;
                 }
                 var selectedAutor = selectionModel.getSelection()[0];
-                var bookForm = window.down('form[itemId=autorform]');
-                bookForm.loadRecord(selectedAutor);
+                var autorForm = window.down('form[itemId=autorform]');
+                autorForm.loadRecord(selectedAutor);
                 window.show();
             },
 

@@ -19,7 +19,7 @@ public class AutorController {
     private static final Logger logger = Logger.getLogger(AutorController.class);
 
     @Autowired
-    AutorRepository repository;
+    private AutorRepository repository;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Autor> getAllAutori(){

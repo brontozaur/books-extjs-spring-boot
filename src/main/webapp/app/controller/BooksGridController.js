@@ -57,7 +57,7 @@ Ext.define('BM.controller.BooksGridController', {
                 var fieldContainer = bookInfo.down('container[itemId=bookInfoFields]');
 
                 var autorField = fieldContainer.down('displayfield[itemId=autor]');
-                autorField.setValue(record.get('author').nume);
+                autorField.setValue(record.get('authorName'));
                 autorField.setVisible(!Ext.isEmpty(autorField.getValue()));
 
                 var titleField = fieldContainer.down('displayfield[itemId=title]');

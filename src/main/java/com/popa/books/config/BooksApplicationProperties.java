@@ -25,20 +25,40 @@ public class BooksApplicationProperties {
     @Value("${covers.upload.win.dir}")
     private String winCoversDir;
 
+    @Value("${covers.format}")
+    private String coversFormat;
+
+    public String getCoversFormat() {
+        return coversFormat;
+    }
+
     public String getCoversUploadPath() {
         return coversUploadPath;
     }
 
-    public String getUploadDir() {
+    // /usr/local/logs
+    public String getRootUploadDir() {
         String uploadDir = null;
         if (System.getProperty("os.name").contains("Windows")) {
-            uploadDir = winCoversDir + coversUploadPath;
+            uploadDir = winCoversDir;
         } else if (System.getProperty("os.name").contains("Mac") ||
                 System.getProperty("os.name").contains("nux")) {
-            uploadDir = macOSCoversDir + coversUploadPath;
+            uploadDir = macOSCoversDir;
         } else {
             throw new IllegalArgumentException("Unsupported OS: " + System.getProperty("os.name"));
         }
+        File uploadDirAsFile = new File(uploadDir);
+        if (!uploadDirAsFile.exists() || !uploadDirAsFile.isDirectory()) {
+            if (!uploadDirAsFile.mkdirs()) {
+                throw new IllegalArgumentException("Cannot create directory: " + uploadDir);
+            }
+        }
+        return uploadDir;
+    }
+
+    // /usr/local/logs/cover
+    public String getFullUploadDir() {
+        String uploadDir = getRootUploadDir() + coversUploadPath;
         File uploadDirAsFile = new File(uploadDir);
         if (!uploadDirAsFile.exists() || !uploadDirAsFile.isDirectory()) {
             if (!uploadDirAsFile.mkdirs()) {

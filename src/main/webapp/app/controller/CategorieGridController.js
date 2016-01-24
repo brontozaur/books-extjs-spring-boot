@@ -70,8 +70,8 @@ Ext.define('BM.controller.CategorieGridController', {
                     return;
                 }
                 var selectedCategorie = selectionModel.getSelection()[0];
-                var bookForm = window.down('form[itemId=categorieform]');
-                bookForm.loadRecord(selectedCategorie);
+                var categorieForm = window.down('form[itemId=categorieform]');
+                categorieForm.loadRecord(selectedCategorie);
                 window.show();
             },
 

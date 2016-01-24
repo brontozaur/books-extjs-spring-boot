@@ -70,8 +70,8 @@ Ext.define('BM.controller.EdituraGridController', {
                     return;
                 }
                 var selectedEditura = selectionModel.getSelection()[0];
-                var bookForm = window.down('form[itemId=edituraform]');
-                bookForm.loadRecord(selectedEditura);
+                var edituraForm = window.down('form[itemId=edituraform]');
+                edituraForm.loadRecord(selectedEditura);
                 window.show();
             },
 

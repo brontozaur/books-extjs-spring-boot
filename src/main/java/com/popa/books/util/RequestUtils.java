@@ -90,18 +90,6 @@ public class RequestUtils {
         return buffer.toByteArray();
     }
 
-    public static String exportImageToDisk(final Long bookId, final boolean isFrontCover) {
-        String path = BooksApplication.class.getClassLoader().getResource("").getPath();
-        path += "../../data";
-        return path + File.separator + bookId + (isFrontCover? "front":"")+ ".jpg";
-    }
-
-    public static String getImagePath(final String imageName) {
-        String path = BooksApplication.class.getClassLoader().getResource("").getPath();
-        path += "../../data";
-        return path + File.separator + imageName;
-    }
-
     public static Date parseDate(String date) {
         try {
             if (StringUtils.isNotEmpty(date)) {

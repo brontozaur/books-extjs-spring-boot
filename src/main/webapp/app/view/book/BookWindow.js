@@ -12,6 +12,7 @@ Ext.define('BM.view.book.BookWindow', {
         {
             xtype: 'form',
             itemId: 'bookform',
+            name: 'bookform',
             bodyPadding: 10,
             defaults: {
                 labelStyle: 'font-weight:bold;'
@@ -20,6 +21,16 @@ Ext.define('BM.view.book.BookWindow', {
                 {
                     xtype: 'hidden',
                     name: 'bookId',
+                    value: ''
+                },
+                {
+                    xtype: 'hidden',
+                    name: 'frontCoverName',
+                    value: ''
+                },
+                {
+                    xtype: 'hidden',
+                    name: 'backCoverName',
                     value: ''
                 },
                 {

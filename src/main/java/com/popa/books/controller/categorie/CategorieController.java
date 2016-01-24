@@ -14,7 +14,7 @@ public class CategorieController {
 
 
     @Autowired
-    CategorieRepository repository;
+    private CategorieRepository repository;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Categorie> getAllCategorii(){

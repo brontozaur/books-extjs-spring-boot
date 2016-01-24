@@ -16,6 +16,8 @@ public class BookDTO implements Serializable {
     private String serie;
     private Long idEditura;
     private Long idCategorie;
+    private String frontCoverName;
+    private String backCoverName;
 
     public BookDTO() {
 
@@ -115,5 +117,21 @@ public class BookDTO implements Serializable {
 
     public void setIdCategorie(Long idCategorie) {
         this.idCategorie = idCategorie;
+    }
+
+    public String getFrontCoverName() {
+        return frontCoverName;
+    }
+
+    public void setFrontCoverName(String frontCoverName) {
+        this.frontCoverName = frontCoverName;
+    }
+
+    public String getBackCoverName() {
+        return backCoverName;
+    }
+
+    public void setBackCoverName(String backCoverName) {
+        this.backCoverName = backCoverName;
     }
 }

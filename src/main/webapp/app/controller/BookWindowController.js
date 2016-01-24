@@ -125,6 +125,8 @@ Ext.define('BM.controller.BookWindowController', {
                             var response = Ext.JSON.decode(action.response.responseText);
                             var imageCanvas = Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0];
                             imageCanvas.setSrc(response.fileName);
+                            //hiden field to be submitted with form
+                            bookForm.down('hidden[name=frontCoverName]').setValue(response.fileName);
                         },
 
                         failure: function(form, action) {
@@ -136,7 +138,7 @@ Ext.define('BM.controller.BookWindowController', {
 
             deleteFrontCover: function(button, e, eOpts) {
                 var imageCanvas = Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0];
-                this.deleteUpload(imageCanvas);
+                this.deleteUpload(imageCanvas, true);
             },
 
             uploadBackCover: function(fileUploadField, value, eOpts) {
@@ -154,6 +156,8 @@ Ext.define('BM.controller.BookWindowController', {
                             var response = Ext.JSON.decode(action.response.responseText);
                             var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
                             imageCanvas.setSrc(response.fileName);
+                            //hiden field to be submitted with form
+                            bookForm.down('hidden[name=backCoverName]').setValue(response.fileName);
                         },
 
                         failure: function(form, action) {
@@ -165,10 +169,10 @@ Ext.define('BM.controller.BookWindowController', {
 
             deleteBackCover: function(button, e, eOpts) {
                 var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
-                this.deleteUpload(imageCanvas);
+                this.deleteUpload(imageCanvas, false);
             },
 
-            deleteUpload: function(imageCanvas) {
+            deleteUpload: function(imageCanvas, isFrontCover) {
                 if (!Ext.isEmpty(imageCanvas.src)) {
                     Ext.Ajax.request({
                         url: '/cover',
@@ -184,6 +188,14 @@ Ext.define('BM.controller.BookWindowController', {
                         scope: this,
                         success: function (result, request) {
                             imageCanvas.setSrc(null);
+                            var bookForm = Ext.ComponentQuery.query('form[itemId=bookform]')[0];
+                            var hiddenField;
+                            if (isFrontCover) {
+                                hiddenField = bookForm.down('hidden[name=frontCoverName]');
+                            } else {
+                                hiddenField = bookForm.down('hidden[name=backCoverName]')
+                            }
+                            hiddenField.setValue(null);
                         },
                         failure: function (result, request) {
                             createErrorWindow(result);

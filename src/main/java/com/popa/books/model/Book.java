@@ -25,10 +25,6 @@ public class Book implements Serializable {
     @Column(name = "dataAparitie", nullable = true)
     private Date dataAparitie = null;
 
-    @OneToOne
-    @JoinColumn(name = "idAutor")
-    private Autor author;
-
     @Column(name = "nrPagini", nullable = true)
     private Integer nrPagini;
 
@@ -48,12 +44,25 @@ public class Book implements Serializable {
     private String serie;
 
     @OneToOne
+    @JoinColumn(name = "idAutor")
+    private Autor author;
+
+    @OneToOne
     @JoinColumn(name = "idEditura", nullable = true)
     private Editura editura;
 
     @OneToOne
     @JoinColumn(name = "idCategorie", nullable = true)
     private Categorie categorie;
+
+    @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @JoinColumn(name = "bookCoverId", nullable = true)
+    private BookCover bookCover;
+
+    @Transient
+    private String frontCoverPath;
+    @Transient
+    private String backCoverPath;
 
     public Long getBookId() {
         return bookId;
@@ -157,5 +166,29 @@ public class Book implements Serializable {
 
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
+    }
+
+    public BookCover getBookCover() {
+        return bookCover;
+    }
+
+    public void setBookCover(BookCover bookCover) {
+        this.bookCover = bookCover;
+    }
+
+    public String getFrontCoverPath() {
+        return frontCoverPath;
+    }
+
+    public void setFrontCoverPath(String frontCoverPath) {
+        this.frontCoverPath = frontCoverPath;
+    }
+
+    public String getBackCoverPath() {
+        return backCoverPath;
+    }
+
+    public void setBackCoverPath(String backCoverPath) {
+        this.backCoverPath = backCoverPath;
     }
 }

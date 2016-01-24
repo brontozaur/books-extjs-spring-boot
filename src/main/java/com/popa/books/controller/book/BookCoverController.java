@@ -3,8 +3,8 @@ package com.popa.books.controller.book;
 
 import com.google.gson.JsonObject;
 import com.popa.books.config.BooksApplicationProperties;
+import com.popa.books.model.Book;
 import com.popa.books.model.BookCover;
-import com.popa.books.repository.BookCoverRepository;
 import com.popa.books.repository.BookRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.Date;
 
 @RestController
@@ -23,19 +24,15 @@ public class BookCoverController {
     private static final Logger logger = Logger.getLogger(BookCoverController.class);
 
     @Autowired
-    BookCoverRepository repository;
+    private BookRepository bookRepository;
 
     @Autowired
-    BookRepository bookRepository;
-
-    @Autowired
-    BooksApplicationProperties props;
+    private BooksApplicationProperties props;
 
     /**
      * This method looks for a book cover record in the database for the current book.
      * If found, back and front fields will be tested to see if they contain real images.
-     * If they do, a test is done to see if those images are not already exported. If they do,
-     * their path is returned on the response. Otherwise, byte[] data is being serialized and
+     * If they do, byte[] data is being serialized and
      * after that the serialized path is returned. The server path is mapped to a relative
      * application path, therefore...it works ;-)
      * @param bookId
@@ -43,28 +40,29 @@ public class BookCoverController {
      * @throws ServletException
      */
     @RequestMapping(method=RequestMethod.GET)
-    public String getCovers(@RequestParam("bookId") Long bookId) throws ServletException {
+    public String getBookCoversPath(@RequestParam("bookId") Long bookId) throws ServletException {
 
         JsonObject response = new JsonObject();
         try {
-            BookCover cover = repository.findByBook(bookRepository.findOne(bookId));
+            Book book = bookRepository.findOne(bookId);
+            BookCover cover = book.getBookCover();
             if (cover != null) {
                 byte[] frontCoverBytes = cover.getFront();
                 if (frontCoverBytes != null && frontCoverBytes.length > 0) {
-                    String desiredFrontCoverName = bookId + "_front" + "_exported.jpg";
-                    File testFile = new File(props.getUploadDir() + File.separator + desiredFrontCoverName);
-                    if (!testFile.exists() || !testFile.isFile()) {
-                        writeFileToDisk(testFile.getAbsolutePath(), frontCoverBytes);
-                    }
+                    String desiredFrontCoverName = MessageFormat.format(props.getCoversFormat(),
+                            new Object[]{bookId, "exported", "front"});
+                    book.setFrontCoverPath(desiredFrontCoverName);
+                    File testFile = new File(props.getFullUploadDir() + desiredFrontCoverName);
+                    writeFileToDisk(testFile.getAbsolutePath(), frontCoverBytes);
                     response.addProperty("frontCoverPath", props.getCoversUploadPath() + desiredFrontCoverName + "?time=" + new Date());
                 }
                 byte[] backCoverBytes = cover.getBack();
                 if (backCoverBytes != null && backCoverBytes.length > 0) {
-                    String desiredBackCoverName = bookId + "_back" + "_exported.jpg";
-                    File testFile = new File(props.getUploadDir() + File.separator + desiredBackCoverName);
-                    if (!testFile.exists() || !testFile.isFile()) {
-                        writeFileToDisk(testFile.getAbsolutePath(), backCoverBytes);
-                    }
+                    String desiredBackCoverName = MessageFormat.format(props.getCoversFormat(),
+                            new Object[]{bookId, "exported", "back"});
+                    book.setBackCoverPath(desiredBackCoverName);
+                    File testFile = new File(props.getFullUploadDir() + desiredBackCoverName);
+                    writeFileToDisk(testFile.getAbsolutePath(), backCoverBytes);
                     response.addProperty("backCoverPath", props.getCoversUploadPath() + desiredBackCoverName + "?time=" + new Date());
                 }
             }
@@ -84,17 +82,23 @@ public class BookCoverController {
     }
 
     @RequestMapping(method=RequestMethod.DELETE)
-    public void deleteFrontCover(@RequestParam("imageName") String imageName) throws ServletException {
+    public void deleteFrontCoverImage(@RequestParam("imageName") String imageName) throws ServletException {
         if (StringUtils.isEmpty(imageName)) {
             throw new ServletException("No upload to delete!");
         }
-        //de forma /covers/1front_whatever.jpg?time=Sat%20Jan%2023%2001:05:44%20EET%202016
-        String image = imageName.substring(imageName.indexOf(props.getCoversUploadPath())+ props.getCoversUploadPath().length());
-        image = image.substring(0, image.lastIndexOf('?'));
-        File file = new File(props.getUploadDir() + image);
+        // original file: /covers/imageName.jpg?time=Sat%20Jan%2023%2001:05:44%20EET%202016
+        if (imageName.indexOf('?') != -1) {
+            imageName = imageName.substring(0, imageName.indexOf('?'));
+        }
+        //file is now: /covers/imageName.jpg
+        if (imageName.indexOf(props.getCoversUploadPath()) != -1) {
+            imageName = imageName.substring(imageName.indexOf(props.getCoversUploadPath())+ props.getCoversUploadPath().length());
+        }
+        //file is now imageName.jpg
+        File file = new File(props.getFullUploadDir() + imageName);
         if (!file.exists() || !file.isFile()) {
             throw new ServletException("File '" + imageName + "' does not exist on '" +
-                    props.getUploadDir() + "' location.");
+                    props.getFullUploadDir() + "' location.");
         }
         if (!file.delete()) {
             throw new ServletException("Could not delete the file at '" + file.getPath());
@@ -102,7 +106,7 @@ public class BookCoverController {
     }
 
     @RequestMapping(value = "/back", method=RequestMethod.POST)
-    public String uploadBackCover(@RequestParam("bookId") Long bookId,
+    public String uploadBackCoverImage(@RequestParam("bookId") Long bookId,
                                    @RequestParam("backCoverUpload") MultipartFile imageData) throws ServletException {
         return handleFileUpload(imageData, bookId, false);
     }
@@ -111,9 +115,10 @@ public class BookCoverController {
         if (!imageData.isEmpty()) {
             try {
                 byte[] bytes = imageData.getBytes();
-
-                final String exportFileName = props.getUploadDir() + File.separator + bookId + (isFrontCover? "_front":"_back")+ ".jpg";
-                final String fileName = writeFileToDisk(exportFileName, bytes);
+                String uploadName = MessageFormat.format(props.getCoversFormat(),
+                        new Object[]{bookId, String.valueOf(System.currentTimeMillis()), isFrontCover ? "front":"back"});
+                final String uploadPath = props.getFullUploadDir() + uploadName;
+                final String fileName = writeFileToDisk(uploadPath, bytes);
 
                 JsonObject response = new JsonObject();
                 response.addProperty("success", true);
@@ -131,9 +136,10 @@ public class BookCoverController {
     private String writeFileToDisk(String fileName, byte[] bytes) throws IOException {
         File file = new File(fileName);
         file.deleteOnExit();
-        BufferedOutputStream stream =
-                new BufferedOutputStream(new FileOutputStream(file));
+        FileOutputStream fos = new FileOutputStream(file);
+        BufferedOutputStream stream = new BufferedOutputStream(fos);
         stream.write(bytes);
+        fos.close();
         stream.close();
         return file.getName();
     }

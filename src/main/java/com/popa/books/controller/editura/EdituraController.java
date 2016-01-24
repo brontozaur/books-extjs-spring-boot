@@ -15,7 +15,7 @@ import java.util.List;
 public class EdituraController {
 
     @Autowired
-    EdituraRepository repository;
+    private EdituraRepository repository;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Editura> getAllEdituri(){
