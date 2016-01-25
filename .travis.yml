@@ -9,6 +9,7 @@ services:
 
 before_script:
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS books_manager;" -uroot; fi
+  - mkdir -p /Users/travis/Library/Application Support/booksExtjs/cover
 
 notifications:
   mail: "hypercube21@yahoo.com"
