@@ -15,5 +15,5 @@ notifications:
   email:
     recipients:
       - hypercube21@yahoo.com
-    on_success: always #options: always never change
+    on_success: change #options: always never change
     on_failure: always
