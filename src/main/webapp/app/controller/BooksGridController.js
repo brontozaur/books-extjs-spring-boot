@@ -256,6 +256,12 @@ Ext.define('BM.controller.BooksGridController', {
                             }
                             var numeAutor = record.get('authorName');
                             var title = record.get('title');
+                            if (Ext.isEmpty(numeAutor)) {
+                                numeAutor = "";
+                            }
+                            if (Ext.isEmpty(title)) {
+                                title = "";
+                            }
                             return numeAutor.indexOf(filteredValue) > -1 || title.indexOf(filteredValue) > -1;
                         }
                     }
