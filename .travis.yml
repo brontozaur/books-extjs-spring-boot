@@ -25,4 +25,4 @@ notifications:
     on_success: change #options: always never change
     on_failure: always
 
-script: "mvn clean test"
+#script: "mvn clean test"
