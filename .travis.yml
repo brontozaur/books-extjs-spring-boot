@@ -7,7 +7,7 @@ env:
 services:
   - mysql
 
-before_script:
+before_install:
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS books_manager;" -uroot; fi
 
 cache:
@@ -15,8 +15,7 @@ cache:
     - $HOME/.m2
 
 env:
-  matrix:
-    - PROFILE=int
+    - spring.profiles.active=int
 
 notifications:
   email:
