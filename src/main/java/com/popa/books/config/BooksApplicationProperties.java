@@ -1,6 +1,7 @@
 package com.popa.books.config;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ import java.io.File;
 @Component
 public class BooksApplicationProperties {
 
-    private static final Logger logger = Logger.getLogger(BooksApplicationProperties.class);
+    private static final Logger logger = LoggerFactory.getLogger(BooksApplicationProperties.class);
 
     /**
      * This will be the relative path to the upload folder.
@@ -51,7 +52,7 @@ public class BooksApplicationProperties {
             throw new IllegalArgumentException("Unsupported OS: " + System.getProperty("os.name"));
         }
         File uploadDirAsFile = new File(uploadDir);
-        logger.info("Book covers upload dir: " + uploadDirAsFile.getAbsolutePath());
+        logger.info("Book covers upload dir: {}", uploadDirAsFile.getAbsolutePath());
         if (!uploadDirAsFile.exists() || !uploadDirAsFile.isDirectory()) {
             if (!uploadDirAsFile.mkdirs()) {
                 throw new IllegalArgumentException("Cannot create directory: " + uploadDir);

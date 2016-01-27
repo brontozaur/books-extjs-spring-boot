@@ -6,7 +6,8 @@ import com.popa.books.config.BooksApplicationProperties;
 import com.popa.books.model.Book;
 import com.popa.books.model.BookCover;
 import com.popa.books.repository.BookRepository;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ import java.util.Date;
 @RequestMapping("/cover")
 public class BookCoverController {
 
-    private static final Logger logger = Logger.getLogger(BookCoverController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BookCoverController.class);
 
     @Autowired
     private BookRepository bookRepository;
@@ -67,7 +68,7 @@ public class BookCoverController {
                 }
             }
         } catch (Exception exc) {
-            logger.error(exc, exc);
+            logger.error(exc.getMessage(), exc);
             throw new ServletException(exc.getMessage(), exc);
         }
 
@@ -126,7 +127,7 @@ public class BookCoverController {
                 return response.toString();
 
             } catch (Exception exc) {
-                logger.error(exc, exc);
+                logger.error(exc.getMessage(), exc);
                 throw new ServletException(exc.getMessage(), exc);
             }
         }

@@ -5,7 +5,8 @@ import com.popa.books.model.Book;
 import com.popa.books.model.BookCover;
 import com.popa.books.repository.*;
 import com.popa.books.util.RequestUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ import java.util.List;
 @RequestMapping("/book")
 public class BookController {
 
-    private static final Logger logger = Logger.getLogger(BookController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     private BookRepository repository;
@@ -154,7 +155,7 @@ public class BookController {
                 bookCover.setBack(null);
             }
         } catch (Exception exc) {
-            logger.error(exc, exc);
+            logger.error(exc.getMessage(), exc);
             throw new ServletException(exc.getMessage(), exc);
         }
     }

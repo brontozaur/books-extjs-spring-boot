@@ -1,8 +1,8 @@
 package com.popa.books;
 
 import com.popa.books.util.BookConstants;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
@@ -19,7 +19,7 @@ import java.net.UnknownHostException;
 @EnableTransactionManagement
 public class BooksApplication {
 
-    private static final Logger logger = Logger.getLogger(BooksApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(BooksApplication.class);
 
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication app = new SpringApplication(BooksApplication.class);
@@ -27,9 +27,9 @@ public class BooksApplication {
         addDefaultProfile(app, source);
         Environment env = app.run(args).getEnvironment();
         logger.info("Access URLs:\n----------------------------------------------------------\n\t" +
-                "Local: \t\thttp://127.0.0.1:{" + env.getProperty("server.port") + "}\n\t" +
-                "External: \thttp://{" + InetAddress.getLocalHost().getHostAddress() + "}:{ " + env.getProperty("server.port")
-                + " }\n----------------------------------------------------------"
+                "Local: \t\thttp://127.0.0.1:{}\n\t" +
+                "External: \thttp://{}:{}\n----------------------------------------------------------",
+                env.getProperty("server.port"), InetAddress.getLocalHost().getHostAddress(), env.getProperty("server.port")
         );
 
     }
@@ -43,7 +43,7 @@ public class BooksApplication {
      */
     private static void addDefaultProfile(SpringApplication app, SimpleCommandLinePropertySource source) {
         if (!source.containsProperty("spring.profiles.active") && !System.getenv().containsKey("SPRING_PROFILES_ACTIVE")) {
-            app.setAdditionalProfiles(BookConstants.PROFILE_INT);
+            app.setAdditionalProfiles(BookConstants.PROFILE_DEV);
         }
     }
 

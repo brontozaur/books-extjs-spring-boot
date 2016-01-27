@@ -8,15 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.popa.books.controller.EventHandler;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.popa.books.model.node.BookNode;
 import com.popa.books.model.node.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GetTreeBooksEventHandler extends EventHandler {
 
-    private static final Logger logger = Logger.getLogger(GetTreeBooksEventHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(GetTreeBooksEventHandler.class);
 
     @Override
     public String handleEvent(final HttpServletRequest request) throws ServletException {

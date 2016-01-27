@@ -3,7 +3,6 @@ package com.popa.books.controller.autor;
 import com.popa.books.model.Autor;
 import com.popa.books.repository.AutorRepository;
 import com.popa.books.util.RequestUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/autor")
 public class AutorController {
-
-    private static final Logger logger = Logger.getLogger(AutorController.class);
 
     @Autowired
     private AutorRepository repository;

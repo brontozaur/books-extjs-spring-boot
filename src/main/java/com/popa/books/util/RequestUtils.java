@@ -8,16 +8,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
-import com.popa.books.BooksApplication;
 import org.apache.commons.io.IOUtils;
 
-import com.popa.books.util.FormKeys;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RequestUtils {
 
-    private static final Logger logger = Logger.getLogger(RequestUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestUtils.class);
 
     public static String getString(final HttpServletRequest request, final String parameterName) throws ServletException {
         String contentType = request.getContentType();
@@ -97,7 +96,7 @@ public class RequestUtils {
                 return new Date(sdf.parse(date).getTime());
             }
         } catch (Exception e) {
-            logger.error("cannot parse date: " + date);
+            logger.error("cannot parse date: {}", date);
         }
         return null;
     }
