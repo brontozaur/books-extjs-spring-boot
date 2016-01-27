@@ -10,6 +10,14 @@ services:
 before_script:
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS books_manager;" -uroot; fi
 
+cache:
+  directories:
+    - $HOME/.m2
+
+env:
+  matrix:
+    - PROFILE=int
+
 notifications:
   email:
     recipients:
@@ -17,4 +25,4 @@ notifications:
     on_success: change #options: always never change
     on_failure: always
 
-script: "mvn clean install -Dspring.profiles.active=int -Dmaven.javadoc.skip=true -B -V"
+script: "mvn clean test -P${PROFILE} -Dsort"
