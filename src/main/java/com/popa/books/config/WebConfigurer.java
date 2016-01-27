@@ -1,4 +1,4 @@
-package com.popa.books;
+package com.popa.books.config;
 
 import com.popa.books.config.BooksApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebConfigurer extends WebMvcConfigurerAdapter {
 
     @Autowired
-    BooksApplicationProperties props;
+    private BooksApplicationProperties props;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
