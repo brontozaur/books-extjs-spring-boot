@@ -43,7 +43,7 @@ public class BooksApplication {
      */
     private static void addDefaultProfile(SpringApplication app, SimpleCommandLinePropertySource source) {
         if (!source.containsProperty("spring.profiles.active") && !System.getenv().containsKey("SPRING_PROFILES_ACTIVE")) {
-            app.setAdditionalProfiles(BookConstants.PROFILE_DEV);
+            app.setAdditionalProfiles(BookConstants.PROFILE_INT);
         }
     }
 
