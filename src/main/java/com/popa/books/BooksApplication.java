@@ -21,9 +21,6 @@ public class BooksApplication {
 
     private static final Logger logger = Logger.getLogger(BooksApplication.class);
 
-    @Autowired
-    private Environment env;
-
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication app = new SpringApplication(BooksApplication.class);
         SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
