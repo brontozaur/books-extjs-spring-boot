@@ -17,4 +17,4 @@ notifications:
     on_success: change #options: always never change
     on_failure: always
 
-script: "mvn clean install -Dspring.profiles.active=int -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
+script: "mvn clean install -Dspring.profiles.active=int -Dmaven.javadoc.skip=true -B -V"
