@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
 
-    <property name="LOG_BASEPATH" value="${user.home}/books/logs/" />
-    <property name="LOG_PATTERN" value="%date %level [%thread] %logger{40} [%X] %msg %n" />
-
-    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_BASEPATH}books-CURRENT.log</file>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_BASEPATH}-${instance.node}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxHistory>14</maxHistory>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>990MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
+<configuration>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+        <File>${user.home}/books/logs/books.log</File>
         <encoder>
-            <pattern>${LOG_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <maxIndex>10</maxIndex>
+            <FileNamePattern>${user.home}/books/logs/books-CURRENT.log.%i</FileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>100MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</pattern>
         </encoder>
     </appender>
-  
-  <logger name="com.popa.books" level="INFO"/>
-  
 
-  <root level="debug">
-    <appender-ref ref="fileAppender" />
-  </root>
+    <logger name="com.popa.books" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="file"/>
+        <appender-ref ref="stdout"/>
+    </root>
 </configuration>
