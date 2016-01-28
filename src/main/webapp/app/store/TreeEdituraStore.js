@@ -4,7 +4,7 @@ Ext.define('BM.store.TreeEdituraStore', {
             autoLoad: true,
             proxy: {
                 type: 'ajax',
-                url: 'books?event=get-tree-edituri',
+                url: 'editura/tree-load',
                 reader: {
                     type: 'json',
                     method: 'POST'

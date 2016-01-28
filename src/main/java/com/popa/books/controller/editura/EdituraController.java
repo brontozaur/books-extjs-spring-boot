@@ -1,9 +1,8 @@
 package com.popa.books.controller.editura;
 
-import com.popa.books.controller.Events;
 import com.popa.books.model.Editura;
+import com.popa.books.model.node.Node;
 import com.popa.books.repository.EdituraRepository;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +24,18 @@ public class EdituraController {
                 edituri.add(editura);
             }
             return edituri;
+    }
+
+    @RequestMapping(value = "/tree-load", method = RequestMethod.GET)
+    public List<Node> getEdituriTree(){
+        return new ArrayList<>();
+    }
+
+    @RequestMapping(value = "/tree", method = RequestMethod.GET)
+    public List<Node> getEdituriTree(@RequestParam String nodeId,
+                                    @RequestParam String root,
+                                    @RequestParam String displayMode){
+        return new ArrayList<>();
     }
 
     @RequestMapping(method = RequestMethod.POST)

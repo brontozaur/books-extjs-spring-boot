@@ -3,6 +3,7 @@ package com.popa.books.controller.book;
 import com.popa.books.config.BooksApplicationProperties;
 import com.popa.books.model.Book;
 import com.popa.books.model.BookCover;
+import com.popa.books.model.node.Node;
 import com.popa.books.repository.*;
 import com.popa.books.util.RequestUtils;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,6 +45,18 @@ public class BookController {
     @RequestMapping(method = RequestMethod.GET)
     public List<Book> getAllBooks(){
         return repository.findAll();
+    }
+
+    @RequestMapping(value = "/tree-load", method = RequestMethod.GET)
+    public List<Node> getBooksTree(){
+        return new ArrayList<>();
+    }
+
+    @RequestMapping(value = "/tree", method = RequestMethod.GET)
+    public List<Node> getBooksTree(@RequestParam String nodeId,
+                                   @RequestParam String root,
+                                   @RequestParam String displayMode){
+        return new ArrayList<>();
     }
 
     @Transactional
