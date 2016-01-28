@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration>
+<configuration debug="true">
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
         <File>${user.home}/books/logs/books.log</File>
@@ -12,7 +12,7 @@
             <FileNamePattern>${user.home}/books/logs/books-CURRENT.log.%i</FileNamePattern>
         </rollingPolicy>
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>100MB</MaxFileSize>
+            <MaxFileSize>1MB</MaxFileSize>
         </triggeringPolicy>
     </appender>
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
@@ -22,9 +22,9 @@
         </encoder>
     </appender>
 
-    <logger name="com.popa.books" level="ERROR"/>
+    <logger name="com.popa.books" level="INFO"/>
 
-    <root level="INFO">
+    <root level="ERROR">
         <appender-ref ref="file"/>
         <appender-ref ref="stdout"/>
     </root>
