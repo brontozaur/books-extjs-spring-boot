@@ -5,7 +5,7 @@ This application was originally started as a tutorial for web applications, usin
  * servlets
  * standalone tomcat environment
  * hibernate
- * ExtJS for UI
+ * extJS for UI
 
  The initial source code was hosted in defunct Google Code.
  The goal of the application was to create a web interface for a books manager application, allowing CRUD operations for:
