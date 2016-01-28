@@ -3,5 +3,6 @@ Ext.define('BM.view.tree.TreeBooks', {
             alias: 'widget.treebooks',
             store: 'TreeBooksStore',
             displayField: 'treeItemName',
-            rootVisible: true
+            rootVisible: true,
+            name: 'carti'
         });

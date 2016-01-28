@@ -80,16 +80,13 @@ Ext.define('BM.controller.AbstractLeftTreeAreaController', {
                 contextMenu.showAt(e.getXY());
             },
 
-            getAreaTitle: function(treeTitle) {
-                return 'Grupare dupa ' + treeTitle;
-            },
-
-            setActiveViewInternal: function(tree) {
+            setActiveView: function(treeItemId) {
                 var me = this;
                 var cardLayout = me.getLeftTreeArea().getLayout();
-                cardLayout.setActiveItem(tree);
-                me.getLeftTreeArea().setTitle(me.getAreaTitle(tree));
-                this.getChangeViewButton().setVisible(tree != 'treeBooks');
+                var desiredPanel = Ext.ComponentQuery.query('panel[itemId=' + treeItemId + ']')[0];
+                cardLayout.setActiveItem(treeItemId);
+                me.getLeftTreeArea().setTitle('Grupare dupa ' + desiredPanel.name);
+                this.getChangeViewButton().setVisible(treeItemId != 'treeBooks');
             }
         });
 

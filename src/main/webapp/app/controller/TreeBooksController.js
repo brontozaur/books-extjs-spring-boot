@@ -81,12 +81,5 @@ Ext.define('BM.controller.TreeBooksController', {
                 if (me.getTree() === me.getActiveItem()) {
                     me.refreshTreeInternal();
                 }
-            },
-
-            setActiveView: function(tree) {
-                var me = this;
-                if (me.getTree() === me.getActiveItem()) {
-                    me.setActiveViewInternal(tree);
-                }
             }
         });

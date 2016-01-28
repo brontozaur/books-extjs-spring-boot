@@ -88,12 +88,5 @@ Ext.define('BM.controller.TreeEdituraController', {
                 if (me.getTree() === me.getActiveItem()) {
                     me.changeViewInternal();
                 }
-            },
-
-            setActiveView: function(tree) {
-                var me = this;
-                if (me.getTree() === me.getActiveItem()) {
-                    me.setActiveViewInternal(tree);
-                }
             }
         });

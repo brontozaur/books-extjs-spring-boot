@@ -4,5 +4,6 @@ Ext.define('BM.view.tree.TreeEditura', {
             store: 'TreeEdituraStore',
             displayField: 'treeItemName',
             rootVisible: true,
-            displayMode: 'default' //possible modes: default and flat
+            displayMode: 'default', //possible modes: default and flat
+            name: 'edituri'
         });
