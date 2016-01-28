@@ -62,7 +62,7 @@ Currently, some of the cool technologies implemented in this application are:
   
 * Fix the left tree display
 * Fix the books grid pagination
-* Fix the wrong label for left tree view mode
+* ~~Fix the wrong label for left tree view mode~~
 * Introduce ExtJS menus for all grids
 * Info area redesign, and upload image display on left side, not center
 * Spring security with login form
