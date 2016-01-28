@@ -68,6 +68,8 @@ public class BookController {
         repository.save(book);
     }
 
+    //if no complex objects (e.g. Autor, Editura, etc) were in the Book object,
+    //a Book could have been used instead of BookDTO directly.
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updateBook(@PathVariable Long id, @RequestBody BookDTO dto) throws ServletException {

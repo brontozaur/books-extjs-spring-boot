@@ -41,7 +41,6 @@ public class EdituraController {
     @RequestMapping(method = RequestMethod.POST)
     public void createNewEditura(@RequestParam String title){
         Editura editura = new Editura();
-        editura.setIdEditura(0L);
         editura.setNumeEditura(title);
         repository.save(editura);
     }

@@ -57,7 +57,6 @@ public class AutorController {
     public void createNewAutor(@RequestParam String nume,
                                @RequestParam String dataNasterii){
         Autor autor = new Autor();
-        autor.setAutorId(0);
         autor.setDataNasterii(RequestUtils.parseDate(dataNasterii));
         autor.setNume(nume);
         repository.save(autor);
