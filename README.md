@@ -19,7 +19,7 @@ However, the source code quickly became something else, i didn't think about it 
 cool technologies. I wanted to have more features, to adapt more standards and technologies in this app (regardless of 
 their utility for this project), to be an incubator of cool stuffs. After migration from Google code to GitHub, some 
 development and maintenance was done in GitHub as well, but nothing fancy. Starting from this year, the back-end was
-completely redesign and rewritten to integrate more features.
+completely redesigned and rewritten to integrate more features.
 
 # Screenshots
 
@@ -44,7 +44,7 @@ Currently, some of the cool technologies implemented in this application are:
 * Apache commons
 * Spring data
 * Image uploads
-* Multi platform compatibility (teste on Windows, MacOS and Ubuntu)
+* Multi platform compatibility (tested on Windows, MacOS and Ubuntu)
 * Travis CI integration
     
 #Front-end
