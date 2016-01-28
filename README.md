@@ -17,7 +17,7 @@ for a books manager application, allowing CRUD operations for:
 
 However, the source code quickly became something else, i didn't think about it very much: a learning platform for some
 cool technologies. I wanted to have more features, to adapt more standards and technologies in this app (regardless of 
-their utility for this project), to be an incubator of cool stuffs. After migration from Google code to GitHub, some 
+their utility for this project), to be an incubator of cool stuffs. After migration from Google Code to GitHub, some 
 development and maintenance was done in GitHub as well, but nothing fancy. Starting from this year, the back-end was
 completely redesigned and rewritten to integrate more features.
 
