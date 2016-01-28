@@ -20,12 +20,22 @@ public class AutorController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Autor> getAllAutori(){
-        List<Autor> categorii =  new ArrayList<>();
+        List<Autor> autori =  new ArrayList<>();
         Iterable<Autor> it = repository.findAll();
         for (Autor Autor: it) {
-            categorii.add(Autor);
+            autori.add(Autor);
         }
-        return categorii;
+        return autori;
+    }
+
+    @RequestMapping(value = "/tree", method = RequestMethod.GET)
+    public List<Autor> getAutoriTree(){
+        List<Autor> autori =  new ArrayList<>();
+        Iterable<Autor> it = repository.findAll();
+        for (Autor Autor: it) {
+            autori.add(Autor);
+        }
+        return autori;
     }
 
     @RequestMapping(method = RequestMethod.POST)
