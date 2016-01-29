@@ -4,6 +4,5 @@ Ext.define('BM.view.tree.TreeAutori', {
             store: 'TreeAutoriStore',
             displayField: 'treeItemName',
             rootVisible: true,
-            displayMode: 'default', //possible modes: default and flat
             name: 'autori'
         });

@@ -3,11 +3,10 @@ package com.popa.books.controller.autor;
 import com.popa.books.model.Autor;
 import com.popa.books.model.node.AutorNode;
 import com.popa.books.model.node.Node;
-import com.popa.books.model.node.AutorNodeSQL;
+import com.popa.books.model.node.NodeSQL;
 import com.popa.books.repository.AutorRepository;
 import com.popa.books.repository.BookRepository;
 import com.popa.books.util.RequestUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,57 +33,8 @@ public class AutorController {
         return autori;
     }
 
-    @RequestMapping(value = "/tree-load", method = RequestMethod.GET)
-    public List<Node> getAutoriTree(){
-        return loadAutori(null, null, null);
-    }
-
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    public List<Node> getAutoriTree(@RequestParam String nodeId,
-                                    @RequestParam Boolean root,
-                                    @RequestParam String displayMode){
-        return loadAutori(nodeId, root, displayMode);
-    }
-
-    private List<Node> loadAutori(String nodeId, Boolean root, String displayMode) {
-        final boolean isRoot = root != null && Boolean.valueOf(root);
-        final boolean isFlatMode = "flat".equals(displayMode);
-        if (isRoot || StringUtils.isEmpty(nodeId)) {
-            if (isFlatMode) {
-                //authors and
-                return getTreeDataForFlatMode();
-            } else {
-                //letter mode
-                return getTreeDataLetters();
-            }
-        } else {
-            return getAuthorsForALetter(nodeId);
-        }
-    }
-
-    private List<Node> getAuthorsForALetter(final String letter) {
-        List<Node> autori =  new ArrayList<>();
-//TODO
-        return autori;
-    }
-
-    private List<Node> getTreeDataLetters() {
-        List<Node> autori =  new ArrayList<>();
-        List<Object[]> autorNodeSQLs = repository.findAuthorsAndBooksAndGroupByLetter();
-        for (Object[] autorNodeSQL : autorNodeSQLs) {
-            AutorNode bean = new AutorNode();
-            bean.setLeaf(false);
-            bean.setLoaded(false);
-            bean.setHowManyBooks(Long.valueOf(autorNodeSQL[1].toString()));
-            bean.setHowManyAutors(Long.valueOf(autorNodeSQL[2].toString()));
-            bean.setName(autorNodeSQL[0].toString());
-            bean.setId(autorNodeSQL[0].toString());
-            autori.add(bean);
-        }
-        return autori;
-    }
-
-    private List<Node> getTreeDataForFlatMode(){
+    public List<Node> getAutoriTree(){
         List<Node> autori =  new ArrayList<>();
 
         // we count books without authors first
@@ -99,15 +49,15 @@ public class AutorController {
             autori.add(bean);
         }
 
-        List<AutorNodeSQL> autorNodeSQLs = repository.findAutorsAndBookCountUsingHQLAndNodeSQL();
+        List<NodeSQL> nodeSQLs = repository.findAutorsAndBookCountUsingHQLAndNodeSQL();
 
-        for (AutorNodeSQL autorNodeSQL : autorNodeSQLs) {
+        for (NodeSQL nodeSQL : nodeSQLs) {
             AutorNode bean = new AutorNode();
             bean.setLeaf(true);
             bean.setLoaded(true);
-            bean.setHowManyBooks(autorNodeSQL.getHowManyBooks());
-            bean.setName(autorNodeSQL.getAuthorName());
-            bean.setId(autorNodeSQL.getAuthorName());
+            bean.setHowManyBooks(nodeSQL.getCount());
+            bean.setName(nodeSQL.getName());
+            bean.setId(nodeSQL.getName());
             autori.add(bean);
         }
         return autori;

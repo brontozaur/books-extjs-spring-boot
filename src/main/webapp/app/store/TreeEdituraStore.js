@@ -4,7 +4,7 @@ Ext.define('BM.store.TreeEdituraStore', {
             autoLoad: true,
             proxy: {
                 type: 'ajax',
-                url: 'editura/tree-load',
+                url: 'editura/tree',
                 reader: {
                     type: 'json',
                     method: 'POST'
@@ -12,7 +12,7 @@ Ext.define('BM.store.TreeEdituraStore', {
             },
             root: {
                 expanded: true,
-                name: 'EDITURI'
+                name: 'Edituri'
             },
             sorters: [
                 {

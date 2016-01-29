@@ -47,15 +47,8 @@ public class BookController {
         return repository.findAll();
     }
 
-    @RequestMapping(value = "/tree-load", method = RequestMethod.GET)
-    public List<Node> getBooksTree(){
-        return new ArrayList<>();
-    }
-
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    public List<Node> getBooksTree(@RequestParam String nodeId,
-                                   @RequestParam String root,
-                                   @RequestParam String displayMode){
+    public List<Node> getBooksTree(){
         return new ArrayList<>();
     }
 

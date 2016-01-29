@@ -19,11 +19,6 @@ Ext.define('BM.view.tree.LeftTreeArea', {
                     type: 'refresh',
                     itemId: 'refreshTool',
                     tooltip: 'Refresh'
-                },
-                {
-                    type: 'toggle',
-                    itemId: 'toggleTool',
-                    tooltip: 'Schimba mod vizualizare'
                 }
             ]
         });

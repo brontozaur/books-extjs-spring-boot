@@ -15,9 +15,6 @@ Ext.define('BM.controller.AbstractLeftTreeAreaController', {
                             },
                             'lefttree tool[itemId=addTool]': {
                                 click: this.add
-                            },
-                            'lefttree tool[itemId=toggleTool]': {
-                                click: this.changeView
                             }
                         });
             },
@@ -37,30 +34,8 @@ Ext.define('BM.controller.AbstractLeftTreeAreaController', {
                 var me = this;
                 var activeTree = me.getActiveItem();
                 var store = activeTree.getStore();
-                var expandedNode = null;
-                if (activeTree.displayMode === 'default') {
-                    expandedNode = getFirstExpandedNode(activeTree.getRootNode());
-                }
                 store.getRootNode().removeAll();
                 store.load();
-                if (expandedNode) {
-                    activeTree.expandPath('/root' + expandedNode.getPath());
-                }
-            },
-
-            changeView: function(toolItem, event, eOpts) {
-
-            },
-
-            changeViewInternal: function(toolItem, event, eOpts) {
-                var me = this;
-                var activeTree = me.getActiveItem();
-                if ('default' === activeTree.displayMode) {
-                    activeTree.displayMode = 'flat';
-                } else if ('flat' === activeTree.displayMode) {
-                    activeTree.displayMode = 'default';
-                }
-                me.refreshTreeInternal();
             },
 
             setTitle: function(title) {
@@ -86,7 +61,6 @@ Ext.define('BM.controller.AbstractLeftTreeAreaController', {
                 var desiredPanel = Ext.ComponentQuery.query('panel[itemId=' + treeItemId + ']')[0];
                 cardLayout.setActiveItem(treeItemId);
                 me.getLeftTreeArea().setTitle('Grupare dupa ' + desiredPanel.name);
-                this.getChangeViewButton().setVisible(treeItemId != 'treeBooks');
             }
         });
 

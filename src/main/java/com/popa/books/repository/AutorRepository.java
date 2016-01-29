@@ -1,7 +1,7 @@
 package com.popa.books.repository;
 
 import com.popa.books.model.Autor;
-import com.popa.books.model.node.AutorNodeSQL;
+import com.popa.books.model.node.NodeSQL;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -32,25 +32,8 @@ public interface AutorRepository  extends CrudRepository<Autor, Long>{
 
     //solution#3 - using HQL query with custom DTO. Definately the best one!
 
-    String HQL_QUERY_AND_NODE_SQL = "SELECT new com.popa.books.model.node.AutorNodeSQL(a.nume, (SELECT COUNT(1) FROM Book b WHERE b.author.autorId = a.autorId)) FROM Autor a";
+    String HQL_QUERY_AND_NODE_SQL = "SELECT new com.popa.books.model.node.NodeSQL(a.nume, (SELECT COUNT(1) FROM Book b WHERE b.author.autorId = a.autorId)) FROM Autor a";
     @Query(value = HQL_QUERY_AND_NODE_SQL)
-    List<AutorNodeSQL> findAutorsAndBookCountUsingHQLAndNodeSQL();
+    List<NodeSQL> findAutorsAndBookCountUsingHQLAndNodeSQL();
 
-    /**
-     * Now we use only AutorNodeSQL
-     */
-
-//    String COUNT_BOOKS_AND_AUTHORS = "SELECT " +
-//            "new com.popa.books.model.node.AutorNodeSQL((SELECT SUBSTRING(a.nume,1,1)) AS firstLetter, " +
-//            "(SELECT COUNT(1) FROM Autor a1 WHERE SUBSTRING(a1.nume,1,1) = firstLetter) AS autorsNumber" +
-//            "(SELECT COUNT(1) FROM Book b WHERE b.author.autorId IN (select a2.autorId from Autor a2 where substring(a2.nume, 1,1) = firstLetter)) AS booksNumber)" +
-//            " FROM Autor a group by firstLetter";
-//    @Query(value = COUNT_BOOKS_AND_AUTHORS)
-//    List<AutorNodeSQL> findAuthorsAndBooksAndGroupByLetter();
-
-    String COUNT_BOOKS_AND_AUTHORS = "SELECT SUBSTRING(a.nume,1,1) as firstLetter," +
-            "(SELECT COUNT(1) FROM Autor a1 WHERE SUBSTRING(a1.nume,1,1) = firstLetter) AS autorsNumber," +
-            "(SELECT COUNT(1) FROM Book b WHERE b.id_autor IN (select a2.autor_id from autor a2 where substring(a2.nume, 1,1) = firstLetter)) AS booksNumber FROM Autor a group by firstLetter";
-    @Query(value = COUNT_BOOKS_AND_AUTHORS, nativeQuery = true)
-    List<Object[]> findAuthorsAndBooksAndGroupByLetter();
 }

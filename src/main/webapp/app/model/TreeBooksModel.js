@@ -1,7 +1,6 @@
 Ext.define('BM.model.TreeBooksModel', {
             extend: 'Ext.data.Model',
             fields: [
-                'leaf',
                 'name',
                 'howManyBooks',
                 {
@@ -13,9 +12,9 @@ Ext.define('BM.model.TreeBooksModel', {
                         }
                         var howManyBooks = record.get('howManyBooks');
                         var letter = record.get('name');
-                        var carte = howManyBooks === 1 ? 'carte' : 'carti';
+                        var carte = howManyBooks === 1 ? ' carte' : ' carti';
 
-                        return letter + ' (' + howManyBooks + ' ' + carte + ')';
+                        return letter + ' (' + howManyBooks + carte + ')';
                     }
                 }
             ]

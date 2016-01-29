@@ -16,10 +16,6 @@ Ext.define('BM.controller.TreeAutoriController', {
                 {
                     ref: 'leftTreeArea',
                     selector: 'lefttree'
-                },
-                {
-                    ref: 'changeViewButton',
-                    selector: 'lefttree tool[itemId=toggleTool]'
                 }
             ],
 
@@ -27,38 +23,12 @@ Ext.define('BM.controller.TreeAutoriController', {
                 var me = this;
                 me.control({
                             'treeautori': {
-                                beforeload: this.loadParamsToRequest,
                                 itemclick: this.itemClick,
                                 itemcontextmenu: this.itemContextMenu,
                                 containercontextmenu: this.showMenu
                             }
                         });
                 me.callParent(arguments);
-            },
-
-            loadParamsToRequest: function(store, operation, eOpts) {
-                var node = operation.node;
-                var displayMode = this.getTree().displayMode;
-
-                Ext.Ajax.request({
-                    url: '/autor/tree',
-                    method: 'GET',
-                    params: {
-                        nodeId: node.get('name'),
-                        root: node.isRoot(),
-                        displayMode: displayMode
-                    },
-                    scope: this,
-                    success: function (result, request) {
-                        debugger;
-                        //TODO
-                    },
-                    failure: function (result, request) {
-                        createErrorWindow(result);
-                    }
-                });
-                //this will prevent the load of the store
-                return false;
             },
 
             itemClick: function(tree, recordItem, item, index, e, eOpts) {
@@ -101,13 +71,6 @@ Ext.define('BM.controller.TreeAutoriController', {
                 var me = this;
                 if (me.getTree() === me.getActiveItem()) {
                     me.refreshTreeInternal();
-                }
-            },
-
-            changeView: function(toolItem, event, eOpts) {
-                var me = this;
-                if (me.getTree() === me.getActiveItem()) {
-                    me.changeViewInternal();
                 }
             }
         });

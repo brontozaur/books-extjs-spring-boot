@@ -1,7 +1,6 @@
 Ext.define('BM.model.TreeAutoriModel', {
             extend: 'Ext.data.Model',
             fields: [
-                'leaf',
                 'name',
                 'howManyAutors',
                 'howManyBooks',
@@ -13,15 +12,8 @@ Ext.define('BM.model.TreeAutoriModel', {
                     		return record.get('name');
                     	}
                         var howManyBooks = record.get('howManyBooks');
-                        if (Ext.isEmpty(record.get('leaf')) || record.get('leaf') === false) {
-                            var letter = record.get('name');
-                            var howManyAutors = record.get('howManyAutors');
-                            var autor = howManyAutors === 1 ? 'autor' : 'autori';
-                            var carte = howManyBooks === 1 ? 'carte' : 'carti';
-
-                            return letter + ' (' + howManyAutors + ' ' + autor + ', ' + howManyBooks + ' ' + carte + ')';
-                        }
-                        return record.get('name') + ' (' + howManyBooks + ')';
+                        var carte = howManyBooks === 1 ? ' carte' : ' carti';
+                        return record.get('name') + ' (' + howManyBooks + carte + ')';
                     }
                 }
             ]

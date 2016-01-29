@@ -26,15 +26,8 @@ public class EdituraController {
             return edituri;
     }
 
-    @RequestMapping(value = "/tree-load", method = RequestMethod.GET)
-    public List<Node> getEdituriTree(){
-        return new ArrayList<>();
-    }
-
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    public List<Node> getEdituriTree(@RequestParam String nodeId,
-                                    @RequestParam String root,
-                                    @RequestParam String displayMode){
+    public List<Node> getEdituriTree(){
         return new ArrayList<>();
     }
 
