@@ -44,8 +44,8 @@ public class AutorController {
             bean.setLeaf(true);
             bean.setLoaded(true);
             bean.setHowManyBooks(booksWithNoAuthor);
-            bean.setName("Fara autor");
-            bean.setId("Fara autor");
+            bean.setName(Node.NOT_AVAILABLE);
+            bean.setId(Node.NOT_AVAILABLE);
             autori.add(bean);
         }
 

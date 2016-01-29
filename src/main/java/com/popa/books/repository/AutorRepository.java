@@ -32,7 +32,8 @@ public interface AutorRepository  extends CrudRepository<Autor, Long>{
 
     //solution#3 - using HQL query with custom DTO. Definately the best one!
 
-    String HQL_QUERY_AND_NODE_SQL = "SELECT new com.popa.books.model.node.NodeSQL(a.nume, (SELECT COUNT(1) FROM Book b WHERE b.author.autorId = a.autorId)) FROM Autor a";
+    String HQL_QUERY_AND_NODE_SQL = "SELECT new com.popa.books.model.node.NodeSQL(a.nume, (SELECT COUNT(1) FROM Book b WHERE b.author.autorId = a.autorId)) FROM Autor a " +
+            "where a.nume IS NOT NULL AND ((SELECT COUNT(1) FROM Book b WHERE b.author.autorId = a.autorId) > 0)";
     @Query(value = HQL_QUERY_AND_NODE_SQL)
     List<NodeSQL> findAutorsAndBookCountUsingHQLAndNodeSQL();
 

@@ -3,6 +3,7 @@ package com.popa.books.controller.book;
 import com.popa.books.config.BooksApplicationProperties;
 import com.popa.books.model.Book;
 import com.popa.books.model.BookCover;
+import com.popa.books.model.node.BookNode;
 import com.popa.books.model.node.Node;
 import com.popa.books.repository.*;
 import com.popa.books.util.RequestUtils;
@@ -49,7 +50,35 @@ public class BookController {
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     public List<Node> getBooksTree(){
-        return new ArrayList<>();
+
+        List<Node> books =  new ArrayList<>();
+
+        // we count books with no name filled
+        Long booksWithNoTitle = repository.countByTitleIsNull();
+
+        if (booksWithNoTitle > 0) {
+            BookNode bean = new BookNode();
+            bean.setLeaf(true);
+            bean.setLoaded(true);
+            bean.setHowManyBooks(booksWithNoTitle);
+            bean.setName(Node.NOT_AVAILABLE);
+            bean.setId(Node.NOT_AVAILABLE);
+            books.add(bean);
+        }
+
+        List<Object[]> nodeSQLs = repository.findBooksAndCount();
+
+        for (Object[] objects : nodeSQLs) {
+            BookNode bean = new BookNode();
+            bean.setLeaf(true);
+            bean.setLoaded(true);
+            bean.setName(objects[0].toString());
+            bean.setId(objects[0].toString());
+            bean.setHowManyBooks(Long.valueOf(objects[1].toString()));
+            books.add(bean);
+        }
+
+        return books;
     }
 
     @Transactional

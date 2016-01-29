@@ -8,5 +8,5 @@ public interface Node {
     
     boolean isLoaded();
     
-    String ALL = "#";
+    String NOT_AVAILABLE = "#";
 }

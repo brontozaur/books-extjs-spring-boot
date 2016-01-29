@@ -1,7 +1,10 @@
 package com.popa.books.controller.editura;
 
 import com.popa.books.model.Editura;
+import com.popa.books.model.node.EdituraNode;
 import com.popa.books.model.node.Node;
+import com.popa.books.model.node.NodeSQL;
+import com.popa.books.repository.BookRepository;
 import com.popa.books.repository.EdituraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,9 @@ public class EdituraController {
     @Autowired
     private EdituraRepository repository;
 
+    @Autowired
+    private BookRepository bookRepository;
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Editura> getAllEdituri(){
             List<Editura> edituri =  new ArrayList<>();
@@ -28,7 +34,33 @@ public class EdituraController {
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     public List<Node> getEdituriTree(){
-        return new ArrayList<>();
+
+        List<Node> edituri =  new ArrayList<>();
+
+        Long booksWithNoEditura = bookRepository.countByEdituraIsNull();
+        if (booksWithNoEditura > 0) {
+            EdituraNode bean = new EdituraNode();
+            bean.setLeaf(true);
+            bean.setLoaded(true);
+            bean.setHowManyBooks(booksWithNoEditura);
+            bean.setName(Node.NOT_AVAILABLE);
+            bean.setId(Node.NOT_AVAILABLE);
+            edituri.add(bean);
+        }
+
+        List<NodeSQL> nodeSQLs = repository.findEdituriAndBookCount();
+
+        for (NodeSQL nodeSQL : nodeSQLs) {
+            EdituraNode bean = new EdituraNode();
+            bean.setLeaf(true);
+            bean.setLoaded(true);
+            bean.setHowManyBooks(nodeSQL.getCount());
+            bean.setName(nodeSQL.getName());
+            bean.setId(nodeSQL.getName());
+            edituri.add(bean);
+        }
+
+        return edituri;
     }
 
     @RequestMapping(method = RequestMethod.POST)

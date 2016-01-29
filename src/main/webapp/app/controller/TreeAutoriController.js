@@ -45,7 +45,7 @@ Ext.define('BM.controller.TreeAutoriController', {
                             }
                             var numeAutor = record.get('authorName');
                             if (!numeAutor){
-                                if ("Fara autor" === treeItemValue){
+                                if ("#" === treeItemValue){
                                     return true;
                                 }
                             	numeAutor = '';

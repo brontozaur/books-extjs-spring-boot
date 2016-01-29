@@ -45,6 +45,9 @@ Ext.define('BM.controller.TreeEdituraController', {
                             }
                             var numeEditura = record.get('numeEditura');
                             if (!numeEditura){
+                                if ("#" === treeItemValue){
+                                    return true;
+                                }
                             	numeEditura = '';
                             }
                             numeEditura = numeEditura.toLowerCase();

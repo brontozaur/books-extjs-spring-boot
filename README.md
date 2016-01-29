@@ -60,9 +60,9 @@ Currently, some of the cool technologies implemented in this application are:
     
 <i>Future plans</i>
   
-* Fix the left tree display
-* Fix the books grid pagination
+* ~~Fix the left tree display~~
 * ~~Fix the wrong label for left tree view mode~~
+* Fix the books grid pagination
 * Introduce ExtJS menus for all grids
 * Info area redesign, and upload image display on left side, not center
 * Spring security with login form
@@ -77,6 +77,13 @@ Currently, some of the cool technologies implemented in this application are:
 * Junit tests
 * Selenium tests
 * Quartz scheduler to clean-up the upload folder
+* Create a new tab containing a tree (files, directory listing?) to play around with more complicated tree structures
+* Cleanup the imports
+* Reload left tree when new book is created
+* Create info area for authors, categories, publishing houses, to display the associated books
+* Display only items with records in the left tree (e.g. authors with books)
+* Create filtering for authors with books only, etc
+* Fix the books grid filtering to take into account current tree selection
     
 <i>More future plans :-) </i>
   

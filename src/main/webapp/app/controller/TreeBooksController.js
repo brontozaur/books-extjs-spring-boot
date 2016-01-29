@@ -45,6 +45,9 @@ Ext.define('BM.controller.TreeBooksController', {
                             }
                             var numeCarte = record.get('title');
                             if (!numeCarte){
+                                if ("#" === treeItemValue){
+                                    return true;
+                                }
                             	numeCarte = '';
                             }
                             numeCarte = numeCarte.toLowerCase();                            
