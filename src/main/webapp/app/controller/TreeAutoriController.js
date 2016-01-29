@@ -38,9 +38,27 @@ Ext.define('BM.controller.TreeAutoriController', {
 
             loadParamsToRequest: function(store, operation, eOpts) {
                 var node = operation.node;
-                store.proxy.extraParams.nodeId = node.get('name');
-                store.proxy.extraParams.root = node.isRoot();
-                store.proxy.extraParams.displayMode = this.getTree().displayMode;
+                var displayMode = this.getTree().displayMode;
+
+                Ext.Ajax.request({
+                    url: '/autor/tree',
+                    method: 'GET',
+                    params: {
+                        nodeId: node.get('name'),
+                        root: node.isRoot(),
+                        displayMode: displayMode
+                    },
+                    scope: this,
+                    success: function (result, request) {
+                        debugger;
+                        //TODO
+                    },
+                    failure: function (result, request) {
+                        createErrorWindow(result);
+                    }
+                });
+                //this will prevent the load of the store
+                return false;
             },
 
             itemClick: function(tree, recordItem, item, index, e, eOpts) {
@@ -57,6 +75,9 @@ Ext.define('BM.controller.TreeAutoriController', {
                             }
                             var numeAutor = record.get('authorName');
                             if (!numeAutor){
+                                if ("Fara autor" === treeItemValue){
+                                    return true;
+                                }
                             	numeAutor = '';
                             }
                             numeAutor = numeAutor.toLowerCase();                              

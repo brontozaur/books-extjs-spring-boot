@@ -2,22 +2,22 @@ package com.popa.books.model.node;
 
 public class AutorNode extends AbstractNode {
 
-    private int howManyAutors;
-    private int howManyBooks;
+    private long howManyAutors;
+    private long howManyBooks;
 
-    public int getHowManyAutors() {
+    public long getHowManyAutors() {
         return howManyAutors;
     }
 
-    public void setHowManyAutors(int howManyAutors) {
+    public void setHowManyAutors(long howManyAutors) {
         this.howManyAutors = howManyAutors;
     }
 
-    public int getHowManyBooks() {
+    public long getHowManyBooks() {
         return howManyBooks;
     }
 
-    public void setHowManyBooks(int howManyBooks) {
+    public void setHowManyBooks(long howManyBooks) {
         this.howManyBooks = howManyBooks;
     }
 }

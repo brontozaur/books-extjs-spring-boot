@@ -3,13 +3,14 @@ package com.popa.books.controller.autor;
 import com.popa.books.model.Autor;
 import com.popa.books.model.node.AutorNode;
 import com.popa.books.model.node.Node;
+import com.popa.books.model.node.AutorNodeSQL;
 import com.popa.books.repository.AutorRepository;
+import com.popa.books.repository.BookRepository;
 import com.popa.books.util.RequestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class AutorController {
 
     @Autowired
     private AutorRepository repository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Autor> getAllAutori(){
@@ -37,19 +41,75 @@ public class AutorController {
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     public List<Node> getAutoriTree(@RequestParam String nodeId,
-                                    @RequestParam String root,
+                                    @RequestParam Boolean root,
                                     @RequestParam String displayMode){
         return loadAutori(nodeId, root, displayMode);
     }
 
-    private List<Node> loadAutori(String nodeId, String root, String displayMode) {
+    private List<Node> loadAutori(String nodeId, Boolean root, String displayMode) {
+        final boolean isRoot = root != null && Boolean.valueOf(root);
+        final boolean isFlatMode = "flat".equals(displayMode);
+        if (isRoot || StringUtils.isEmpty(nodeId)) {
+            if (isFlatMode) {
+                //authors and
+                return getTreeDataForFlatMode();
+            } else {
+                //letter mode
+                return getTreeDataLetters();
+            }
+        } else {
+            return getAuthorsForALetter(nodeId);
+        }
+    }
+
+    private List<Node> getAuthorsForALetter(final String letter) {
         List<Node> autori =  new ArrayList<>();
-        AutorNode node = new AutorNode();
-        node.setHowManyAutors(2);
-        node.setHowManyBooks(1);
-        node.setLeaf(true);
-        node.setName("Autor node");
-        autori.add(node);
+//TODO
+        return autori;
+    }
+
+    private List<Node> getTreeDataLetters() {
+        List<Node> autori =  new ArrayList<>();
+        List<Object[]> autorNodeSQLs = repository.findAuthorsAndBooksAndGroupByLetter();
+        for (Object[] autorNodeSQL : autorNodeSQLs) {
+            AutorNode bean = new AutorNode();
+            bean.setLeaf(false);
+            bean.setLoaded(false);
+            bean.setHowManyBooks(Long.valueOf(autorNodeSQL[1].toString()));
+            bean.setHowManyAutors(Long.valueOf(autorNodeSQL[2].toString()));
+            bean.setName(autorNodeSQL[0].toString());
+            bean.setId(autorNodeSQL[0].toString());
+            autori.add(bean);
+        }
+        return autori;
+    }
+
+    private List<Node> getTreeDataForFlatMode(){
+        List<Node> autori =  new ArrayList<>();
+
+        // we count books without authors first
+        Long booksWithNoAuthor = bookRepository.countByAuthorIsNull();
+        if (booksWithNoAuthor > 0) {
+            AutorNode bean = new AutorNode();
+            bean.setLeaf(true);
+            bean.setLoaded(true);
+            bean.setHowManyBooks(booksWithNoAuthor);
+            bean.setName("Fara autor");
+            bean.setId("Fara autor");
+            autori.add(bean);
+        }
+
+        List<AutorNodeSQL> autorNodeSQLs = repository.findAutorsAndBookCountUsingHQLAndNodeSQL();
+
+        for (AutorNodeSQL autorNodeSQL : autorNodeSQLs) {
+            AutorNode bean = new AutorNode();
+            bean.setLeaf(true);
+            bean.setLoaded(true);
+            bean.setHowManyBooks(autorNodeSQL.getHowManyBooks());
+            bean.setName(autorNodeSQL.getAuthorName());
+            bean.setId(autorNodeSQL.getAuthorName());
+            autori.add(bean);
+        }
         return autori;
     }
 
