@@ -27,7 +27,7 @@ import java.util.Map;
  * 404 errors are handled by {@link com.popa.books.config.CustomErrorPageHandler}
  */
 @RestController
-public class CustomErrorController implements ErrorController{
+public class CustomErrorController implements ErrorController {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomErrorController.class);
 
@@ -75,12 +75,12 @@ public class CustomErrorController implements ErrorController{
         result.put("protocol", request.getProtocol());
         result.put("accept", request.getHeader("accept"));
         StringBuilder parameters = new StringBuilder();
-        for (Enumeration<String> en = request.getParameterNames(); en.hasMoreElements();) {
+        for (Enumeration<String> en = request.getParameterNames(); en.hasMoreElements(); ) {
             String parameter = en.nextElement();
-            parameters.append(parameter).append(": ").append(request.getParameter(parameter)).append("\n");
+            parameters.append(" ").append(parameter).append(": ").append(request.getParameter(parameter)).append(", ");
         }
-        if (parameters.length() >0) {
-            parameters.deleteCharAt(parameters.length()-1);
+        if (parameters.length() > 0) {
+            parameters.deleteCharAt(parameters.length() - 2);
         } else {
             parameters.append("No parameters for this request");
         }
