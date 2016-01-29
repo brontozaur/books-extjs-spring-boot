@@ -2,6 +2,8 @@ package com.popa.books.controller;
 
 import com.popa.books.config.BooksApplicationProperties;
 import com.popa.books.model.api.JsonErrorDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -10,8 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Map;
 
 /**
@@ -22,6 +28,8 @@ import java.util.Map;
  */
 @RestController
 public class CustomErrorController implements ErrorController{
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomErrorController.class);
 
     private static final String PATH = "/error";
 
@@ -46,6 +54,38 @@ public class CustomErrorController implements ErrorController{
     private Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
         RequestAttributes requestAttributes = new ServletRequestAttributes(request);
         Map<String, Object> result = errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
+        try {
+            String url = new URL(request.getScheme(),
+                    request.getServerName(),
+                    request.getServerPort(),
+                    request.getContextPath()).toString();
+            url += request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI);
+            if (request.getQueryString() != null) {
+                url += '?' + request.getQueryString();
+            }
+            result.put("url", url);
+        } catch (MalformedURLException e) {
+            logger.error(e.getMessage(), e);
+            result.put("url", "error detecting url");
+        }
+        result.put("method", request.getMethod());
+        result.put("serverInfo", request.getServletContext().getServerInfo());
+        result.put("realPath", request.getServletContext().getRealPath(""));
+        result.put("userAgent", request.getHeader("user-agent"));
+        result.put("protocol", request.getProtocol());
+        result.put("accept", request.getHeader("accept"));
+        StringBuilder parameters = new StringBuilder();
+        for (Enumeration<String> en = request.getParameterNames(); en.hasMoreElements();) {
+            String parameter = en.nextElement();
+            parameters.append(parameter).append(": ").append(request.getParameter(parameter)).append("\n");
+        }
+        if (parameters.length() >0) {
+            parameters.deleteCharAt(parameters.length()-1);
+        } else {
+            parameters.append("No parameters for this request");
+        }
+        result.put("parameters", parameters.toString());
+
         return result;
     }
 

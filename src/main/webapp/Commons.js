@@ -97,9 +97,18 @@ function fillErrorDetailsOnWindow(window, parsedResponse) {
         '\n-----------------'+
         '\n\t Mesaj: '+ parsedResponse.message +
         '\n\t Data si ora: '+ parsedResponse.timeStamp +
-        '\n\t Request method: '+ parsedResponse.method +
-        '\n\t Status: '+ parsedResponse.status +
-        '\n\n Stracktrace:\n '+ parsedResponse.trace);
+        '\n\t URL: '+ parsedResponse.url +
+        '\n\t Parameters: '+ parsedResponse.parameters +
+        '\n\t HTTP method: '+ parsedResponse.method +
+        '\n\t Status: '+ parsedResponse.status + ' (' + parsedResponse.statusDecoded + ')' +
+        '\n\t Accept: '+ parsedResponse.accept +
+        '\n\t Server info: '+ parsedResponse.serverInfo +
+        '\n\t Cale reala: '+ parsedResponse.realPath +
+        '\n\t User agent: '+ parsedResponse.userAgent +
+        '\n\t Protocol: '+ parsedResponse.protocol +
+        '\n\n Stracktrace:' +
+        '\n-----------------'+
+        '\n' + parsedResponse.trace);
 }
 
 function getFirstExpandedNode(root) {
