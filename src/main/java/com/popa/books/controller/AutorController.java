@@ -1,4 +1,4 @@
-package com.popa.books.controller.autor;
+package com.popa.books.controller;
 
 import com.popa.books.model.Autor;
 import com.popa.books.model.node.AutorNode;

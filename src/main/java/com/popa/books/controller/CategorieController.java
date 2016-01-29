@@ -1,4 +1,4 @@
-package com.popa.books.controller.categorie;
+package com.popa.books.controller;
 
 import com.popa.books.model.Categorie;
 import com.popa.books.repository.CategorieRepository;

@@ -1,4 +1,4 @@
-package com.popa.books.controller.editura;
+package com.popa.books.controller;
 
 import com.popa.books.model.Editura;
 import com.popa.books.model.node.EdituraNode;

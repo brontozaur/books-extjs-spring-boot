@@ -1,4 +1,4 @@
-package com.popa.books.controller.book;
+package com.popa.books.controller;
 
 import com.popa.books.config.BooksApplicationProperties;
 import com.popa.books.model.Book;
