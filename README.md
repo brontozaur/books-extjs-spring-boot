@@ -62,11 +62,13 @@ Currently, some of the cool technologies implemented in this application are:
   
 * ~~Fix the left tree display~~
 * ~~Fix the wrong label for left tree view mode~~
+* ~~Cleanup the imports in pom.xml~~
 * Fix the books grid pagination
 * Introduce ExtJS menus for all grids
 * Info area redesign, and upload image display on left side, not center
 * Spring security with login form
-* Creation of an error page
+* Creation of an error page and custom error handling using a custom ErrorController
+* Return a ResponseEntity for all REST requests, for error and also for success
 * File import for books, authors, etc
 * Export to .csv, .doc, .xls, .pdf
 * Form validation using vtypes
@@ -78,7 +80,6 @@ Currently, some of the cool technologies implemented in this application are:
 * Selenium tests
 * Quartz scheduler to clean-up the upload folder
 * Create a new tab containing a tree (files, directory listing?) to play around with more complicated tree structures
-* ~~Cleanup the imports in pom.xml~~
 * Reload left tree when new book is created
 * Create info area for authors, categories, publishing houses, to display the associated books
 * Display only items with records in the left tree (e.g. authors with books)
