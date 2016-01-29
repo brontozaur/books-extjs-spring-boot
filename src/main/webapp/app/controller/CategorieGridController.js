@@ -132,7 +132,7 @@ Ext.define('BM.controller.CategorieGridController', {
                                 },
 
                                 failure: function(form, action) {
-                                    createFormErrorWindow(action);
+                                    createErrorWindow(action.response);
                                 }
                             });
                 }

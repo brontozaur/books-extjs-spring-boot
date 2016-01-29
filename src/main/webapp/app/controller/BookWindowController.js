@@ -130,7 +130,7 @@ Ext.define('BM.controller.BookWindowController', {
                         },
 
                         failure: function(form, action) {
-                            createFormErrorWindow(action);
+                            createErrorWindow(action.response);
                         }
                     });
                 }
@@ -161,7 +161,7 @@ Ext.define('BM.controller.BookWindowController', {
                         },
 
                         failure: function(form, action) {
-                            createFormErrorWindow(action);
+                            createErrorWindow(action.response);
                         }
                     });
                 }

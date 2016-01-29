@@ -45,7 +45,8 @@ public class CustomErrorController implements ErrorController{
 
     private Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
         RequestAttributes requestAttributes = new ServletRequestAttributes(request);
-        return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
+        Map<String, Object> result = errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
+        return result;
     }
 
 }

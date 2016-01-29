@@ -71,16 +71,16 @@ function clearInfoAreaFields() {
     backLabel.setVisible(false);
 }
 
-function createFormErrorWindow(formAction) {
-    var window = Ext.widget('errorwindow');
-    var parsedResponse = JSON.parse(JSON.stringify(formAction.result));
-    fillErrorDetailsOnWindow(window, parsedResponse);
-    window.show();
-}
-
+/**
+ * Be careful to send the correct argument to this function.
+ * - for form.submit() request, send a action.response from failure(form, action) function
+ * - for Ajax.requests, send the result of the failure(result, request) function
+ * - for jQuery ajax calls, i didnt test it
+ * @param response
+ */
 function createErrorWindow(response) {
     var window = Ext.widget('errorwindow');
-    var parsedResponse = JSON.parse(JSON.stringify(response.responseText));
+    var parsedResponse = Ext.JSON.decode(response.responseText);
     fillErrorDetailsOnWindow(window, parsedResponse);
     window.show();
 }
@@ -97,8 +97,9 @@ function fillErrorDetailsOnWindow(window, parsedResponse) {
         '\n-----------------'+
         '\n\t Mesaj: '+ parsedResponse.message +
         '\n\t Data si ora: '+ parsedResponse.timeStamp +
+        '\n\t Request method: '+ parsedResponse.method +
         '\n\t Status: '+ parsedResponse.status +
-        '\n\n Stracktrace: '+ parsedResponse.trace);
+        '\n\n Stracktrace:\n '+ parsedResponse.trace);
 }
 
 function getFirstExpandedNode(root) {

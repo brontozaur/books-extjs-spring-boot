@@ -133,7 +133,7 @@ Ext.define('BM.controller.AutorGridController', {
                                 },
 
                                 failure: function(form, action) {
-                                    createFormErrorWindow(action);
+                                    createErrorWindow(action.response);
                                 }
                             });
                 }
