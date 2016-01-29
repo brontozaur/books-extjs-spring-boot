@@ -60,10 +60,8 @@ public class CustomErrorController implements ErrorController {
                     request.getServerPort(),
                     request.getContextPath()).toString();
             url += request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI);
-            if (request.getQueryString() != null) {
-                url += '?' + request.getQueryString();
-            }
             result.put("url", url);
+            //intentionally skip the params from request.getQueryString() here
         } catch (MalformedURLException e) {
             logger.error(e.getMessage(), e);
             result.put("url", "error detecting url");

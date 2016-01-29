@@ -80,7 +80,13 @@ function clearInfoAreaFields() {
  */
 function createErrorWindow(response) {
     var window = Ext.widget('errorwindow');
-    var parsedResponse = Ext.JSON.decode(response.responseText);
+    var parsedResponse;
+    try {
+        parsedResponse = Ext.JSON.decode(response.responseText);
+    } catch(e){
+        console.log("unable to decode the respoonse" + e);
+        parsedResponse = Ext.JSON.decode(JSON.stringify(response.responseText));
+    }
     fillErrorDetailsOnWindow(window, parsedResponse);
     window.show();
 }
@@ -90,25 +96,26 @@ function fillErrorDetailsOnWindow(window, parsedResponse) {
     var errorMessage = parsedResponse.message;
     if (!Ext.isEmpty(errorMessage)) {
         window.setErrorMessage("Eroare: " + errorMessage);
+        window.setStackTace('Detalii:' +
+            '\n-----------------'+
+            '\n\t Mesaj: '+ parsedResponse.message +
+            '\n\t Data si ora: '+ Ext.Date.format(parsedResponse.timeStamp) +
+            '\n\t URL: '+ parsedResponse.url +
+            '\n\t Parameters: '+ parsedResponse.parameters +
+            '\n\t HTTP method: '+ parsedResponse.method +
+            '\n\t Status: '+ parsedResponse.status + ' (' + parsedResponse.statusDecoded + ')' +
+            '\n\t Accept: '+ parsedResponse.accept +
+            '\n\t Server info: '+ parsedResponse.serverInfo +
+            '\n\t Cale reala: '+ parsedResponse.realPath +
+            '\n\t User agent: '+ parsedResponse.userAgent +
+            '\n\t Protocol: '+ parsedResponse.protocol +
+            '\n\n Stracktrace:' +
+            '\n-----------------'+
+            '\n' + parsedResponse.trace);
     } else {
         window.setErrorMessage('A intervenit o eroare!');
+        window.setStackTace(parsedResponse);
     }
-    window.setStackTace('Detalii:' +
-        '\n-----------------'+
-        '\n\t Mesaj: '+ parsedResponse.message +
-        '\n\t Data si ora: '+ parsedResponse.timeStamp +
-        '\n\t URL: '+ parsedResponse.url +
-        '\n\t Parameters: '+ parsedResponse.parameters +
-        '\n\t HTTP method: '+ parsedResponse.method +
-        '\n\t Status: '+ parsedResponse.status + ' (' + parsedResponse.statusDecoded + ')' +
-        '\n\t Accept: '+ parsedResponse.accept +
-        '\n\t Server info: '+ parsedResponse.serverInfo +
-        '\n\t Cale reala: '+ parsedResponse.realPath +
-        '\n\t User agent: '+ parsedResponse.userAgent +
-        '\n\t Protocol: '+ parsedResponse.protocol +
-        '\n\n Stracktrace:' +
-        '\n-----------------'+
-        '\n' + parsedResponse.trace);
 }
 
 function getFirstExpandedNode(root) {

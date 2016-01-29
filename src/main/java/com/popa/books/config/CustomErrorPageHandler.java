@@ -16,7 +16,8 @@ public class CustomErrorPageHandler implements EmbeddedServletContainerCustomize
     @Override
     public void customize(ConfigurableEmbeddedServletContainer container) {
         ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
+        ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/401.html");
 
-        container.addErrorPages(error404Page);
+        container.addErrorPages(error401Page, error404Page);
     }
 }
