@@ -78,12 +78,13 @@ Currently, some of the cool technologies implemented in this application are:
 * Selenium tests
 * Quartz scheduler to clean-up the upload folder
 * Create a new tab containing a tree (files, directory listing?) to play around with more complicated tree structures
-* Cleanup the imports
+* ~~Cleanup the imports in pom.xml~~
 * Reload left tree when new book is created
 * Create info area for authors, categories, publishing houses, to display the associated books
 * Display only items with records in the left tree (e.g. authors with books)
 * Create filtering for authors with books only, etc
 * Fix the books grid filtering to take into account current tree selection
+* Fix upload is lost when editing + save directly bug
     
 <i>More future plans :-) </i>
   
