@@ -2,7 +2,7 @@ Ext.define('BM.view.ErrorWindow', {
             extend: 'Ext.window.Window',
             alias: 'widget.errorwindow',
             height: 500,
-            width: 600,
+            width: 900,
             layout: 'border',
             items: [
                 {

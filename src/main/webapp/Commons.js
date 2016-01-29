@@ -73,26 +73,32 @@ function clearInfoAreaFields() {
 
 function createFormErrorWindow(formAction) {
     var window = Ext.widget('errorwindow');
-    var errorStackTrace = formAction.response.responseText;
-    window.setTitle('Mesaj de eroare');
-    window.setErrorMessage('A intervenit o eroare!');
-    window.setStackTace('Detalii:\n-----------------\n' + errorStackTrace);
+    var parsedResponse = JSON.parse(JSON.stringify(formAction.result));
+    fillErrorDetailsOnWindow(window, parsedResponse);
     window.show();
 }
 
 function createErrorWindow(response) {
     var window = Ext.widget('errorwindow');
-    var errorMessage = response.getAllResponseHeaders().error_message;
-    var errorRootCasue = response.getAllResponseHeaders().error_root_cause;
-    var errorStackTrace = response.getAllResponseHeaders().error_stacktrace;
-    window.setTitle('Mesaj de eroare');
+    var parsedResponse = JSON.parse(JSON.stringify(response.responseText));
+    fillErrorDetailsOnWindow(window, parsedResponse);
+    window.show();
+}
+
+function fillErrorDetailsOnWindow(window, parsedResponse) {
+    window.setTitle('A intervenit o eroare!');
+    var errorMessage = parsedResponse.message;
     if (!Ext.isEmpty(errorMessage)) {
-        window.setErrorMessage(errorMessage);
+        window.setErrorMessage("Eroare: " + errorMessage);
     } else {
         window.setErrorMessage('A intervenit o eroare!');
     }
-    window.setStackTace('Cauza:\n-----------------\n' + errorRootCasue + '\n\nDetalii:\n-----------------\n' + errorStackTrace);
-    window.show();
+    window.setStackTace('Detalii:' +
+        '\n-----------------'+
+        '\n\t Mesaj: '+ parsedResponse.message +
+        '\n\t Data si ora: '+ parsedResponse.timeStamp +
+        '\n\t Status: '+ parsedResponse.status +
+        '\n\n Stracktrace: '+ parsedResponse.trace);
 }
 
 function getFirstExpandedNode(root) {

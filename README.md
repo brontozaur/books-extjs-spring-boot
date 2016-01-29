@@ -67,7 +67,7 @@ Currently, some of the cool technologies implemented in this application are:
 * Introduce ExtJS menus for all grids
 * Info area redesign, and upload image display on left side, not center
 * Spring security with login form
-* Creation of an error page and custom error handling using a custom ErrorController
+* ~~Creation of an error page and custom error handling using a custom ErrorController~~
 * Return a ResponseEntity for all REST requests, for error and also for success
 * File import for books, authors, etc
 * Export to .csv, .doc, .xls, .pdf

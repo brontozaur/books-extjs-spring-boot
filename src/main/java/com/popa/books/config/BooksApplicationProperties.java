@@ -32,6 +32,13 @@ public class BooksApplicationProperties {
     @Value("${covers.format}")
     private String coversFormat;
 
+    @Value("${server.error.include-stacktrace}")
+    private String isIncludingStacktrace;
+
+    public boolean isIncludingStacktrace() {
+        return "always".equals(isIncludingStacktrace);
+    }
+
     public String getCoversFormat() {
         return coversFormat;
     }
