@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * We map only 404 errors to an error page. Other errors will be handled by the
- * {@linkplain com.popa.books.controller.CustomErrorController}
+ * {@linkplain CustomErrorController}
  */
 @Component
 public class CustomErrorPageHandler implements EmbeddedServletContainerCustomizer {

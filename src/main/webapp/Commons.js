@@ -96,25 +96,39 @@ function fillErrorDetailsOnWindow(window, parsedResponse) {
     var errorMessage = parsedResponse.message;
     if (!Ext.isEmpty(errorMessage)) {
         window.setErrorMessage("Eroare: " + errorMessage);
-        window.setStackTace('Detalii:' +
+        var details = 'Detalii:' +
             '\n-----------------'+
             '\n\t Mesaj: '+ parsedResponse.message +
             '\n\t Data si ora: '+ Ext.Date.format(parsedResponse.timeStamp) +
-            '\n\t URL: '+ parsedResponse.url +
-            '\n\t Parameters: '+ parsedResponse.parameters +
+            '\n\t URL: '+ parsedResponse.url;
+        if (!Ext.isEmpty(parsedResponse.parameters)) {
+            var params = parsedResponse.parameters.split("$$");
+            details += '\n\t Parameters: ';
+            for (var i = 0; i<params.length; i++) {
+                details += '\n\t\t' + params[i];
+            }
+        } else {
+            details += '\n\t Parameters: This request had no parameters';
+        }
+
+       details +=
             '\n\t HTTP method: '+ parsedResponse.method +
             '\n\t Status: '+ parsedResponse.status + ' (' + parsedResponse.statusDecoded + ')' +
             '\n\t Accept: '+ parsedResponse.accept +
             '\n\t Server info: '+ parsedResponse.serverInfo +
             '\n\t Cale reala: '+ parsedResponse.realPath +
             '\n\t User agent: '+ parsedResponse.userAgent +
-            '\n\t Protocol: '+ parsedResponse.protocol +
-            '\n\n Stracktrace:' +
-            '\n-----------------'+
-            '\n' + parsedResponse.trace);
+            '\n\t Protocol: '+ parsedResponse.protocol;
+        if (!Ext.isEmpty(parsedResponse.trace)) {
+            details +=
+                '\n\n Stracktrace:'+
+                '\n-----------------'+
+                '\n' + parsedResponse.trace.split("		");
+        }
+        window.setErrorDetails(details);
     } else {
         window.setErrorMessage('A intervenit o eroare!');
-        window.setStackTace(parsedResponse);
+        window.setErrorDetails(parsedResponse);
     }
 }
 
@@ -177,7 +191,7 @@ function setCurrentTheme(themeName){
     console.log('active theme is: ' + themeName);
     for (var idx in themes){
         var theme = themes[idx];
-        document.getElementById(theme).disabled = true;;
+        document.getElementById(theme).disabled = true;
     }
     document.getElementById(themeName).disabled = false;
 }

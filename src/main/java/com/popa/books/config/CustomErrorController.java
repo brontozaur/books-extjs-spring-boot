@@ -1,6 +1,5 @@
-package com.popa.books.controller;
+package com.popa.books.config;
 
-import com.popa.books.config.BooksApplicationProperties;
 import com.popa.books.model.api.JsonErrorDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,12 +74,10 @@ public class CustomErrorController implements ErrorController {
         StringBuilder parameters = new StringBuilder();
         for (Enumeration<String> en = request.getParameterNames(); en.hasMoreElements(); ) {
             String parameter = en.nextElement();
-            parameters.append(" ").append(parameter).append(": ").append(request.getParameter(parameter)).append(", ");
+            parameters.append(parameter).append(": '").append(request.getParameter(parameter)).append("'").append("$$");
         }
         if (parameters.length() > 0) {
-            parameters.deleteCharAt(parameters.length() - 2);
-        } else {
-            parameters.append("No parameters for this request");
+            parameters.delete(parameters.lastIndexOf("$$"), parameters.length());
         }
         result.put("parameters", parameters.toString());
 

@@ -36,7 +36,7 @@ Ext.define('BM.view.ErrorWindow', {
                     items: [
                         {
                             xtype: 'textarea',
-                            itemId: 'errorStackTrace',
+                            itemId: 'errorDetails',
                             preventScrollbars: false,
                             anchor: '100% 100%'
                         }
@@ -57,8 +57,8 @@ Ext.define('BM.view.ErrorWindow', {
                 var errorNameField = Ext.ComponentQuery.query('errorwindow label[itemId=errorName]')[0];
                 errorNameField.setText(errorMessage/* .match(/(.{1,40})/g) */);
             },
-            setStackTace: function(stackTrace) {
-                var errorStackTraceField = Ext.ComponentQuery.query('errorwindow textarea[itemId=errorStackTrace]')[0];
-                errorStackTraceField.setValue(stackTrace.split("		"));
+            setErrorDetails: function(details) {
+                var detailsField = Ext.ComponentQuery.query('errorwindow textarea[itemId=errorDetails]')[0];
+                detailsField.setValue(details);
             }
         });
