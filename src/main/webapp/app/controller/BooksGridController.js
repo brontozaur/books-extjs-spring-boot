@@ -12,8 +12,8 @@ Ext.define('BM.controller.BooksGridController', {
             init: function() {
                 this.control({
                             'booksgrid': {
-                                selectionchange: this.changeselection,
-                                celldblclick: this.celldblclick,
+                                selectionchange: this.changeSelection,
+                                celldblclick: this.cellDoubleClick,
                                 itemkeydown: this.handleKeyPress
                             },
                             'booksgrid button[action=add-book]': {
@@ -34,14 +34,14 @@ Ext.define('BM.controller.BooksGridController', {
                         });
             },
 
-            changeselection: function(selModel, selected, eOpts) {
+            changeSelection: function(selModel, selected, eOpts) {
                 if (selected.length > 0) {
                     enablebuttons(true);
                     this.fillInfoArea(selected[0]);
                 }
             },
 
-            celldblclick: function(grid, td, cellIndex, record, tr, rowIndex, e) {
+            cellDoubleClick: function(grid, td, cellIndex, record, tr, rowIndex, e) {
                 var modButton = Ext.ComponentQuery.query('booksgrid button[action=mod-book]')[0];
                 this.modBook(modButton);
             },
@@ -105,38 +105,16 @@ Ext.define('BM.controller.BooksGridController', {
                 genField.setVisible(!Ext.isEmpty(genField.getValue()));
 
                 var frontImageContainer = bookInfo.down('image[itemId=frontCoverInfo]');
-                var backImageContainer = bookInfo.down('image[itemId=backCoverInfo]');
+                var hasFrontCover = !Ext.isEmpty(record.get('frontCover'));
+                bookInfo.down('label[itemId=frontCoverLabel]').setVisible(hasFrontCover);
+                frontImageContainer.setVisible(hasFrontCover);
+                frontImageContainer.setSrc('data:image/jpeg;base64,' + record.get('frontCover'));
 
-                Ext.Ajax.request({
-                    url: 'cover',
-                    method: 'GET',
-                    scope: this,
-                    params: {
-                        bookId: record.get('bookId')
-                    },
-                    success: function (result, request) {
-                        var responseDecoded = Ext.JSON.decode(result.responseText);
-                        //update front cover fields
-                        var hasFrontCover = !Ext.isEmpty(responseDecoded.frontCoverPath);
-                        var label = bookInfo.down('label[itemId=frontCoverLabel]');
-                        label.setVisible(hasFrontCover);
-                        frontImageContainer.setVisible(hasFrontCover);
-                        if (hasFrontCover) {
-                            frontImageContainer.setSrc(responseDecoded.frontCoverPath);
-                        }
-                        //update back cover fields
-                        var hasBackCover = !Ext.isEmpty(responseDecoded.backCoverPath);
-                        var label = bookInfo.down('label[itemId=backCoverLabel]');
-                        label.setVisible(hasBackCover);
-                        backImageContainer.setVisible(hasBackCover);
-                        if (hasBackCover) {
-                            backImageContainer.setSrc(responseDecoded.backCoverPath);
-                        }
-                    },
-                    failure: function (result, request) {
-                        createErrorWindow(result);
-                    }
-                });
+                var backImageContainer = bookInfo.down('image[itemId=backCoverInfo]');
+                var hasBackCover = !Ext.isEmpty(record.get('backCover'));
+                bookInfo.down('label[itemId=backCoverLabel]').setVisible(hasBackCover);
+                backImageContainer.setVisible(hasBackCover);
+                backImageContainer.setSrc('data:image/jpeg;base64,' + record.get('backCover'));
             },
 
             addBook: function(button, clickEvent, options) {
@@ -145,10 +123,10 @@ Ext.define('BM.controller.BooksGridController', {
             },
 
             modBook: function(button, clickEvent, options) {
+                var grid = Ext.ComponentQuery.query('booksgrid')[0];
                 var delButton = Ext.ComponentQuery.query('booksgrid button[action=del-book]')[0];
                 delButton.disable();
-                var window = Ext.widget('bookwindow');
-                var selectionModel = button.up('viewport').down('booksgrid').getSelectionModel();
+                var selectionModel = grid.getSelectionModel();
                 if (!selectionModel.hasSelection) {
                     Ext.Msg.show({
                                 title: 'Carte neselectata',
@@ -159,40 +137,40 @@ Ext.define('BM.controller.BooksGridController', {
                             });
                     return;
                 }
-                var selectedBook = selectionModel.getSelection()[0];
-                var bookForm = window.down('form[itemId=bookform]');
-                bookForm.loadRecord(selectedBook);
-                var coversComponent = window.down('component[itemId=cardLayoutPanel]');
-
-                //load covers
-                Ext.Ajax.request({
-                    url: 'cover',
-                    method: 'GET',
+                var selection = selectionModel.getSelection()[0];
+                var bookId = selection.get('bookId');
+                BM.model.BookModel.load(bookId, {
                     scope: this,
-                    params: {
-                        bookId: selectedBook.get('bookId')
+                    failure: function(record, operation) {
+                        grid.getStore().remove(selection);
+                        var error = {
+                            windowTitle: 'Error loading book with record [' + operation.id + ']',
+                            httpStatus: operation.error.status + ' (' + operation.error.statusText + ')',
+                            errorMessage: operation.error.status + ' (' + operation.error.statusText + ')',
+                            method: operation.request.method,
+                            url: operation.request.url
+                        };
+                        createGenericErrorWindow(error);
                     },
-                    success: function (result, request) {
-                        var responseDecoded = Ext.JSON.decode(result.responseText);
-
-                        //update front cover fields
-                        var frontCoverUploadForm = coversComponent.down('form[itemId=frontUploadform]');
-                        if (!Ext.isEmpty(responseDecoded.frontCoverPath)) {
-                            frontCoverUploadForm.down('image[itemId=frontCoverPreview]').setSrc(responseDecoded.frontCoverPath);
+                    success: function(record, operation) {
+                        var window = Ext.widget('bookwindow');
+                        var bookForm = window.down('form[itemId=bookform]');
+                        bookForm.loadRecord(record);
+                        var coversComponent = window.down('component[itemId=cardLayoutPanel]');
+                        if (!Ext.isEmpty(record.get('frontCover'))) {
+                            var frontCoverUploadForm = coversComponent.down('form[itemId=frontUploadform]');
+                            frontCoverUploadForm.down('image[itemId=frontCoverPreview]').setSrc('data:image/jpeg;base64,' + record.get('frontCover'));
                         }
-
-                        //update back cover fields
-                        var backCoverUploadForm = coversComponent.down('form[itemId=backUploadform]');
-                        if (!Ext.isEmpty(responseDecoded.backCoverPath)) {
-                            backCoverUploadForm.down('image[itemId=backCoverPreview]').setSrc(responseDecoded.backCoverPath);
+                        if (!Ext.isEmpty(record.get('backCover'))) {
+                            var backCoverUploadForm = coversComponent.down('form[itemId=backUploadform]');
+                            backCoverUploadForm.down('image[itemId=backCoverPreview]').setSrc('data:image/jpeg;base64,' + record.get('backCover'));
                         }
+                        window.show();
                     },
-                    failure: function (result, request) {
-                        createErrorWindow(result);
+                    callback: function(record, operation, success) {
+                        //nothing to do here
                     }
                 });
-
-                window.show();
             },
 
             delBook: function(button, clickEvent, options) {

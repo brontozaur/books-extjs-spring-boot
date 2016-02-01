@@ -43,6 +43,11 @@ public class BookController {
     @Autowired
     private BooksApplicationProperties props;
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Book getBook(@PathVariable Long id){
+        return repository.findOne(id);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Book> getAllBooks(){
         return repository.findAll();

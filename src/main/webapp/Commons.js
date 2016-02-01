@@ -71,6 +71,30 @@ function clearInfoAreaFields() {
     backLabel.setVisible(false);
 }
 
+function createGenericErrorWindow(dataArray) {
+    var window = Ext.widget('errorwindow');
+    if (dataArray['windowTitle']) {
+        window.setTitle(dataArray['windowTitle']);
+    } else {
+        window.setTitle('A intervenit o eroare');
+    }
+
+    if (dataArray['errorMessage']) {
+        window.setErrorMessage("Eroare: " + dataArray['errorMessage']);
+    } else {
+        window.setErrorMessage('A intervenit o eroare');
+    }
+
+    var details = 'Details:';
+    for (var key in dataArray) {
+        if (key !== 'windowTitle' && key !== 'errorMessage') {
+            details += '\n\t' + key + ': ' + dataArray[key];
+        }
+    }
+    window.setErrorDetails(details);
+    window.show();
+}
+
 /**
  * Be careful to send the correct argument to this function.
  * - for form.submit() request, send a action.response from failure(form, action) function
@@ -84,7 +108,7 @@ function createErrorWindow(response) {
     try {
         parsedResponse = Ext.JSON.decode(response.responseText);
     } catch(e){
-        console.log("unable to decode the respoonse" + e);
+        console.log("unable to decode the response" + e);
         parsedResponse = Ext.JSON.decode(JSON.stringify(response.responseText));
     }
     fillErrorDetailsOnWindow(window, parsedResponse);

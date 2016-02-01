@@ -1,5 +1,10 @@
 Ext.define('BM.model.BookModel', {
             extend: 'Ext.data.Model',
+            idProperty: 'bookId',
+            proxy: {
+                type: 'rest',
+                url: '/book'
+            },
             fields: [
                 'bookId',
                 'author',
@@ -8,8 +13,6 @@ Ext.define('BM.model.BookModel', {
                     type: 'string'
                 },
                 'originalTitle',
-                'frontCover',
-                'backCover',
                 'isbn',
                 'citita',
                 'serie',
@@ -43,6 +46,14 @@ Ext.define('BM.model.BookModel', {
                 {
                     name: 'numeCategorie',
                     mapping: 'categorie.numeCategorie'
+                },
+                {
+                    name: 'frontCover',
+                    mapping: 'bookCover.front'
+                },
+                {
+                    name: 'backCover',
+                    mapping: 'bookCover.back'
                 }
             ]
         });
