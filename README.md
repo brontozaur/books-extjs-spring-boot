@@ -72,7 +72,7 @@ Currently, some of the cool technologies implemented in this application are:
 * File import for books, authors, etc
 * Export to .csv, .doc, .xls, .pdf
 * Form validation using vtypes
-* Improvements for error handling forms to parse the response
+* ~~Improvements for error handling forms to parse the response~~
 * Fix inactive grid buttons after modify/delete operations
 * Send request to persistence when editing a grid record to check it's validity
 * Filter to display image-only files on upload
