@@ -41,7 +41,7 @@ Ext.define('BM.controller.CategorieGridController', {
             },
 
             changeselectionCategorie: function(selModel, selected, eOpts) {
-                enablebuttonsCategorie(selected.length > 0);
+                enableCategorieGridButtons(selected.length > 0);
             },
 
             celldblclickCategorie: function(grid, td, cellIndex, record, tr, rowIndex, e) {
@@ -55,10 +55,8 @@ Ext.define('BM.controller.CategorieGridController', {
             },
 
             modCategorie: function(button, clickEvent, options) {
-                var delButton = Ext.ComponentQuery.query('categoriegrid button[action=del-categorie]')[0];
-                delButton.disable();
-                var window = Ext.widget('categoriewindow');
-                var selectionModel = button.up('categoriegrid').getSelectionModel();
+                var grid = button.up('categoriegrid');
+                var selectionModel = grid.getSelectionModel();
                 if (!selectionModel.hasSelection) {
                     Ext.Msg.show({
                                 title: 'Categorie neselectata',
@@ -70,9 +68,27 @@ Ext.define('BM.controller.CategorieGridController', {
                     return;
                 }
                 var selectedCategorie = selectionModel.getSelection()[0];
-                var categorieForm = window.down('form[itemId=categorieform]');
-                categorieForm.loadRecord(selectedCategorie);
-                window.show();
+                var idCategorie = selectedCategorie.get('idCategorie');
+                BM.model.CategorieModel.load(idCategorie, {
+                    scope: this,
+                    failure: function(record, operation) {
+                        grid.getStore().remove(selection);
+                        var error = {
+                            windowTitle: 'Error loading categoria with id [' + operation.id + ']',
+                            httpStatus: operation.error.status + ' (' + operation.error.statusText + ')',
+                            errorMessage: operation.error.status + ' (' + operation.error.statusText + ')',
+                            method: operation.request.method,
+                            url: operation.request.url
+                        };
+                        createGenericErrorWindow(error);
+                    },
+                    success: function(record, operation) {
+                        var window = Ext.widget('categoriewindow');
+                        var categorieForm = window.down('form[itemId=categorieform]');
+                        categorieForm.loadRecord(selectedCategorie);
+                        window.show();
+                    }
+                });
             },
 
             delCategorie: function(button) {
@@ -99,8 +115,8 @@ Ext.define('BM.controller.CategorieGridController', {
                                 method: 'DELETE',
                                 scope: this,
                                 success: function(result, request) {
-                                    enablebuttonsCategorie(false);
-                                    Ext.ComponentQuery.query('categoriegrid')[0].getStore().load();
+                                    enableCategorieGridButtons(false);
+                                    categoriegrid.getStore().remove(selectedCategorie);
                                 },
                                 failure: function(result, request) {
                                     createErrorWindow(result);
@@ -119,22 +135,44 @@ Ext.define('BM.controller.CategorieGridController', {
                 var idCategorie = form.down('hidden[name=idCategorie]').getValue();
                 var isAdd = Ext.isEmpty(idCategorie);
                 if (form.isValid()) {
-                    form.submit({
-                                url: (isAdd ? '/categorie': '/categorie/'+idCategorie),
-                                method: isAdd ? 'POST' : 'PUT',
-                                params: {
-                                    title: form.down('textfield[name=numeCategorie]').getValue()
+                    Ext.Ajax.request({
+                        url: 'categorie',
+                        method: isAdd ? 'POST' : 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        params : Ext.JSON.encode(form.getValues()),
+                        success: function(response) {
+                            button.up('categoriewindow').close();
+                            enableCategorieGridButtons(false);
+                            var grid = Ext.ComponentQuery.query('categoriegrid')[0];
+                            var idCategorie = JSON.parse(response.responseText)['idCategorie'];
+                            BM.model.CategorieModel.load(idCategorie, {
+                                scope: this,
+                                failure: function(record, operation) {
+                                    var error = {
+                                        windowTitle: 'Error loading categoria with id [' + operation.id + ']',
+                                        httpStatus: operation.error.status + ' (' + operation.error.statusText + ')',
+                                        errorMessage: operation.error.status + ' (' + operation.error.statusText + ')',
+                                        method: operation.request.method,
+                                        url: operation.request.url
+                                    };
+                                    createGenericErrorWindow(error);
                                 },
-                                success: function(form, action) {
-                                    button.up('categoriewindow').close();
-                                    enablebuttonsCategorie(false);
-                                    Ext.ComponentQuery.query('categoriegrid')[0].getStore().load();
-                                },
-
-                                failure: function(form, action) {
-                                    createErrorWindow(action.response);
+                                success: function(record, operation) {
+                                    var storeRecord = grid.getStore().getById(idCategorie);
+                                    if (storeRecord) {
+                                        storeRecord.set(record.getData());
+                                        storeRecord.commit();
+                                    } else {
+                                        grid.getStore().add(record);
+                                    }
+                                    enableCategorieGridButtons(grid.getSelectionModel().getSelection().length > 0);
                                 }
                             });
+                        },
+                        failure: function(result, request) {
+                            createErrorWindow(result);
+                        }
+                    });
                 }
             },
 

@@ -36,7 +36,7 @@ Ext.define('BM.controller.BooksGridController', {
 
             changeSelection: function(selModel, selected, eOpts) {
                 if (selected.length > 0) {
-                    enablebuttons(true);
+                    enableBookGridButtons(true);
                     this.fillInfoArea(selected[0]);
                 }
             },
@@ -124,8 +124,6 @@ Ext.define('BM.controller.BooksGridController', {
 
             modBook: function(button, clickEvent, options) {
                 var grid = Ext.ComponentQuery.query('booksgrid')[0];
-                var delButton = Ext.ComponentQuery.query('booksgrid button[action=del-book]')[0];
-                delButton.disable();
                 var selectionModel = grid.getSelectionModel();
                 if (!selectionModel.hasSelection) {
                     Ext.Msg.show({
@@ -198,8 +196,8 @@ Ext.define('BM.controller.BooksGridController', {
                                 scope: this,
                                 success: function(result, request) {
                                     clearInfoAreaFields();
-                                    enablebuttons(false);
-                                    Ext.ComponentQuery.query('booksgrid')[0].getStore().load();
+                                    enableBookGridButtons(false);
+                                    booksGrid.getStore().remove(selectedBook);
                                 },
                                 failure: function(result, request) {
                                     createErrorWindow(result);

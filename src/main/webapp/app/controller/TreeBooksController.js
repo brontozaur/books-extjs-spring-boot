@@ -56,7 +56,7 @@ Ext.define('BM.controller.TreeBooksController', {
                     }
                 ]);
                 clearInfoAreaFields();
-                enablebuttons(false);
+                enableBookGridButtons(false);
             },
 
             add: function() {

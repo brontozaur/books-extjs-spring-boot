@@ -73,8 +73,8 @@ Currently, some of the cool technologies implemented in this application are:
 * Export to .csv, .doc, .xls, .pdf
 * Form validation using vtypes
 * ~~Improvements for error handling forms to parse the response~~
-* Fix inactive grid buttons after modify/delete operations
-* Send request to persistence when editing a grid record to check it's validity
+* ~~Fix inactive grid buttons after modify/delete operations~~
+* ~~Send request to persistence when editing a grid record to check it's validity~~
 * Filter to display image-only files on upload
 * Junit tests
 * Selenium tests
@@ -82,10 +82,11 @@ Currently, some of the cool technologies implemented in this application are:
 * Create a new tab containing a tree (files, directory listing?) to play around with more complicated tree structures
 * Reload left tree when new book is created
 * Create info area for authors, categories, publishing houses, to display the associated books
-* Display only items with records in the left tree (e.g. authors with books)
+* ~~Display only items with records in the left tree (e.g. authors with books)~~
 * Create filtering for authors with books only, etc
 * Fix the books grid filtering to take into account current tree selection
 * Fix upload is lost when editing + save directly bug
+* Fix author save failed when using dataNasterii field value
     
 <i>More future plans :-) </i>
   

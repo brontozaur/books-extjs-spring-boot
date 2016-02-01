@@ -22,6 +22,11 @@ public class EdituraController {
     @Autowired
     private BookRepository bookRepository;
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Editura getEditura(@PathVariable Long id){
+        return repository.findOne(id);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Editura> getAllEdituri(){
             List<Editura> edituri =  new ArrayList<>();
@@ -64,17 +69,13 @@ public class EdituraController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void createNewEditura(@RequestParam String title){
-        Editura editura = new Editura();
-        editura.setNumeEditura(title);
-        repository.save(editura);
+    public Editura createNewEditura(@RequestBody Editura editura){
+       return repository.save(editura);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateEditura(@PathVariable Long id, @RequestParam String title){
-        Editura editura = repository.findOne(id);
-        editura.setNumeEditura(title);
-        repository.save(editura);
+    @RequestMapping(method = RequestMethod.PUT)
+    public Editura updateEditura(@RequestBody Editura editura){
+        return repository.save(editura);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

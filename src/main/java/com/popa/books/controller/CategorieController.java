@@ -16,6 +16,11 @@ public class CategorieController {
     @Autowired
     private CategorieRepository repository;
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Categorie getCategorie(@PathVariable Long id){
+        return repository.findOne(id);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Categorie> getAllCategorii(){
         List<Categorie> categorii =  new ArrayList<>();
@@ -27,17 +32,13 @@ public class CategorieController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void createNewCategorie(@RequestParam String title){
-        Categorie categorie = new Categorie();
-        categorie.setNumeCategorie(title);
-        repository.save(categorie);
+    public Categorie createNewCategorie(@RequestBody Categorie categorie){
+        return repository.save(categorie);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateCategorie(@PathVariable Long id, @RequestParam String title){
-        Categorie categorie = repository.findOne(id);
-        categorie.setNumeCategorie(title);
-        repository.save(categorie);
+    @RequestMapping(method = RequestMethod.PUT)
+    public Categorie updateCategorie(@RequestBody Categorie categorie){
+        return repository.save(categorie);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

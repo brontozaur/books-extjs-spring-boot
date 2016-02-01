@@ -56,7 +56,7 @@ Ext.define('BM.controller.TreeAutoriController', {
                     }
                 ]);
                 clearInfoAreaFields();
-                enablebuttonsAutor(false);
+                enableAutorGridButtons(false);
             },
 
             add: function() {

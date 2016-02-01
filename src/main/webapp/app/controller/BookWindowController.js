@@ -78,7 +78,7 @@ Ext.define('BM.controller.BookWindowController', {
                         success: function(response) {
                             me.closeWindow(button);
                             clearInfoAreaFields();
-                            enablebuttons(false);
+                            enableBookGridButtons(false);
                             var grid = Ext.ComponentQuery.query('booksgrid')[0];
                             var bookId = JSON.parse(response.responseText)['bookId'];
                             BM.model.BookModel.load(bookId, {
@@ -101,9 +101,7 @@ Ext.define('BM.controller.BookWindowController', {
                                     } else {
                                         grid.getStore().add(record);
                                     }
-                                },
-                                callback: function(record, operation, success) {
-                                    grid.fillInfoArea(record);
+                                    enableBookGridButtons(grid.getSelectionModel().getSelection().length > 0);
                                 }
                             });
                         },
@@ -112,22 +110,6 @@ Ext.define('BM.controller.BookWindowController', {
                         }
                     });
                 }
-                // Requestul de mai sus e echivalent cu urmatorul:
-              /*
-               $.ajax({
-                    url: (isAdd ? 'book' : 'book/' + bookId),
-                    contentType: "application/json",
-                    dataType: "json",
-                    type: isAdd ? 'post' : 'put',
-                    data: JSON.stringify(form.getValues()),
-                    success: function(response) {
-                        alert ('Cartea a fost salvata cu succes!');
-                    },
-                    error: function(xhr) {
-                        alert ('A intervenit o eroare.');
-                    }
-                });
-                */
             },
 
             closeWindow: function(button, clickEvent, options) {

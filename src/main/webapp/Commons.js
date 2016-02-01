@@ -1,4 +1,4 @@
-function enablebuttons(enable) {
+function enableBookGridButtons(enable) {
     var modButton = Ext.ComponentQuery.query('booksgrid button[action=mod-book]')[0];
     var delButton = Ext.ComponentQuery.query('booksgrid button[action=del-book]')[0];
     if (enable) {
@@ -169,7 +169,7 @@ function getFirstExpandedNode(root) {
     }
 }
 
-function enablebuttonsAutor(enable) {
+function enableAutorGridButtons(enable) {
     var modButton = Ext.ComponentQuery.query('autorgrid button[action=mod-autor]')[0];
     var delButton = Ext.ComponentQuery.query('autorgrid button[action=del-autor]')[0];
     if (enable) {
@@ -181,7 +181,7 @@ function enablebuttonsAutor(enable) {
     }
 }
 
-function enablebuttonsEditura(enable) {
+function enableEdituraGridButtons(enable) {
     var modButton = Ext.ComponentQuery.query('edituragrid button[action=mod-editura]')[0];
     var delButton = Ext.ComponentQuery.query('edituragrid button[action=del-editura]')[0];
     if (enable) {
@@ -193,7 +193,7 @@ function enablebuttonsEditura(enable) {
     }
 }
 
-function enablebuttonsCategorie(enable) {
+function enableCategorieGridButtons(enable) {
     var modButton = Ext.ComponentQuery.query('categoriegrid button[action=mod-categorie]')[0];
     var delButton = Ext.ComponentQuery.query('categoriegrid button[action=del-categorie]')[0];
     if (enable) {

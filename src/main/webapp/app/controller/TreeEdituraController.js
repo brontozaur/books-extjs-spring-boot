@@ -56,7 +56,7 @@ Ext.define('BM.controller.TreeEdituraController', {
                     }
                 ]);
                 clearInfoAreaFields();
-                enablebuttonsEditura(false);
+                enableEdituraGridButtons(false);
             },
 
             add: function() {

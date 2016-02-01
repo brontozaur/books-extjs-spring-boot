@@ -41,7 +41,7 @@ Ext.define('BM.controller.AutorGridController', {
             },
 
             changeselectionAutor: function(selModel, selected, eOpts) {
-                enablebuttonsAutor(selected.length > 0);
+                enableAutorGridButtons(selected.length > 0);
             },
 
             celldblclickAutor: function(grid, td, cellIndex, record, tr, rowIndex, e) {
@@ -55,10 +55,8 @@ Ext.define('BM.controller.AutorGridController', {
             },
 
             modAutor: function(button, clickEvent, options) {
-                var delButton = Ext.ComponentQuery.query('autorgrid button[action=del-autor]')[0];
-                delButton.disable();
-                var window = Ext.widget('autorwindow');
-                var selectionModel = button.up('autorgrid').getSelectionModel();
+                var grid = button.up('autorgrid');
+                var selectionModel = grid.getSelectionModel();
                 if (!selectionModel.hasSelection) {
                     Ext.Msg.show({
                                 title: 'Autor neselectat',
@@ -70,9 +68,27 @@ Ext.define('BM.controller.AutorGridController', {
                     return;
                 }
                 var selectedAutor = selectionModel.getSelection()[0];
-                var autorForm = window.down('form[itemId=autorform]');
-                autorForm.loadRecord(selectedAutor);
-                window.show();
+                var idAutor = selectedAutor.get('autorId');
+                BM.model.AutorModel.load(idAutor, {
+                    scope: this,
+                    failure: function(record, operation) {
+                        grid.getStore().remove(selection);
+                        var error = {
+                            windowTitle: 'Error loading autor with id [' + operation.id + ']',
+                            httpStatus: operation.error.status + ' (' + operation.error.statusText + ')',
+                            errorMessage: operation.error.status + ' (' + operation.error.statusText + ')',
+                            method: operation.request.method,
+                            url: operation.request.url
+                        };
+                        createGenericErrorWindow(error);
+                    },
+                    success: function(record, operation) {
+                        var window = Ext.widget('autorwindow');
+                        var autorForm = window.down('form[itemId=autorform]');
+                        autorForm.loadRecord(selectedAutor);
+                        window.show();
+                    }
+                });
             },
 
             delAutor: function(button) {
@@ -99,8 +115,8 @@ Ext.define('BM.controller.AutorGridController', {
                                 method: 'DELETE',
                                 scope: this,
                                 success: function(result, request) {
-                                    enablebuttonsAutor(false);
-                                    Ext.ComponentQuery.query('autorgrid')[0].getStore().load();
+                                    enableAutorGridButtons(false);
+                                    autorgrid.getStore().remove(selectedAutor);
                                 },
                                 failure: function(result, request) {
                                     createErrorWindow(result);
@@ -119,23 +135,44 @@ Ext.define('BM.controller.AutorGridController', {
                 var autorId = form.down('hidden[name=autorId]').getValue();
                 var isAdd = Ext.isEmpty(autorId);
                 if (form.isValid()) {
-                    form.submit({
-                                url: (isAdd ? 'autor' : 'autor/'+autorId),
-                                method: isAdd ? 'POST' : 'PUT',
-                                params: {
-                                    nume: form.down('textfield[name=nume]').getValue(),
-                                    dataNasterii: form.down('datefield[name=dataNasterii]').getValue()
+                    Ext.Ajax.request({
+                        url: 'autor',
+                        method: isAdd ? 'POST' : 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        params : Ext.JSON.encode(form.getValues()),
+                        success: function(response) {
+                            button.up('autorwindow').close();
+                            enableAutorGridButtons(false);
+                            var grid = Ext.ComponentQuery.query('autorgrid')[0];
+                            var idAutor = JSON.parse(response.responseText)['autorId'];
+                            BM.model.AutorModel.load(idAutor, {
+                                scope: this,
+                                failure: function(record, operation) {
+                                    var error = {
+                                        windowTitle: 'Error loading autor with id [' + operation.id + ']',
+                                        httpStatus: operation.error.status + ' (' + operation.error.statusText + ')',
+                                        errorMessage: operation.error.status + ' (' + operation.error.statusText + ')',
+                                        method: operation.request.method,
+                                        url: operation.request.url
+                                    };
+                                    createGenericErrorWindow(error);
                                 },
-                                success: function(form, action) {
-                                    button.up('autorwindow').close();
-                                    enablebuttonsAutor(false);
-                                    Ext.ComponentQuery.query('autorgrid')[0].getStore().load();
-                                },
-
-                                failure: function(form, action) {
-                                    createErrorWindow(action.response);
+                                success: function(record, operation) {
+                                    var storeRecord = grid.getStore().getById(idAutor);
+                                    if (storeRecord) {
+                                        storeRecord.set(record.getData());
+                                        storeRecord.commit();
+                                    } else {
+                                        grid.getStore().add(record);
+                                    }
+                                    enableAutorGridButtons(grid.getSelectionModel().getSelection().length > 0);
                                 }
                             });
+                        },
+                          failure: function(result, request) {
+                            createErrorWindow(result);
+                        }
+                    });
                 }
             },
 

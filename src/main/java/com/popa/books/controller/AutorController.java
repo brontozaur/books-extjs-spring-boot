@@ -23,6 +23,11 @@ public class AutorController {
     @Autowired
     private BookRepository bookRepository;
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Autor getAutor(@PathVariable Long id){
+        return repository.findOne(id);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Autor> getAllAutori(){
         List<Autor> autori =  new ArrayList<>();
@@ -64,22 +69,13 @@ public class AutorController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void createNewAutor(@RequestParam String nume,
-                               @RequestParam String dataNasterii){
-        Autor autor = new Autor();
-        autor.setDataNasterii(RequestUtils.parseDate(dataNasterii));
-        autor.setNume(nume);
-        repository.save(autor);
+    public Autor createNewAutor(@RequestBody Autor autor){
+        return repository.save(autor);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateAutor(@PathVariable Long id,
-                            @RequestParam String nume,
-                            @RequestParam String dataNasterii){
-        Autor autor = repository.findOne(id);
-        autor.setNume(nume);
-        autor.setDataNasterii(RequestUtils.parseDate(dataNasterii));
-        repository.save(autor);
+    @RequestMapping(method = RequestMethod.PUT)
+    public Autor updateAutor(@RequestBody Autor autor){
+        return repository.save(autor);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

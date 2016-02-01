@@ -41,7 +41,7 @@ Ext.define('BM.controller.EdituraGridController', {
             },
 
             changeselectionEditura: function(selModel, selected, eOpts) {
-                enablebuttonsEditura(selected.length > 0);
+                enableEdituraGridButtons(selected.length > 0);
             },
 
             celldblclickEditura: function(grid, td, cellIndex, record, tr, rowIndex, e) {
@@ -55,10 +55,8 @@ Ext.define('BM.controller.EdituraGridController', {
             },
 
             modEditura: function(button, clickEvent, options) {
-                var delButton = Ext.ComponentQuery.query('edituragrid button[action=del-editura]')[0];
-                delButton.disable();
-                var window = Ext.widget('editurawindow');
-                var selectionModel = button.up('edituragrid').getSelectionModel();
+                var grid = button.up('edituragrid');
+                var selectionModel = grid.getSelectionModel();
                 if (!selectionModel.hasSelection) {
                     Ext.Msg.show({
                                 title: 'Editura neselectata',
@@ -70,9 +68,27 @@ Ext.define('BM.controller.EdituraGridController', {
                     return;
                 }
                 var selectedEditura = selectionModel.getSelection()[0];
-                var edituraForm = window.down('form[itemId=edituraform]');
-                edituraForm.loadRecord(selectedEditura);
-                window.show();
+                var idEditura = selectedEditura.get('idEditura');
+                BM.model.EdituraModel.load(idEditura, {
+                    scope: this,
+                    failure: function(record, operation) {
+                        grid.getStore().remove(selection);
+                        var error = {
+                            windowTitle: 'Error loading editura with id [' + operation.id + ']',
+                            httpStatus: operation.error.status + ' (' + operation.error.statusText + ')',
+                            errorMessage: operation.error.status + ' (' + operation.error.statusText + ')',
+                            method: operation.request.method,
+                            url: operation.request.url
+                        };
+                        createGenericErrorWindow(error);
+                    },
+                    success: function(record, operation) {
+                        var window = Ext.widget('editurawindow');
+                        var edituraForm = window.down('form[itemId=edituraform]');
+                        edituraForm.loadRecord(record);
+                        window.show();
+                    }
+                });
             },
 
             delEditura: function(button) {
@@ -99,8 +115,8 @@ Ext.define('BM.controller.EdituraGridController', {
                                 method: 'DELETE',
                                 scope: this,
                                 success: function(result, request) {
-                                    enablebuttonsEditura(false);
-                                    Ext.ComponentQuery.query('edituragrid')[0].getStore().load();
+                                    enableEdituraGridButtons(false);
+                                    edituragrid.getStore().remove(selectedEditura);
                                 },
                                 failure: function(result, request) {
                                     createErrorWindow(result);
@@ -120,20 +136,43 @@ Ext.define('BM.controller.EdituraGridController', {
                 var isAdd = Ext.isEmpty(edituraId);
                 var title = form.down('textfield[name=numeEditura]').getValue();
                 if (form.isValid()) {
-                    form.submit({
-                                url: (isAdd ?  'editura' : ('editura/'+edituraId)),
+                    Ext.Ajax.request({
+                                url: 'editura',
                                 method: isAdd ? 'POST' : 'PUT',
-                                params: {
-                                    title: title
-                                },
-                                success: function(form, action) {
+                                headers: { 'Content-Type': 'application/json' },
+                                params : Ext.JSON.encode(form.getValues()),
+                                success: function(response) {
                                     button.up('editurawindow').close();
-                                    enablebuttonsEditura(false);
-                                    Ext.ComponentQuery.query('edituragrid')[0].getStore().load();
-                                },
+                                    enableEdituraGridButtons(false);
+                                    var grid = Ext.ComponentQuery.query('edituragrid')[0];
+                                    var idEditura = JSON.parse(response.responseText)['idEditura'];
+                                    BM.model.EdituraModel.load(idEditura, {
+                                        scope: this,
+                                        failure: function(record, operation) {
+                                            var error = {
+                                                windowTitle: 'Error loading editura with id [' + operation.id + ']',
+                                                httpStatus: operation.error.status + ' (' + operation.error.statusText + ')',
+                                                errorMessage: operation.error.status + ' (' + operation.error.statusText + ')',
+                                                method: operation.request.method,
+                                                url: operation.request.url
+                                            };
+                                            createGenericErrorWindow(error);
+                                        },
+                                        success: function(record, operation) {
+                                            var storeRecord = grid.getStore().getById(idEditura);
+                                            if (storeRecord) {
+                                                storeRecord.set(record.getData());
+                                                storeRecord.commit();
+                                            } else {
+                                                grid.getStore().add(record);
+                                            }
+                                            enableEdituraGridButtons(grid.getSelectionModel().getSelection().length > 0);
+                                        }
+                                    });
 
-                                failure: function(form, action) {
-                                    createErrorWindow(action.response);
+                                },
+                                failure: function(result, request) {
+                                    createErrorWindow(result);
                                 }
                             });
                 }
