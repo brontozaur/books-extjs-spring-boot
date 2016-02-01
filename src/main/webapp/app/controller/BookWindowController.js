@@ -80,7 +80,32 @@ Ext.define('BM.controller.BookWindowController', {
                             clearInfoAreaFields();
                             enablebuttons(false);
                             var grid = Ext.ComponentQuery.query('booksgrid')[0];
-                            grid.getStore().load();
+                            var bookId = JSON.parse(response.responseText)['bookId'];
+                            BM.model.BookModel.load(bookId, {
+                                scope: this,
+                                failure: function(record, operation) {
+                                    var error = {
+                                        windowTitle: 'Error loading book with record [' + operation.id + ']',
+                                        httpStatus: operation.error.status + ' (' + operation.error.statusText + ')',
+                                        errorMessage: operation.error.status + ' (' + operation.error.statusText + ')',
+                                        method: operation.request.method,
+                                        url: operation.request.url
+                                    };
+                                    createGenericErrorWindow(error);
+                                },
+                                success: function(record, operation) {
+                                    var storeRecord = grid.getStore().getById(bookId);
+                                    if (storeRecord) {
+                                        storeRecord.set(record.getData());
+                                        storeRecord.commit();
+                                    } else {
+                                        grid.getStore().add(record);
+                                    }
+                                },
+                                callback: function(record, operation, success) {
+                                    grid.fillInfoArea(record);
+                                }
+                            });
                         },
                         failure: function(result, request) {
                             createErrorWindow(result);

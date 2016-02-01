@@ -88,22 +88,22 @@ public class BookController {
 
     @Transactional
     @RequestMapping(method = RequestMethod.POST)
-    public void createNewBook(@RequestBody BookDTO dto) throws ServletException {
+    public Book createNewBook(@RequestBody BookDTO dto) throws ServletException {
         Book book = new Book();
         convertDtoToBook(book, dto);
         saveBookCovers(book);
-        repository.save(book);
+        return repository.save(book);
     }
 
     //if no complex objects (e.g. Autor, Editura, etc) were in the Book object,
     //a Book could have been used instead of BookDTO directly.
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateBook(@PathVariable Long id, @RequestBody BookDTO dto) throws ServletException {
+    public Book updateBook(@PathVariable Long id, @RequestBody BookDTO dto) throws ServletException {
         Book book = repository.findOne(id);
         convertDtoToBook(book, dto);
         saveBookCovers(book);
-        repository.save(book);
+        return repository.save(book);
     }
 
     // de genul /cover/2_1453663625274_front.jpg?time=Sun Jan 24 21:27:05 EET 2016
