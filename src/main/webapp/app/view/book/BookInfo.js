@@ -1,11 +1,11 @@
 Ext.define('BM.view.book.BookInfo', {
-            extend: 'Ext.panel.Panel',
-            alias: 'widget.bookinfo',
-            bodyPadding: 20,
-            title: 'Detalii carte',
-            layout: 'hbox',
-            items: this.buildItems()
-        });
+    extend: 'Ext.panel.Panel',
+    alias: 'widget.bookinfo',
+    bodyPadding: 20,
+    title: 'Detalii carte',
+    layout: 'hbox',
+    items: this.buildItems()
+});
 
 function buildItems() {
     return [
