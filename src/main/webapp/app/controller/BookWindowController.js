@@ -125,15 +125,12 @@ Ext.define('BM.controller.BookWindowController', {
                 url: 'cover/front',
                 method: 'POST',
                 headers: {'Content-type': 'multipart/form-data'},
-                params: {
-                    bookId: bookForm.down('hidden[name=bookId]').getValue()
-                },
                 success: function (form, action) {
                     var response = Ext.JSON.decode(action.response.responseText);
                     var imageCanvas = Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0];
-                    imageCanvas.setSrc(response.fileName);
-                    //hiden field to be submitted with form
-                    bookForm.down('hidden[name=frontCoverName]').setValue(response.fileName);
+                    imageCanvas.setSrc('data:image/jpeg;base64,' + response.imageData);
+                    //hiden field to be submitted with book form
+                    bookForm.down('hidden[name=frontCoverData]').setValue('data:image/jpeg;base64,' + response.imageData);
                 },
 
                 failure: function (form, action) {
@@ -145,7 +142,10 @@ Ext.define('BM.controller.BookWindowController', {
 
     deleteFrontCover: function (button, e, eOpts) {
         var imageCanvas = Ext.ComponentQuery.query('image[itemId=frontCoverPreview]')[0];
-        this.deleteUpload(imageCanvas, true);
+        imageCanvas.setSrc(null);
+
+        var bookForm = imageCanvas.up('bookwindow').down('form[itemId=bookform]');
+        bookForm.down('hidden[name=frontCoverData]').setValue(null);
     },
 
     uploadBackCover: function (fileUploadField, value, eOpts) {
@@ -156,15 +156,12 @@ Ext.define('BM.controller.BookWindowController', {
                 url: 'cover/back',
                 method: 'POST',
                 headers: {'Content-type': 'multipart/form-data'},
-                params: {
-                    bookId: bookForm.down('hidden[name=bookId]').getValue()
-                },
                 success: function (form, action) {
                     var response = Ext.JSON.decode(action.response.responseText);
                     var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
-                    imageCanvas.setSrc(response.fileName);
-                    //hiden field to be submitted with form
-                    bookForm.down('hidden[name=backCoverName]').setValue(response.fileName);
+                    imageCanvas.setSrc('data:image/jpeg;base64,' + response.imageData);
+                    //hiden field to be submitted with book form
+                    bookForm.down('hidden[name=backCoverData]').setValue('data:image/jpeg;base64,' + response.imageData);
                 },
 
                 failure: function (form, action) {
@@ -176,39 +173,10 @@ Ext.define('BM.controller.BookWindowController', {
 
     deleteBackCover: function (button, e, eOpts) {
         var imageCanvas = Ext.ComponentQuery.query('image[itemId=backCoverPreview]')[0];
-        this.deleteUpload(imageCanvas, false);
-    },
+        imageCanvas.setSrc(null);
 
-    deleteUpload: function (imageCanvas, isFrontCover) {
-        if (!Ext.isEmpty(imageCanvas.src)) {
-            Ext.Ajax.request({
-                url: '/cover',
-                method: 'DELETE',
-                //de forma /covers/1front_whatever.jpg?time=Sat%20Jan%2023%2001:05:44%20EET%202016
-                params: {
-                    imageName: JSON.stringify(imageCanvas.src)
-                },
-                /* JSON data to use as the post. Note: This will be used instead of params for the post data.
-                 Any params will be appended to the URL.
-                 */
-                jsonData: true,
-                scope: this,
-                success: function (result, request) {
-                    imageCanvas.setSrc(null);
-                    var bookForm = Ext.ComponentQuery.query('form[itemId=bookform]')[0];
-                    var hiddenField;
-                    if (isFrontCover) {
-                        hiddenField = bookForm.down('hidden[name=frontCoverName]');
-                    } else {
-                        hiddenField = bookForm.down('hidden[name=backCoverName]')
-                    }
-                    hiddenField.setValue(null);
-                },
-                failure: function (result, request) {
-                    createErrorWindow(result);
-                }
-            });
-        }
+        var bookForm = imageCanvas.up('bookwindow').down('form[itemId=bookform]');
+        bookForm.down('hidden[name=backCoverData]').setValue(null);
     },
 
     back: function (button, e, eOpts) {

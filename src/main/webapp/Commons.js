@@ -117,7 +117,10 @@ function createErrorWindow(response) {
 
 function fillErrorDetailsOnWindow(window, parsedResponse) {
     window.setTitle('A intervenit o eroare!');
-    var errorMessage = parsedResponse.message;
+    var errorMessage;
+    if (parsedResponse.message) {
+        errorMessage = parsedResponse.message;
+    }
     if (!Ext.isEmpty(errorMessage)) {
         window.setErrorMessage("Eroare: " + errorMessage);
         var details = 'Detalii:' +

@@ -87,6 +87,8 @@ Currently, some of the cool technologies implemented in this application are:
 * Fix the books grid filtering to take into account current tree selection
 * Fix upload is lost when editing + save directly bug
 * Fix author save failed when using dataNasterii field value
+* ~~Book cover uploads should not create files on server~~
+* To convert image upload API into a document upload API, with items displayed on a new tab, based on their type. Server file explorer!
     
 <i>More future plans :-) </i>
   

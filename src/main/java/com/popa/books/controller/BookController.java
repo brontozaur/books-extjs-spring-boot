@@ -7,19 +7,16 @@ import com.popa.books.model.node.BookNode;
 import com.popa.books.model.node.Node;
 import com.popa.books.repository.*;
 import com.popa.books.util.RequestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.transaction.Transactional;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -42,6 +39,8 @@ public class BookController {
 
     @Autowired
     private BooksApplicationProperties props;
+
+    private final static String BASE64_PREFIX = "data:image/jpeg;base64,";
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Book getBook(@PathVariable Long id){
@@ -91,7 +90,6 @@ public class BookController {
     public Book createNewBook(@RequestBody BookDTO dto) throws ServletException {
         Book book = new Book();
         convertDtoToBook(book, dto);
-        saveBookCovers(book);
         return repository.save(book);
     }
 
@@ -102,24 +100,7 @@ public class BookController {
     public Book updateBook(@PathVariable Long id, @RequestBody BookDTO dto) throws ServletException {
         Book book = repository.findOne(id);
         convertDtoToBook(book, dto);
-        saveBookCovers(book);
         return repository.save(book);
-    }
-
-    // de genul /cover/2_1453663625274_front.jpg?time=Sun Jan 24 21:27:05 EET 2016
-    private File getNewUpload(String relativeUploadPath) {
-        if (StringUtils.isEmpty(relativeUploadPath)) {
-            return null;
-        }
-        if (relativeUploadPath.indexOf('?') != -1) {
-            relativeUploadPath = relativeUploadPath.substring(0, relativeUploadPath.indexOf('?'));
-        }
-        final String exportFileName = props.getRootUploadDir() + relativeUploadPath;
-        File uploadedFile = new File(exportFileName);
-        if (uploadedFile.exists() && uploadedFile.isFile()) {
-            return uploadedFile;
-        }
-        return null;
     }
 
     //delete cover is not necessary, since is done by hibernate/jpa automatically
@@ -157,50 +138,28 @@ public class BookController {
         book.setOriginalTitle(dto.getOriginalTitle());
         book.setSerie(dto.getSerie());
         book.setTitle(dto.getTitle());
-        book.setFrontCoverPath(dto.getFrontCoverName());
-        book.setBackCoverPath(dto.getBackCoverName());
-    }
+        book.setFrontCoverPath(dto.getFrontCoverData());
+        book.setBackCoverPath(dto.getBackCoverData());
 
-    private byte[] loadFile(final File file, boolean deleteAfterUpload) throws IOException {
-        byte[] bFile = new byte[(int) file.length()];
-        BufferedInputStream fileInputStream = new BufferedInputStream(new FileInputStream(file));
-        //convert file into array of bytes
-        fileInputStream.read(bFile);
-        fileInputStream.close();
-        if (deleteAfterUpload && !file.delete()) {
-            throw new IOException("could not delete file: " + file.getAbsolutePath());
+        boolean hasFrontCover = StringUtils.isNotEmpty(dto.getFrontCoverData());
+        boolean hasBackCover = StringUtils.isNotEmpty(dto.getBackCoverData());
+
+        if (book.getBookCover() == null && (!hasFrontCover && !hasFrontCover)) { //save cover is not needed
+            return;
         }
-        return bFile;
-    }
-
-    private void saveBookCovers(final Book book) throws ServletException {
-        try {
-            final File newFrontCoverUpload = getNewUpload(book.getFrontCoverPath());
-            final File newBackCoverUpload = getNewUpload(book.getBackCoverPath());
-            // if no covers exist yet and no new covers were uploaded, there's no need to attach
-            // a new covers object to the existing (or new) book. However, if a cover is already attached,
-            // we nullify the front/back if necessary and leave it like this.
-            if (book.getBookCover() == null && (newBackCoverUpload == null && newFrontCoverUpload == null)) { //save cover is not needed
-                return;
-            }
-            if (book.getBookCover() == null) {
-                book.setBookCover(new BookCover());
-            }
-            BookCover bookCover = book.getBookCover();
-            if (newFrontCoverUpload != null) {
-                bookCover.setFront(loadFile(newFrontCoverUpload, book.getBookId() == null));
-            } else {
-                bookCover.setFront(null);
-            }
-            if (newBackCoverUpload != null) {
-                bookCover.setBack(loadFile(newBackCoverUpload, book.getBookId() == null));
-            } else {
-                bookCover.setBack(null);
-            }
-        } catch (Exception exc) {
-            logger.error(exc.getMessage(), exc);
-            throw new ServletException(exc.getMessage(), exc);
+        if (book.getBookCover() == null) {
+            book.setBookCover(new BookCover());
+        }
+        BookCover bookCover = book.getBookCover();
+        if (hasFrontCover && dto.getFrontCoverData().indexOf(BASE64_PREFIX) == 0) {
+            bookCover.setFront(Base64.getDecoder().decode(dto.getFrontCoverData().substring(BASE64_PREFIX.length())));
+        } else {
+            bookCover.setFront(null);
+        }
+        if (hasBackCover && dto.getBackCoverData().indexOf(BASE64_PREFIX) == 0) {
+            bookCover.setBack(Base64.getDecoder().decode(dto.getBackCoverData().substring(BASE64_PREFIX.length())));
+        } else {
+            bookCover.setBack(null);
         }
     }
-
 }

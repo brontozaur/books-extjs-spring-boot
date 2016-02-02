@@ -25,12 +25,12 @@ Ext.define('BM.view.book.BookWindow', {
                 },
                 {
                     xtype: 'hidden',
-                    name: 'frontCoverName',
+                    name: 'frontCoverData',
                     value: ''
                 },
                 {
                     xtype: 'hidden',
-                    name: 'backCoverName',
+                    name: 'backCoverData',
                     value: ''
                 },
                 {

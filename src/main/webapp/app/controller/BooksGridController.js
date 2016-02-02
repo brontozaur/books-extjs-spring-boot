@@ -157,11 +157,15 @@ Ext.define('BM.controller.BooksGridController', {
                 var coversComponent = window.down('component[itemId=cardLayoutPanel]');
                 if (!Ext.isEmpty(record.get('frontCover'))) {
                     var frontCoverUploadForm = coversComponent.down('form[itemId=frontUploadform]');
-                    frontCoverUploadForm.down('image[itemId=frontCoverPreview]').setSrc('data:image/jpeg;base64,' + record.get('frontCover'));
+                    var uploadForm = frontCoverUploadForm.down('image[itemId=frontCoverPreview]');
+                    uploadForm.setSrc('data:image/jpeg;base64,' + record.get('frontCover'));
+                    bookForm.down('hidden[name=frontCoverData]').setValue(uploadForm.src);
                 }
                 if (!Ext.isEmpty(record.get('backCover'))) {
                     var backCoverUploadForm = coversComponent.down('form[itemId=backUploadform]');
-                    backCoverUploadForm.down('image[itemId=backCoverPreview]').setSrc('data:image/jpeg;base64,' + record.get('backCover'));
+                    var uploadForm = backCoverUploadForm.down('image[itemId=backCoverPreview]');
+                    uploadForm.setSrc('data:image/jpeg;base64,' + record.get('backCover'));
+                    bookForm.down('hidden[name=backCoverData]').setValue(uploadForm.src);
                 }
                 window.show();
             },
