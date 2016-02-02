@@ -59,11 +59,6 @@ public class Book implements Serializable {
     @JoinColumn(name = "bookCoverId", nullable = true)
     private BookCover bookCover;
 
-    @Transient
-    private String frontCoverPath;
-    @Transient
-    private String backCoverPath;
-
     public Long getBookId() {
         return bookId;
     }
@@ -176,19 +171,4 @@ public class Book implements Serializable {
         this.bookCover = bookCover;
     }
 
-    public String getFrontCoverPath() {
-        return frontCoverPath;
-    }
-
-    public void setFrontCoverPath(String frontCoverPath) {
-        this.frontCoverPath = frontCoverPath;
-    }
-
-    public String getBackCoverPath() {
-        return backCoverPath;
-    }
-
-    public void setBackCoverPath(String backCoverPath) {
-        this.backCoverPath = backCoverPath;
-    }
 }

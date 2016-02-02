@@ -20,17 +20,14 @@ public class BooksApplicationProperties {
      * This will be the relative path to the upload folder.
      * Upload folder will be linked to this relative path.
      */
-    @Value("${covers.upload.path}")
-    private String coversUploadPath;
+    @Value("${uploads.path}")
+    private String uploadsRelativePath;
 
-    @Value("${covers.upload.mac.dir}")
-    private String macOSCoversDir;
+    @Value("${files.upload.mac.dir}")
+    private String macOSUploadsDir;
 
-    @Value("${covers.upload.win.dir}")
-    private String winCoversDir;
-
-    @Value("${covers.format}")
-    private String coversFormat;
+    @Value("${files.upload.win.dir}")
+    private String winUploadsDir;
 
     @Value("${server.error.include-stacktrace}")
     private String isIncludingStacktrace;
@@ -39,27 +36,23 @@ public class BooksApplicationProperties {
         return "always".equals(isIncludingStacktrace);
     }
 
-    public String getCoversFormat() {
-        return coversFormat;
-    }
-
-    public String getCoversUploadPath() {
-        return coversUploadPath;
+    public String getUploadsRelativePath() {
+        return uploadsRelativePath;
     }
 
     // /usr/local/logs
     public String getRootUploadDir() {
         String uploadDir = null;
         if (System.getProperty("os.name").contains("Windows")) {
-            uploadDir = winCoversDir;
+            uploadDir = winUploadsDir;
         } else if (System.getProperty("os.name").contains("Mac") ||
                 System.getProperty("os.name").contains("nux")) {
-            uploadDir = macOSCoversDir;
+            uploadDir = macOSUploadsDir;
         } else {
             throw new IllegalArgumentException("Unsupported OS: " + System.getProperty("os.name"));
         }
         File uploadDirAsFile = new File(uploadDir);
-        logger.info("Book covers upload dir: {}", uploadDirAsFile.getAbsolutePath());
+        logger.info("Root upload dir: {}", uploadDirAsFile.getAbsolutePath());
         if (!uploadDirAsFile.exists() || !uploadDirAsFile.isDirectory()) {
             if (!uploadDirAsFile.mkdirs()) {
                 throw new IllegalArgumentException("Cannot create directory: " + uploadDir);
@@ -68,9 +61,8 @@ public class BooksApplicationProperties {
         return uploadDirAsFile.getAbsolutePath();
     }
 
-    // /usr/local/logs/cover
     public String getFullUploadDir() {
-        String uploadDir = getRootUploadDir() + coversUploadPath;
+        String uploadDir = getRootUploadDir() + uploadsRelativePath;
         File uploadDirAsFile = new File(uploadDir);
         if (!uploadDirAsFile.exists() || !uploadDirAsFile.isDirectory()) {
             if (!uploadDirAsFile.mkdirs()) {

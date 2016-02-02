@@ -138,13 +138,11 @@ public class BookController {
         book.setOriginalTitle(dto.getOriginalTitle());
         book.setSerie(dto.getSerie());
         book.setTitle(dto.getTitle());
-        book.setFrontCoverPath(dto.getFrontCoverData());
-        book.setBackCoverPath(dto.getBackCoverData());
 
         boolean hasFrontCover = StringUtils.isNotEmpty(dto.getFrontCoverData());
         boolean hasBackCover = StringUtils.isNotEmpty(dto.getBackCoverData());
 
-        if (book.getBookCover() == null && (!hasFrontCover && !hasFrontCover)) { //save cover is not needed
+        if (book.getBookCover() == null && (!hasFrontCover && !hasFrontCover)) { //save covers is not needed
             return;
         }
         if (book.getBookCover() == null) {
