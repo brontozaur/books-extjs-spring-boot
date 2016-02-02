@@ -176,7 +176,7 @@ Currently, some of the cool technologies implemented in this application are:
  <ol>
     <li> Export the deps to a txt file:  
         <b>&nbsp;&nbsp;mvn dependency:tree -Doutput=mvn-deps.txt</b> </li>
-    <li> Replace '|&nbsp;&nbsp;' with '|&nbsp;&nbsp;&nbsp;&nbsp;' in this file</li>
+    <li> Replace ``'|  '`` with ``'|&nbsp;&nbsp;&nbsp;&nbsp;'`` in this file</li>
     <li> Add two spaces at the end of each line:  
     <b>&nbsp;&nbsp;awk '{print $0, "&nbsp;&nbsp;"}' mvn-deps.txt</b>
     </li>
