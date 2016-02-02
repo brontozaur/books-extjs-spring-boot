@@ -71,6 +71,7 @@ Currently, some of the cool technologies implemented in this application are:
 * :thumbsup: ~~Fix upload is lost when editing + save directly bug~~
 * :thumbsup: ~~Book cover uploads should not create files on server~~
 * :thumbsup: ~~Fix the books grid pagination~~
+* :thumbsup: ~~Fix bug with the last page on grid pagination for all object types~~
 * Introduce ExtJS menus for all grids
 * Info area redesign, and upload image display on left side, not center
 * Spring security with login form
@@ -86,9 +87,9 @@ Currently, some of the cool technologies implemented in this application are:
 * Reload left tree when new book is created
 * Create info area for authors, categories, publishing houses, to display the associated books
 * Create filtering for authors with books only, etc
-* Fix the books grid filtering to take into account current tree selection
+* Fix the books grid filtering to take into account current tree selection. Also need to fix pagination to work with the selected tree
+entry
 * Fix author save failed when using dataNasterii field value
-* Fix bug with the last page on grid pagination for all object types
 * To convert image upload API into a document upload API, with items displayed on a new tab, based on their type. Server file explorer!
     
 <i>More future plans :-) </i>

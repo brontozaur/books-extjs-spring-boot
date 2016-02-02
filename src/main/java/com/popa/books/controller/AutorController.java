@@ -33,8 +33,10 @@ public class AutorController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public AutorListWrapper getAutori(@RequestParam Integer start, @RequestParam Integer limit){
-        Pageable pageable = new PageRequest(start, limit);
+    public AutorListWrapper getAutori(@RequestParam(value = "page") Integer currentPage,
+                                      @RequestParam(value = "start") Integer start,
+                                      @RequestParam(value = "limit") Integer pageSize) {
+        Pageable pageable = new PageRequest(currentPage-1, pageSize);
         Page<Autor> autorList = repository.findAll(pageable);
         return new AutorListWrapper(autorList.getTotalElements(), autorList.getContent());
     }

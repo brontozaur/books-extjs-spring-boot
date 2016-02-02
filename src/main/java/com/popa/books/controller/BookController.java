@@ -52,8 +52,10 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public BookListWrapper getBooks(@RequestParam Integer start, @RequestParam Integer limit){
-        Pageable pageable = new PageRequest(start, limit);
+    public BookListWrapper getBooks(@RequestParam(value = "page") Integer currentPage,
+                                    @RequestParam(value = "start") Integer start,
+                                    @RequestParam(value = "limit") Integer pageSize) {
+        Pageable pageable = new PageRequest(currentPage-1, pageSize);
         Page<Book> bookList = repository.findAll(pageable);
         return new BookListWrapper(bookList.getTotalElements(), bookList.getContent());
     }

@@ -4,7 +4,7 @@ Ext.define('BM.view.autor.AutorGrid', {
     selType: 'rowmodel',
     columnLines: true,
     store: 'AutorStore',
-
+    stripeRows: true,
     dockedItems: [
         {
             xtype: 'pagingtoolbar',

@@ -3,6 +3,7 @@ Ext.define('BM.view.categorie.CategorieGrid', {
     alias: 'widget.categoriegrid',
     selType: 'rowmodel',
     columnLines: true,
+    stripeRows: true,
     store: 'CategorieStore',
     dockedItems: [
         {

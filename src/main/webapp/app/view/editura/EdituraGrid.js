@@ -4,6 +4,7 @@ Ext.define('BM.view.editura.EdituraGrid', {
     selType: 'rowmodel',
     columnLines: true,
     store: 'EdituraStore',
+    stripeRows: true,
     dockedItems: [
         {
             xtype: 'pagingtoolbar',

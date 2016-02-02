@@ -4,6 +4,7 @@ Ext.define('BM.view.book.BooksGrid', {
     selType: 'rowmodel',
     columnLines: true,
     store: 'BookStore',
+    stripeRows: true,
     dockedItems: [
         {
             xtype: 'pagingtoolbar',
