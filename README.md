@@ -58,7 +58,7 @@ Currently, some of the cool technologies implemented in this application are:
 * Basic form validation
 * Image upload and delete uploaded file
     
-<i>Future plans</i>
+<i>Future plans /play rollout</i>
   
 * :thumbsup: ~~Fix the left tree display~~
 * :thumbsup: ~~Fix the wrong label for left tree view mode~~
@@ -171,3 +171,13 @@ Currently, some of the cool technologies implemented in this application are:
  |&nbsp;&nbsp;&nbsp;&nbsp;+- org.slf4j:slf4j-api:jar:1.7.13:compile   
  |&nbsp;&nbsp;&nbsp;&nbsp;\- org.slf4j:jcl-over-slf4j:jar:1.7.13:compile   
  \- com.google.code.gson:gson:jar:2.3.1:compile  
+ 
+ How to generate maven dependency
+ <ol>
+    <li> Export the deps to a txt file:  
+        &nbsp;&nbsp;mvn dependency:tree -Doutput=mvn-deps.txt </li>
+    <li> Replace '|  ' with '|&nbsp;&nbsp;&nbsp;&nbsp;' in this file</li>
+    <li> Add two spaces at the end of each line:  
+    &nbsp;&nbsp;awk '{print $0, "  "}' mvn-deps.txt</li>
+    <li> Copy the terminal content to this .md file</li>
+ <ol>
