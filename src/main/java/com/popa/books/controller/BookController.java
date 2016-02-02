@@ -15,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -156,12 +156,12 @@ public class BookController {
         }
         BookCover bookCover = book.getBookCover();
         if (hasFrontCover && dto.getFrontCoverData().indexOf(BASE64_PREFIX) == 0) {
-            bookCover.setFront(Base64.getDecoder().decode(dto.getFrontCoverData().substring(BASE64_PREFIX.length())));
+            bookCover.setFront(Base64Utils.decodeFromString((dto.getFrontCoverData().substring(BASE64_PREFIX.length()))));
         } else {
             bookCover.setFront(null);
         }
         if (hasBackCover && dto.getBackCoverData().indexOf(BASE64_PREFIX) == 0) {
-            bookCover.setBack(Base64.getDecoder().decode(dto.getBackCoverData().substring(BASE64_PREFIX.length())));
+            bookCover.setBack(Base64Utils.decodeFromString((dto.getBackCoverData().substring(BASE64_PREFIX.length()))));
         } else {
             bookCover.setBack(null);
         }
