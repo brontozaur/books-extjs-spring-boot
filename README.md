@@ -60,21 +60,21 @@ Currently, some of the cool technologies implemented in this application are:
     
 <i>Future plans</i>
   
-* :thumbsup: :frog: ~~Fix the left tree display~~
-* :thumbsup: :frog: ~~Fix the wrong label for left tree view mode~~
-* :thumbsup: ~~Cleanup the imports in pom.xml~~
+* ~~:thumbsup: :frog: Fix the left tree display~~
+* ~~:thumbsup: :frog: Fix the wrong label for left tree view mode~~
+* ~~:thumbsup: Cleanup the imports in pom.xml~~
 * :frog: Fix the books grid pagination
 * Introduce ExtJS menus for all grids
 * Info area redesign, and upload image display on left side, not center
 * Spring security with login form
-* :thumbsup: ~~Creation of an error page and custom error handling using a custom ErrorController~~
+* ~~:thumbsup: Creation of an error page and custom error handling using a custom ErrorController~~
 * Return a ResponseEntity for all REST requests, for error and also for success
 * File import for books, authors, etc
 * Export to .csv, .doc, .xls, .pdf
 * Form validation using vtypes
-* :thumbsup: ~~Improvements for error handling forms to parse the response~~
-* :thumbsup: :frog: ~~Fix inactive grid buttons after modify/delete operations~~
-* :thumbsup: ~~Send request to persistence when editing a grid record to check it's validity~~
+* ~~:thumbsup: Improvements for error handling forms to parse the response~~
+* ~~:thumbsup: :frog: Fix inactive grid buttons after modify/delete operations~~
+* ~~:thumbsup: Send request to persistence when editing a grid record to check it's validity~~
 * Filter to display image-only files on upload
 * Junit tests
 * Selenium tests
@@ -82,12 +82,12 @@ Currently, some of the cool technologies implemented in this application are:
 * Create a new tab containing a tree (files, directory listing?) to play around with more complicated tree structures
 * Reload left tree when new book is created
 * Create info area for authors, categories, publishing houses, to display the associated books
-* :thumbsup: ~~Display only items with records in the left tree (e.g. authors with books)~~
+* ~~:thumbsup: Display only items with records in the left tree (e.g. authors with books)~~
 * Create filtering for authors with books only, etc
 * :frog: Fix the books grid filtering to take into account current tree selection
-* :thumbsup: :frog: ~~Fix upload is lost when editing + save directly bug~~
+* ~~:thumbsup: :frog: Fix upload is lost when editing + save directly bug~~
 * :frog: Fix author save failed when using dataNasterii field value
-* :thumbsup: ~~Book cover uploads should not create files on server~~
+* ~~:thumbsup: Book cover uploads should not create files on server~~
 * To convert image upload API into a document upload API, with items displayed on a new tab, based on their type. Server file explorer!
     
 <i>More future plans :-) </i>
