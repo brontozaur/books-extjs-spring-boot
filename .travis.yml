@@ -4,6 +4,9 @@ language: java
 env:
   - DB=mysql
 
+jdk:
+  - oraclejdk8
+
 services:
   - mysql
 
