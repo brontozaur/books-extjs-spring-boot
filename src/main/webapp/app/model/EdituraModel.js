@@ -3,7 +3,11 @@ Ext.define('BM.model.EdituraModel', {
     idProperty: 'idEditura',
     proxy: {
         type: 'rest',
-        url: '/editura'
+        url: '/editura',
+        reader: {
+            type: 'json',
+            rootProperty: 'edituraList'
+        }
     },
     fields: [
         'idEditura',

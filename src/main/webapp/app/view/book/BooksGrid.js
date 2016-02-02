@@ -56,13 +56,19 @@ Ext.define('BM.view.book.BooksGrid', {
     ],
 
     initComponent: function () {
-        this.columns = this.buildColumns();
-        this.callParent(arguments);
+        var me = this;
+        me.columns = this.buildColumns();
+        me.callParent(arguments);
 
-        this.store.load({
+        me.store.loadPage(1, {
             params: {
                 start: 0,
-                limit: BM.store.BookStore.itemsPerPage
+                limit: booksPerPage
+            },
+            callback: function(records, operation, success) {
+                if (!success) {
+                    me.store.removeAll();
+                }
             }
         });
     },

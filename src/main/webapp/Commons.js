@@ -1,3 +1,8 @@
+var booksPerPage = 2;
+var edituriPerPage = 2;
+var categoriiPerPage = 2;
+var autoriPerPage = 2;
+
 function enableBookGridButtons(enable) {
     var modButton = Ext.ComponentQuery.query('booksgrid button[action=mod-book]')[0];
     var delButton = Ext.ComponentQuery.query('booksgrid button[action=del-book]')[0];

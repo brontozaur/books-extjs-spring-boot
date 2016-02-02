@@ -3,7 +3,11 @@ Ext.define('BM.model.BookModel', {
     idProperty: 'bookId',
     proxy: {
         type: 'rest',
-        url: '/book'
+        url: '/book',
+        reader: {
+            type: 'json',
+            rootProperty: 'bookList'
+        }
     },
     fields: [
         'bookId',

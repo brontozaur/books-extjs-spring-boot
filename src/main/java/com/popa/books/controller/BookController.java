@@ -3,6 +3,7 @@ package com.popa.books.controller;
 import com.popa.books.config.BooksApplicationProperties;
 import com.popa.books.model.Book;
 import com.popa.books.model.BookCover;
+import com.popa.books.model.api.BookListWrapper;
 import com.popa.books.model.node.BookNode;
 import com.popa.books.model.node.Node;
 import com.popa.books.repository.*;
@@ -11,6 +12,9 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -48,8 +52,10 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Book> getAllBooks(){
-        return repository.findAll();
+    public BookListWrapper getBooks(@RequestParam Integer start, @RequestParam Integer limit){
+        Pageable pageable = new PageRequest(start, limit);
+        Page<Book> bookList = repository.findAll(pageable);
+        return new BookListWrapper(bookList.getTotalElements(), bookList.getContent());
     }
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)

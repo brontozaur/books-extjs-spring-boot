@@ -1,10 +1,14 @@
 Ext.define('BM.store.CategorieStore', {
     extend: 'Ext.data.Store',
     model: 'BM.model.CategorieModel',
+    pageSize: categoriiPerPage,
     proxy: {
-        type: 'ajax',
-        api: {
-            read: '/categorie'
+        type: 'rest',
+        url: '/categorie',
+        reader: {
+            type: 'json',
+            root: 'categorieList',
+            totalProperty: 'totalCount'
         }
     },
     sorters: [

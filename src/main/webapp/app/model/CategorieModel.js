@@ -3,7 +3,11 @@ Ext.define('BM.model.CategorieModel', {
     idProperty: 'idCategorie',
     proxy: {
         type: 'rest',
-        url: '/categorie'
+        url: '/categorie',
+        reader: {
+            type: 'json',
+            rootProperty: 'categorieList'
+        }
     },
     fields: [
         'idCategorie',

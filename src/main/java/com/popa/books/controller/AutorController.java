@@ -1,6 +1,7 @@
 package com.popa.books.controller;
 
 import com.popa.books.model.Autor;
+import com.popa.books.model.api.AutorListWrapper;
 import com.popa.books.model.node.AutorNode;
 import com.popa.books.model.node.Node;
 import com.popa.books.model.node.NodeSQL;
@@ -8,6 +9,9 @@ import com.popa.books.repository.AutorRepository;
 import com.popa.books.repository.BookRepository;
 import com.popa.books.util.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,13 +33,10 @@ public class AutorController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Autor> getAllAutori(){
-        List<Autor> autori =  new ArrayList<>();
-        Iterable<Autor> it = repository.findAll();
-        for (Autor Autor: it) {
-            autori.add(Autor);
-        }
-        return autori;
+    public AutorListWrapper getAutori(@RequestParam Integer start, @RequestParam Integer limit){
+        Pageable pageable = new PageRequest(start, limit);
+        Page<Autor> autorList = repository.findAll(pageable);
+        return new AutorListWrapper(autorList.getTotalElements(), autorList.getContent());
     }
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)

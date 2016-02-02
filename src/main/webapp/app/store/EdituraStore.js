@@ -1,10 +1,14 @@
 Ext.define('BM.store.EdituraStore', {
     extend: 'Ext.data.Store',
     model: 'BM.model.EdituraModel',
+    pageSize: edituriPerPage,
     proxy: {
-        type: 'ajax',
-        api: {
-            read: '/editura'
+        type: 'rest',
+        url: '/editura',
+        reader: {
+            type: 'json',
+            root: 'edituraList',
+            totalProperty: 'totalCount'
         }
     },
     sorters: [

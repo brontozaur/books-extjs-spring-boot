@@ -1,19 +1,16 @@
-var itemsPerPage = 1;
 Ext.define('BM.store.BookStore', {
     extend: 'Ext.data.Store',
     model: 'BM.model.BookModel',
-    autoLoad: {
-        params: {
-            start: 0,
-            limit: itemsPerPage
-        }
-    },
-    pageSize: itemsPerPage,
+    autoLoad: false,
+    pageSize: booksPerPage,
 
     proxy: {
-        type: 'ajax',
-        api: {
-            read: 'book'
+        type: 'rest',
+        url: '/book',
+        reader: {
+            type: 'json',
+            root: 'bookList',
+            totalProperty: 'totalCount'
         }
     },
     sorters: [
@@ -22,10 +19,9 @@ Ext.define('BM.store.BookStore', {
             direction: 'ASC'
         }
     ],
-
     listeners: {
-        load: function (store, records, success, operation, options) {
-//                    debugger;
-        }
+    load: function (store, records, success, operation, options) {
+        console.log('store <<' + store.storeId + '>> was fully reloaded');
     }
+}
 });

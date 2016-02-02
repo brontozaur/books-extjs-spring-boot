@@ -6,6 +6,13 @@ Ext.define('BM.view.editura.EdituraGrid', {
     store: 'EdituraStore',
     dockedItems: [
         {
+            xtype: 'pagingtoolbar',
+            store: 'EdituraStore',
+            dock: 'bottom',
+            displayInfo: true,
+            border: false
+        },
+        {
             xtype: 'toolbar',
             border: false,
             items: [
@@ -41,8 +48,21 @@ Ext.define('BM.view.editura.EdituraGrid', {
     ],
 
     initComponent: function () {
-        this.columns = this.buildColumns();
-        this.callParent(arguments);
+        var me = this;
+        me.columns = this.buildColumns();
+        me.callParent(arguments);
+
+        me.store.loadPage(1, {
+            params: {
+                start: 0,
+                limit: edituriPerPage
+            },
+            callback: function(records, operation, success) {
+                if (!success) {
+                    me.store.removeAll();
+                }
+            }
+        });
     },
 
     buildColumns: function () {

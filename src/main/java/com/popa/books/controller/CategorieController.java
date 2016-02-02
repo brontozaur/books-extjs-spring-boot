@@ -1,8 +1,12 @@
 package com.popa.books.controller;
 
 import com.popa.books.model.Categorie;
+import com.popa.books.model.api.CategorieListWrapper;
 import com.popa.books.repository.CategorieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,13 +26,10 @@ public class CategorieController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Categorie> getAllCategorii(){
-        List<Categorie> categorii =  new ArrayList<>();
-        Iterable<Categorie> it = repository.findAll();
-        for (Categorie Categorie: it) {
-            categorii.add(Categorie);
-        }
-        return categorii;
+    public CategorieListWrapper getCategorii(@RequestParam Integer start, @RequestParam Integer limit) {
+        Pageable pageable = new PageRequest(start, limit);
+        Page<Categorie> categorieList = repository.findAll(pageable);
+        return new CategorieListWrapper(categorieList.getTotalElements(), categorieList.getContent());
     }
 
     @RequestMapping(method = RequestMethod.POST)

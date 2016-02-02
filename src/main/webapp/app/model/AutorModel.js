@@ -3,7 +3,11 @@ Ext.define('BM.model.AutorModel', {
     idProperty: 'autorId',
     proxy: {
         type: 'rest',
-        url: '/autor'
+        url: '/autor',
+        reader: {
+            type: 'json',
+            rootProperty: 'autorList'
+        }
     },
     fields: [
         'autorId',

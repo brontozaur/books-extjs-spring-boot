@@ -5,17 +5,14 @@ Ext.define('BM.view.autor.AutorGrid', {
     columnLines: true,
     store: 'AutorStore',
 
-    // plugins: [
-    // Ext.create('Ext.grid.plugin.RowEditing', {
-    // clicksToEdit: 2
-    // })
-    // ],
-
-    // features: [{
-    // ftype: 'grouping',
-    // }],
-
     dockedItems: [
+        {
+            xtype: 'pagingtoolbar',
+            store: 'AutorStore',
+            dock: 'bottom',
+            displayInfo: true,
+            border: false
+        },
         {
             xtype: 'toolbar',
             border: false,
@@ -52,8 +49,21 @@ Ext.define('BM.view.autor.AutorGrid', {
     ],
 
     initComponent: function () {
-        this.columns = this.buildColumns();
-        this.callParent(arguments);
+        var me = this; 
+        me.columns = this.buildColumns();
+         me.callParent(arguments);
+
+        me.store.loadPage(1, {
+            params: {
+                start: 0,
+                limit: autoriPerPage
+            },
+            callback: function(records, operation, success) {
+                if (!success) {
+                    me.store.removeAll();
+                }
+            }
+        });
     },
 
     buildColumns: function () {

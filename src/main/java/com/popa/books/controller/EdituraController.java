@@ -1,12 +1,16 @@
 package com.popa.books.controller;
 
 import com.popa.books.model.Editura;
+import com.popa.books.model.api.EdituraListWrapper;
 import com.popa.books.model.node.EdituraNode;
 import com.popa.books.model.node.Node;
 import com.popa.books.model.node.NodeSQL;
 import com.popa.books.repository.BookRepository;
 import com.popa.books.repository.EdituraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,13 +32,10 @@ public class EdituraController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Editura> getAllEdituri(){
-            List<Editura> edituri =  new ArrayList<>();
-            Iterable<Editura> it = repository.findAll();
-            for (Editura editura: it) {
-                edituri.add(editura);
-            }
-            return edituri;
+    public EdituraListWrapper getEdituri(@RequestParam Integer start, @RequestParam Integer limit){
+        Pageable pageable = new PageRequest(start, limit);
+        Page<Editura> edituriList = repository.findAll(pageable);
+        return new EdituraListWrapper(edituriList.getTotalElements(), edituriList.getContent());
     }
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)

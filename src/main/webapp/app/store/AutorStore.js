@@ -1,10 +1,14 @@
 Ext.define('BM.store.AutorStore', {
     extend: 'Ext.data.Store',
     model: 'BM.model.AutorModel',
+    pageSize: autoriPerPage,
     proxy: {
-        type: 'ajax',
-        api: {
-            read: 'autor'
+        type: 'rest',
+        url: '/autor',
+        reader: {
+            type: 'json',
+            root: 'autorList',
+            totalProperty: 'totalCount'
         }
     },
     sorters: [
