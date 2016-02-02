@@ -186,7 +186,7 @@ Ext.define('BM.controller.EdituraGridController', {
             },
             callback: function(records, operation, success) {
                 if (!success) {
-                    me.store.removeAll();
+                    this.getEdituraStoreStore().removeAll();
                 }
             }
         });

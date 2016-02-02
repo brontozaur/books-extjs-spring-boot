@@ -184,7 +184,7 @@ Ext.define('BM.controller.CategorieGridController', {
             },
             callback: function(records, operation, success) {
                 if (!success) {
-                    me.store.removeAll();
+                    this.getCategorieStoreStore().removeAll();
                 }
             }
         });
