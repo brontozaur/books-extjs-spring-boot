@@ -178,7 +178,7 @@ Currently, some of the cool technologies implemented in this application are:
         &nbsp;&nbsp;``mvn dependency:tree -Doutput=mvn-deps.txt`` </li>
     <li> Replace ``'|  '`` with ``'|&nbsp;&nbsp;&nbsp;&nbsp;'`` in this file</li>
     <li> Add two spaces at the end of each line:  
-    &nbsp;&nbsp``;awk '{print $0, "  "}' mvn-deps.txt``
+    &nbsp;&nbsp;``;awk '{print $0, "  "}' mvn-deps.txt``
     </li>
     <li> Copy the terminal content to this .md file</li>
  <ol>
