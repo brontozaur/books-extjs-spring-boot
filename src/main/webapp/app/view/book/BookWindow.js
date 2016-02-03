@@ -269,6 +269,13 @@ Ext.define('BM.view.book.BookWindow', {
                                                             name: 'frontCoverUpload',
                                                             buttonConfig: {
                                                                 iconCls: 'icon-upload'
+                                                            },
+                                                            listeners:{
+                                                                afterrender:function(cmp){
+                                                                    cmp.fileInputEl.set({
+                                                                        accept:'image/*'
+                                                                    });
+                                                                }
                                                             }
                                                         },
                                                         {
@@ -326,6 +333,13 @@ Ext.define('BM.view.book.BookWindow', {
                                                             name: 'backCoverUpload',
                                                             buttonConfig: {
                                                                 iconCls: 'icon-upload'
+                                                            },
+                                                            listeners:{
+                                                                afterrender:function(cmp){
+                                                                    cmp.fileInputEl.set({
+                                                                        accept:'image/*'
+                                                                    });
+                                                                }
                                                             }
                                                         },
                                                         {

@@ -73,6 +73,7 @@ Currently, some of the cool technologies implemented in this application are:
 * :thumbsup: ~~Fix the books grid pagination~~
 * :thumbsup: ~~Fix bug with the last page on grid pagination for all object types~~
 * :thumbsup: ~~Fix bug with partial records in combo boxes~~
+* :thumbsup: ~~Filter to display image-only files on upload~~
 * Introduce ExtJS menus for all grids
 * Info area redesign, and upload image display on left side, not center
 * Spring security with login form
@@ -80,7 +81,6 @@ Currently, some of the cool technologies implemented in this application are:
 * File import for books, authors, etc
 * Export to .csv, .doc, .xls, .pdf
 * Form validation using vtypes
-* Filter to display image-only files on upload
 * Junit tests
 * Selenium tests
 * Quartz scheduler to clean-up the upload folder
