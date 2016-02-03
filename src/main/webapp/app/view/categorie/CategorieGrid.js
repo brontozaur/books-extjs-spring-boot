@@ -55,7 +55,6 @@ Ext.define('BM.view.categorie.CategorieGrid', {
 
         me.store.loadPage(1, {
             params: {
-                start: 0,
                 limit: categoriiPerPage
             },
             callback: function(records, operation, success) {

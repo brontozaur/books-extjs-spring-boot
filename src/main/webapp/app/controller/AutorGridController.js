@@ -179,7 +179,6 @@ Ext.define('BM.controller.AutorGridController', {
     refreshAutorGrid: function (button, clickEvent, options) {
         this.getAutorStoreStore().loadPage(1, {
             params: {
-                start: 0,
                 limit: autoriPerPage
             },
             callback: function(records, operation, success) {

@@ -19,7 +19,11 @@ Ext.define('BM.store.EdituraStore', {
     ],
     listeners: {
         load: function (store, records, success, operation, options) {
-            console.log('store <<' + store.storeId + '>> was fully reloaded');
+            if (success) {
+                console.log(store.storeId + " loaded " + records.length + ' records from a total of ' + store.getTotalCount());
+            } else {
+                console.log('error loading ' + store.storeId);
+            }
         }
     }
 });

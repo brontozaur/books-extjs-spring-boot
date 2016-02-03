@@ -27,7 +27,6 @@ public class CategorieController {
 
     @RequestMapping(method = RequestMethod.GET)
     public CategorieListWrapper getCategorii(@RequestParam(value = "page") Integer currentPage,
-                                             @RequestParam(value = "start") Integer start,
                                              @RequestParam(value = "limit") Integer pageSize) {
         Pageable pageable = new PageRequest(currentPage-1, pageSize);
         Page<Categorie> categorieList = repository.findAll(pageable);

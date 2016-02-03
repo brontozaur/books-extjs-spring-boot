@@ -63,7 +63,6 @@ Ext.define('BM.view.book.BooksGrid', {
 
         me.store.loadPage(1, {
             params: {
-                start: 0,
                 limit: booksPerPage
             },
             callback: function(records, operation, success) {

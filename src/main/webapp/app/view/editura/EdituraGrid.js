@@ -55,7 +55,6 @@ Ext.define('BM.view.editura.EdituraGrid', {
 
         me.store.loadPage(1, {
             params: {
-                start: 0,
                 limit: edituriPerPage
             },
             callback: function(records, operation, success) {

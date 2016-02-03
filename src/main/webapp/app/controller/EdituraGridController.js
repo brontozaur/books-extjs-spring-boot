@@ -181,7 +181,6 @@ Ext.define('BM.controller.EdituraGridController', {
     refreshEdituraGrid: function (button, clickEvent, options) {
         this.getEdituraStoreStore().loadPage(1, {
             params: {
-                start: 0,
                 limit: edituriPerPage
             },
             callback: function(records, operation, success) {

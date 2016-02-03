@@ -55,7 +55,6 @@ Ext.define('BM.view.autor.AutorGrid', {
 
         me.store.loadPage(1, {
             params: {
-                start: 0,
                 limit: autoriPerPage
             },
             callback: function(records, operation, success) {
