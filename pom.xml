@@ -38,6 +38,8 @@
         <commons.lang.version>2.4</commons.lang.version>
         <commons.io.version>2.4</commons.io.version>
         <commons.codec.version>1.9</commons.codec.version>
+        <jsonpath.version>2.1.0</jsonpath.version>
+        <json-smart.version>2.2</json-smart.version>
     </properties>
 
     <dependencies>
@@ -116,6 +118,20 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${commons.codec.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path-assert</artifactId>
+            <version>${jsonpath.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+            <version>${json-smart.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
