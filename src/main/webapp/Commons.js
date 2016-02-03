@@ -2,6 +2,15 @@ var booksPerPage = 2;
 var edituriPerPage = 2;
 var categoriiPerPage = 2;
 var autoriPerPage = 2;
+/**
+ * This is an ugly hack. In order to keep grid pagination and also to
+ * display all items in combo (so far, no pagination is needed in combo boxes),
+ * i have extended the original store, overriding the pageSize property,
+ * crossing my fingers that there will never be more that <b>pageSizeMax</b>
+ * objects of that type (e.g. authors). To whoever use this code: i am sorry :-)
+ * @type {number}
+ */
+var pageSizeMax = 999999999;
 
 function enableBookGridButtons(enable) {
     var modButton = Ext.ComponentQuery.query('booksgrid button[action=mod-book]')[0];

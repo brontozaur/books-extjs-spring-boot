@@ -4,7 +4,7 @@ Ext.define('BM.view.editura.EdituraCombo', {
     model: 'BM.model.EdituraModel',
     displayField: 'numeEditura',
     valueField: 'idEditura',
-    store: 'EdituraStore',
+    store: 'EdituraComboStore',
     queryMode: 'local',
     listeners: {
         render: function (combo, options) {

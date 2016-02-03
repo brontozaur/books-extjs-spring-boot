@@ -117,6 +117,8 @@ Ext.define('BM.controller.CategorieGridController', {
                 success: function (result, request) {
                     enableCategorieGridButtons(false);
                     categoriegrid.getStore().remove(selectedCategorie);
+                    var comboStore = Ext.StoreMgr.lookup('CategorieComboStore');
+                    comboStore.remove(selectedCategorie);
                 },
                 failure: function (result, request) {
                     createErrorWindow(result);
@@ -158,12 +160,23 @@ Ext.define('BM.controller.CategorieGridController', {
                             createGenericErrorWindow(error);
                         },
                         success: function (record, operation) {
+                            //update/add record on the grid store
                             var storeRecord = grid.getStore().getById(idCategorie);
                             if (storeRecord) {
                                 storeRecord.set(record.getData());
                                 storeRecord.commit();
                             } else {
                                 grid.getStore().add(record);
+                            }
+
+                            //update/add record on the comboAutor store
+                            var comboStore = Ext.StoreMgr.lookup('CategorieComboStore');
+                            var comboStoreRecord = comboStore.getById(idCategorie);
+                            if (comboStoreRecord) {
+                                comboStoreRecord.set(record.getData());
+                                comboStoreRecord.commit();
+                            } else {
+                                comboStore.add(record);
                             }
                             enableCategorieGridButtons(grid.getSelectionModel().getSelection().length > 0);
                         }

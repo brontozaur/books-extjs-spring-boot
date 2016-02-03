@@ -72,6 +72,7 @@ Currently, some of the cool technologies implemented in this application are:
 * :thumbsup: ~~Book cover uploads should not create files on server~~
 * :thumbsup: ~~Fix the books grid pagination~~
 * :thumbsup: ~~Fix bug with the last page on grid pagination for all object types~~
+* :thumbsup: ~~Fix bug with partial records in combo boxes~~
 * Introduce ExtJS menus for all grids
 * Info area redesign, and upload image display on left side, not center
 * Spring security with login form
@@ -91,6 +92,7 @@ Currently, some of the cool technologies implemented in this application are:
 entry
 * Fix author save failed when using dataNasterii field value
 * To convert image upload API into a document upload API, with items displayed on a new tab, based on their type. Server file explorer!
+* To wrap sql errors into human-readable messages (e.g. when an author with the same name already exists)
     
 <i>More future plans :-) </i>
   

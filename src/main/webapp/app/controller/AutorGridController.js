@@ -4,7 +4,8 @@ Ext.define('BM.controller.AutorGridController', {
         'Ext.window.MessageBox'
     ],
     stores: [
-        'AutorStore'
+        'AutorStore',
+        'AutorComboStore'
     ],
 
     views: [
@@ -117,6 +118,8 @@ Ext.define('BM.controller.AutorGridController', {
                 success: function (result, request) {
                     enableAutorGridButtons(false);
                     autorgrid.getStore().remove(selectedAutor);
+                    var comboStore = Ext.StoreMgr.lookup('AutorComboStore');
+                    comboStore.remove(selectedAutor);
                 },
                 failure: function (result, request) {
                     createErrorWindow(result);
@@ -158,6 +161,7 @@ Ext.define('BM.controller.AutorGridController', {
                             createGenericErrorWindow(error);
                         },
                         success: function (record, operation) {
+                            //update/add record on the grid store
                             var storeRecord = grid.getStore().getById(idAutor);
                             if (storeRecord) {
                                 storeRecord.set(record.getData());
@@ -165,6 +169,17 @@ Ext.define('BM.controller.AutorGridController', {
                             } else {
                                 grid.getStore().add(record);
                             }
+
+                            //update/add record on the comboAutor store
+                            var comboStore = Ext.StoreMgr.lookup('AutorComboStore');
+                            var comboStoreRecord = comboStore.getById(idAutor);
+                            if (comboStoreRecord) {
+                                comboStoreRecord.set(record.getData());
+                                comboStoreRecord.commit();
+                            } else {
+                                comboStore.add(record);
+                            }
+
                             enableAutorGridButtons(grid.getSelectionModel().getSelection().length > 0);
                         }
                     });

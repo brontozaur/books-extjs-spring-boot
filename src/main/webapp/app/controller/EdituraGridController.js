@@ -117,6 +117,8 @@ Ext.define('BM.controller.EdituraGridController', {
                 success: function (result, request) {
                     enableEdituraGridButtons(false);
                     edituragrid.getStore().remove(selectedEditura);
+                    var comboStore = Ext.StoreMgr.lookup('EdituraComboStore');
+                    comboStore.remove(selectedEditura);
                 },
                 failure: function (result, request) {
                     createErrorWindow(result);
@@ -159,12 +161,24 @@ Ext.define('BM.controller.EdituraGridController', {
                             createGenericErrorWindow(error);
                         },
                         success: function (record, operation) {
+                            //update/add record on the grid store
                             var storeRecord = grid.getStore().getById(idEditura);
                             if (storeRecord) {
                                 storeRecord.set(record.getData());
                                 storeRecord.commit();
                             } else {
                                 grid.getStore().add(record);
+                            }
+
+
+                            //update/add record on the comboAutor store
+                            var comboStore = Ext.StoreMgr.lookup('EdituraComboStore');
+                            var comboStoreRecord = comboStore.getById(idEditura);
+                            if (comboStoreRecord) {
+                                comboStoreRecord.set(record.getData());
+                                comboStoreRecord.commit();
+                            } else {
+                                comboStore.add(record);
                             }
                             enableEdituraGridButtons(grid.getSelectionModel().getSelection().length > 0);
                         }

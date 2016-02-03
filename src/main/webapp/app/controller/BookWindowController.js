@@ -2,8 +2,9 @@ Ext.define('BM.controller.BookWindowController', {
     extend: 'Ext.app.Controller',
     stores: [
         'BookStore',
-        'AutorStore',
-        'EdituraStore'
+        'AutorComboStore',
+        'EdituraComboStore',
+        'CategorieComboStore'
     ],
 
     views: [
