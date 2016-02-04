@@ -6,7 +6,7 @@ Ext.define('BM.model.AutorModel', {
         url: '/autor',
         reader: {
             type: 'json',
-            rootProperty: 'autorList'
+            rootProperty: 'totalElements'
         }
     },
     fields: [

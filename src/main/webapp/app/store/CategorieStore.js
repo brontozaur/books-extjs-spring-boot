@@ -7,8 +7,8 @@ Ext.define('BM.store.CategorieStore', {
         url: '/categorie',
         reader: {
             type: 'json',
-            root: 'categorieList',
-            totalProperty: 'totalCount'
+            root: 'content',
+            totalProperty: 'totalElements'
         }
     },
     sorters: [

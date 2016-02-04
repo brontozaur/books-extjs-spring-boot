@@ -6,7 +6,7 @@ Ext.define('BM.model.CategorieModel', {
         url: '/categorie',
         reader: {
             type: 'json',
-            rootProperty: 'categorieList'
+            rootProperty: 'content'
         }
     },
     fields: [

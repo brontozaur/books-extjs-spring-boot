@@ -8,5 +8,6 @@ public interface Node {
     
     boolean isLoaded();
     
-    String NOT_AVAILABLE = "#";
+    String NOT_AVAILABLE_STR = "#";
+    Long NOT_AVAILABLE_ID = -1L;
 }

@@ -1,13 +1,11 @@
 package com.popa.books.controller;
 
 import com.popa.books.model.Autor;
-import com.popa.books.model.api.AutorListWrapper;
 import com.popa.books.model.node.AutorNode;
 import com.popa.books.model.node.Node;
 import com.popa.books.model.node.NodeSQL;
 import com.popa.books.repository.AutorRepository;
 import com.popa.books.repository.BookRepository;
-import com.popa.books.util.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,11 +31,10 @@ public class AutorController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public AutorListWrapper getAutori(@RequestParam(value = "page") Integer currentPage,
-                                      @RequestParam(value = "limit") Integer pageSize) {
+    public Page<Autor> getAutori(@RequestParam(value = "page") Integer currentPage,
+                                 @RequestParam(value = "limit") Integer pageSize) {
         Pageable pageable = new PageRequest(currentPage-1, pageSize);
-        Page<Autor> autorList = repository.findAll(pageable);
-        return new AutorListWrapper(autorList.getTotalElements(), autorList.getContent());
+        return repository.findAll(pageable);
     }
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
@@ -51,8 +48,8 @@ public class AutorController {
             bean.setLeaf(true);
             bean.setLoaded(true);
             bean.setHowManyBooks(booksWithNoAuthor);
-            bean.setName(Node.NOT_AVAILABLE);
-            bean.setId(Node.NOT_AVAILABLE);
+            bean.setName(Node.NOT_AVAILABLE_STR);
+            bean.setId(Node.NOT_AVAILABLE_STR);
             autori.add(bean);
         }
 

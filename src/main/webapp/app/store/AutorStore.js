@@ -7,8 +7,8 @@ Ext.define('BM.store.AutorStore', {
         url: '/autor',
         reader: {
             type: 'json',
-            root: 'autorList',
-            totalProperty: 'totalCount'
+            root: 'content',
+            totalProperty: 'totalElements'
         }
     },
     sorters: [

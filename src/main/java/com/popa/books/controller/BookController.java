@@ -3,10 +3,13 @@ package com.popa.books.controller;
 import com.popa.books.config.BooksApplicationProperties;
 import com.popa.books.model.Book;
 import com.popa.books.model.BookCover;
-import com.popa.books.model.api.BookListWrapper;
+import com.popa.books.model.api.BookDTO;
 import com.popa.books.model.node.BookNode;
 import com.popa.books.model.node.Node;
-import com.popa.books.repository.*;
+import com.popa.books.repository.AutorRepository;
+import com.popa.books.repository.BookRepository;
+import com.popa.books.repository.CategorieRepository;
+import com.popa.books.repository.EdituraRepository;
 import com.popa.books.util.RequestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -52,11 +55,10 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public BookListWrapper getBooks(@RequestParam(value = "page") Integer currentPage,
-                                    @RequestParam(value = "limit") Integer pageSize) {
+    public Page<Book> getBooks(@RequestParam(value = "page") Integer currentPage,
+                               @RequestParam(value = "limit") Integer pageSize) {
         Pageable pageable = new PageRequest(currentPage-1, pageSize);
-        Page<Book> bookList = repository.findAll(pageable);
-        return new BookListWrapper(bookList.getTotalElements(), bookList.getContent());
+        return repository.findAll(pageable);
     }
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
@@ -72,8 +74,8 @@ public class BookController {
             bean.setLeaf(true);
             bean.setLoaded(true);
             bean.setHowManyBooks(booksWithNoTitle);
-            bean.setName(Node.NOT_AVAILABLE);
-            bean.setId(Node.NOT_AVAILABLE);
+            bean.setName(Node.NOT_AVAILABLE_STR);
+            bean.setId(Node.NOT_AVAILABLE_STR);
             books.add(bean);
         }
 

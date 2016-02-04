@@ -6,7 +6,7 @@ Ext.define('BM.model.BookModel', {
         url: '/book',
         reader: {
             type: 'json',
-            rootProperty: 'bookList'
+            rootProperty: 'content'
         }
     },
     fields: [

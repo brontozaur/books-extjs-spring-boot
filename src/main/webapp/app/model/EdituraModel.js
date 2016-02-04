@@ -6,7 +6,7 @@ Ext.define('BM.model.EdituraModel', {
         url: '/editura',
         reader: {
             type: 'json',
-            rootProperty: 'edituraList'
+            rootProperty: 'content'
         }
     },
     fields: [

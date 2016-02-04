@@ -1,7 +1,6 @@
 package com.popa.books.controller;
 
 import com.popa.books.model.Editura;
-import com.popa.books.model.api.EdituraListWrapper;
 import com.popa.books.model.node.EdituraNode;
 import com.popa.books.model.node.Node;
 import com.popa.books.model.node.NodeSQL;
@@ -32,11 +31,10 @@ public class EdituraController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public EdituraListWrapper getEdituri(@RequestParam(value = "page") Integer currentPage,
+    public Page<Editura> getEdituri(@RequestParam(value = "page") Integer currentPage,
                                          @RequestParam(value = "limit") Integer pageSize) {
         Pageable pageable = new PageRequest(currentPage-1, pageSize);
-        Page<Editura> edituriList = repository.findAll(pageable);
-        return new EdituraListWrapper(edituriList.getTotalElements(), edituriList.getContent());
+        return repository.findAll(pageable);
     }
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
@@ -50,8 +48,8 @@ public class EdituraController {
             bean.setLeaf(true);
             bean.setLoaded(true);
             bean.setHowManyBooks(booksWithNoEditura);
-            bean.setName(Node.NOT_AVAILABLE);
-            bean.setId(Node.NOT_AVAILABLE);
+            bean.setName(Node.NOT_AVAILABLE_STR);
+            bean.setId(Node.NOT_AVAILABLE_STR);
             edituri.add(bean);
         }
 

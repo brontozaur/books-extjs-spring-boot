@@ -1,4 +1,4 @@
-package com.popa.books.controller;
+package com.popa.books.model.api;
 
 import java.io.Serializable;
 

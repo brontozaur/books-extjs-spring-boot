@@ -7,8 +7,8 @@ Ext.define('BM.store.EdituraStore', {
         url: '/editura',
         reader: {
             type: 'json',
-            root: 'edituraList',
-            totalProperty: 'totalCount'
+            root: 'content',
+            totalProperty: 'totalElements'
         }
     },
     sorters: [

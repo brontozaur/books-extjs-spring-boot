@@ -9,8 +9,8 @@ Ext.define('BM.store.BookStore', {
         url: '/book',
         reader: {
             type: 'json',
-            root: 'bookList',
-            totalProperty: 'totalCount'
+            root: 'content',
+            totalProperty: 'totalElements'
         }
     },
     sorters: [
