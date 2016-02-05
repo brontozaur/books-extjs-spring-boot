@@ -46,6 +46,7 @@ Currently, some of the cool technologies implemented in this application are:
 * Image uploads
 * Multi platform compatibility (tested on Windows, MacOS and Ubuntu)
 * Travis CI integration
+* Spring MVC tests
     
 #Front-end
   
@@ -56,7 +57,9 @@ Currently, some of the cool technologies implemented in this application are:
 * Grids, trees, forms, sorting, filtering
 * CRUD operations
 * Basic form validation
-* Image upload and delete uploaded file
+* Image upload and delete uploaded file using Base64 encoding
+* Custom error handling
+* Grid pagination
     
 <i>Future plans</i>
 
@@ -90,6 +93,7 @@ Currently, some of the cool technologies implemented in this application are:
 * Selenium tests
 * Create a new tab containing a tree (files, directory listing?) to play around with more complicated tree structures
 * To convert image upload API into a document upload API, with items displayed on a new tab, based on their type. Server file explorer!
+* To create some settings for the app
     
 <i>More future plans :-) </i>
   
