@@ -1,7 +1,7 @@
-var booksPerPage = 2;
-var edituriPerPage = 2;
-var categoriiPerPage = 2;
-var autoriPerPage = 2;
+var booksPerPage = 10;
+var edituriPerPage = 10;
+var categoriiPerPage = 10;
+var autoriPerPage = 10;
 /**
  * This is an ugly hack. In order to keep grid pagination and also to
  * display all items in combo (so far, no pagination is needed in combo boxes),
