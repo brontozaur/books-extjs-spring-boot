@@ -79,7 +79,6 @@ Currently, some of the cool technologies implemented in this application are:
 * :thumbsup: ~~Filter to display image-only files on upload~~
 * :thumbsup: ~~Fix the books grid filtering to take into account current tree selection. Fixed pagination after tree selection also.~~
 * Introduce ExtJS menus for all grids
-* Reload left tree when new book is created
 * Create filtering for authors with books only, etc
 * Fix author save failed when using dataNasterii field value
 * To wrap sql errors into human-readable messages (e.g. when an author with the same name already exists)

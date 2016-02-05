@@ -18,10 +18,11 @@ Ext.define('BM.controller.ErrorWindowController', {
     showDetails: function (button, clickEvent, options) {
         var errorDetailsField = Ext.ComponentQuery.query('errorwindow textarea[itemId=errorDetails]')[0];
         var parent = errorDetailsField.up('panel');
-        if (!parent.getCollapsed()) {
-            parent.collapse();
+        var window = button.up('errorwindow');
+        if (window.getLayout().getActiveItem().getItemId() == 'errorTitle') {
+            window.getLayout().setActiveItem('errorDetails');
         } else {
-            parent.expand();
+            window.getLayout().setActiveItem('errorTitle');
         }
     },
 

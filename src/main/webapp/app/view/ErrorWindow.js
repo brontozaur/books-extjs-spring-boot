@@ -2,14 +2,13 @@ Ext.define('BM.view.ErrorWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.errorwindow',
     height: 500,
-    width: 900,
-    layout: 'border',
+    width: 800,
+    layout: 'card',
     items: [
         {
             xtype: 'panel',
             layout: 'hbox',
-            region: 'center',
-            flex: 1,
+            itemId: 'errorTitle',
             items: [
                 {
                     xtype: 'image',
@@ -18,29 +17,17 @@ Ext.define('BM.view.ErrorWindow', {
                 },
                 {
                     xtype: 'label',
-                    text: 'A intervenit o eroare.',
                     baseCls: 'app-header',
                     itemId: 'errorName',
-                    padding: '10 5 5 30'
+                    padding: '10 5 5 30',
+                    height: 300
                 }
             ]
         },
         {
-            xtype: 'panel',
-            region: 'south',
-            collapseDirection: 'down',
-            collapsible: true,
-            height: 400,
-            flex: 9,
-            layout: 'anchor',
-            items: [
-                {
-                    xtype: 'textarea',
-                    itemId: 'errorDetails',
-                    preventScrollbars: false,
-                    anchor: '100% 100%'
-                }
-            ]
+                xtype: 'textarea',
+                itemId: 'errorDetails',
+                preventScrollbars: false
         }
     ],
     buttons: [
