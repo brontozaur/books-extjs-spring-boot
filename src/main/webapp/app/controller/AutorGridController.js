@@ -18,7 +18,9 @@ Ext.define('BM.controller.AutorGridController', {
             'autorgrid': {
                 selectionchange: this.changeselectionAutor,
                 celldblclick: this.celldblclickAutor,
-                render: this.refreshAutorGrid
+                render: this.refreshAutorGrid,
+                itemcontextmenu: this.itemContextMenu,
+                containercontextmenu: this.showMenu
             },
             'autorgrid button[action=add-autor]': {
                 click: this.addAutor
@@ -56,7 +58,7 @@ Ext.define('BM.controller.AutorGridController', {
     },
 
     modAutor: function (button, clickEvent, options) {
-        var grid = button.up('autorgrid');
+        var grid = Ext.ComponentQuery.query('autorgrid')[0];
         var selectionModel = grid.getSelectionModel();
         if (!selectionModel.hasSelection) {
             Ext.Msg.show({
@@ -202,5 +204,53 @@ Ext.define('BM.controller.AutorGridController', {
                 }
             }
         });
+    },
+
+    showMenu: function (panel, event, options) {
+        this.configMenu(event);
+    },
+
+    itemContextMenu: function (xx, record, item, index, e, eOpts) {
+        this.configMenu(e);
+    },
+
+    configMenu: function(event) {
+        event.stopEvent();
+        autorMenu.showAt(event.getXY());
+        autorMenu.controller = this;
+        var autorgrid = Ext.ComponentQuery.query('autorgrid')[0];
+        autorgrid.autorMenu = autorMenu;
+        var hasSelection = autorgrid.getSelectionModel().hasSelection();
+        autorMenu.items.get('modAutor').setDisabled(!hasSelection);
+        autorMenu.items.get('delAutor').setDisabled(!hasSelection);
     }
+});
+
+var autorMenu = Ext.create('Ext.menu.Menu', {
+    items: [
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-add',
+            text: 'Adauga autor',
+            id: 'addAutor',
+            handler: function (widget, event) {
+                autorMenu.controller.addAutor();
+            }
+        }),
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-mod',
+            text: 'Modifica autor',
+            id: 'modAutor',
+            handler: function (widget, event) {
+                autorMenu.controller.modAutor();
+            }
+        }),
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-delete',
+            text: 'Sterge autor',
+            id: 'delAutor',
+            handler: function (widget, event) {
+                autorMenu.controller.delAutor();
+            }
+        })
+    ]
 });

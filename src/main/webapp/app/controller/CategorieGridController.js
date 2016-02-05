@@ -17,7 +17,9 @@ Ext.define('BM.controller.CategorieGridController', {
             'categoriegrid': {
                 selectionchange: this.changeselectionCategorie,
                 celldblclick: this.celldblclickCategorie,
-                render: this.refreshCategorieGrid
+                render: this.refreshCategorieGrid,
+                itemcontextmenu: this.itemContextMenu,
+                containercontextmenu: this.showMenu
             },
             'categoriegrid button[action=add-categorie]': {
                 click: this.addCategorie
@@ -55,7 +57,7 @@ Ext.define('BM.controller.CategorieGridController', {
     },
 
     modCategorie: function (button, clickEvent, options) {
-        var grid = button.up('categoriegrid');
+        var grid = Ext.ComponentQuery.query('categoriegrid')[0];
         var selectionModel = grid.getSelectionModel();
         if (!selectionModel.hasSelection) {
             Ext.Msg.show({
@@ -169,7 +171,7 @@ Ext.define('BM.controller.CategorieGridController', {
                                 grid.getStore().add(record);
                             }
 
-                            //update/add record on the comboAutor store
+                            //update/add record on the comboCategorie store
                             var comboStore = Ext.StoreMgr.lookup('CategorieComboStore');
                             var comboStoreRecord = comboStore.getById(idCategorie);
                             if (comboStoreRecord) {
@@ -200,5 +202,52 @@ Ext.define('BM.controller.CategorieGridController', {
                 }
             }
         });
+    },
+
+    showMenu: function (panel, event, options) {
+        this.configMenu(event);
+    },
+
+    itemContextMenu: function (xx, record, item, index, e, eOpts) {
+        this.configMenu(e);
+    },
+    configMenu: function (event) {
+        event.stopEvent();
+        categorieMenu.showAt(event.getXY());
+        categorieMenu.controller = this;
+        var categoriegrid = Ext.ComponentQuery.query('categoriegrid')[0];
+        categoriegrid.categorieMenu = categorieMenu;
+        var hasSelection = categoriegrid.getSelectionModel().hasSelection();
+        categorieMenu.items.get('modCategorie').setDisabled(!hasSelection);
+        categorieMenu.items.get('delCategorie').setDisabled(!hasSelection);
     }
+});
+
+var categorieMenu = Ext.create('Ext.menu.Menu', {
+    items: [
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-add',
+            text: 'Adauga categorie',
+            id: 'addCategorie',
+            handler: function (widget, event) {
+                categorieMenu.controller.addCategorie();
+            }
+        }),
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-mod',
+            text: 'Modifica categorie',
+            id: 'modCategorie',
+            handler: function (widget, event) {
+                categorieMenu.controller.modCategorie();
+            }
+        }),
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-delete',
+            text: 'Sterge categorie',
+            id: 'delCategorie',
+            handler: function (widget, event) {
+                categorieMenu.controller.delCategorie();
+            }
+        })
+    ]
 });

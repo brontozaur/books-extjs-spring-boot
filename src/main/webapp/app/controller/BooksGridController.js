@@ -14,7 +14,9 @@ Ext.define('BM.controller.BooksGridController', {
             'booksgrid': {
                 selectionchange: this.changeSelection,
                 celldblclick: this.cellDoubleClick,
-                itemkeydown: this.handleKeyPress
+                itemkeydown: this.handleKeyPress,
+                itemcontextmenu: this.itemContextMenu,
+                containercontextmenu: this.showMenu
             },
             'booksgrid button[action=add-book]': {
                 click: this.addBook
@@ -258,5 +260,52 @@ Ext.define('BM.controller.BooksGridController', {
                 }
             }
         ]);
+    },
+
+    showMenu: function (panel, event, options) {
+        this.configMenu(event);
+    },
+
+    itemContextMenu: function (xx, record, item, index, e, eOpts) {
+        this.configMenu(e);
+    },
+    configMenu: function (event) {
+        event.stopEvent();
+        booksMenu.showAt(event.getXY());
+        booksMenu.controller = this;
+        var booksgrid = Ext.ComponentQuery.query('booksgrid')[0];
+        booksgrid.booksMenu = booksMenu;
+        var hasSelection = booksgrid.getSelectionModel().hasSelection();
+        booksMenu.items.get('modBook').setDisabled(!hasSelection);
+        booksMenu.items.get('delBook').setDisabled(!hasSelection);
     }
+});
+
+var booksMenu = Ext.create('Ext.menu.Menu', {
+    items: [
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-add',
+            text: 'Adauga carte',
+            id: 'addBook',
+            handler: function (widget, event) {
+                booksMenu.controller.addBook();
+            }
+        }),
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-mod',
+            text: 'Modifica carte',
+            id: 'modBook',
+            handler: function (widget, event) {
+                booksMenu.controller.modBook();
+            }
+        }),
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-delete',
+            text: 'Sterge carte',
+            id: 'delBook',
+            handler: function (widget, event) {
+                booksMenu.controller.delBook();
+            }
+        })
+    ]
 });

@@ -17,7 +17,9 @@ Ext.define('BM.controller.EdituraGridController', {
             'edituragrid': {
                 selectionchange: this.changeselectionEditura,
                 celldblclick: this.celldblclickEditura,
-                render: this.refreshEdituraGrid
+                render: this.refreshEdituraGrid,
+                itemcontextmenu: this.itemContextMenu,
+                containercontextmenu: this.showMenu
             },
             'edituragrid button[action=add-editura]': {
                 click: this.addEditura
@@ -55,7 +57,7 @@ Ext.define('BM.controller.EdituraGridController', {
     },
 
     modEditura: function (button, clickEvent, options) {
-        var grid = button.up('edituragrid');
+        var grid = Ext.ComponentQuery.query('edituragrid')[0];
         var selectionModel = grid.getSelectionModel();
         if (!selectionModel.hasSelection) {
             Ext.Msg.show({
@@ -203,5 +205,53 @@ Ext.define('BM.controller.EdituraGridController', {
                 }
             }
         });
+    },
+
+    showMenu: function (panel, event, options) {
+        this.configMenu(event);
+    },
+
+    itemContextMenu: function (xx, record, item, index, e, eOpts) {
+        this.configMenu(e)
+    },
+
+    configMenu: function(event) {
+        event.stopEvent();
+        edituraMenu.showAt(event.getXY());
+        edituraMenu.controller = this;
+        var grid = Ext.ComponentQuery.query('edituragrid')[0];
+        grid.edituraMenu = edituraMenu;
+        var hasSelection = grid.getSelectionModel().hasSelection();
+        edituraMenu.items.get('modEditura').setDisabled(!hasSelection);
+        edituraMenu.items.get('delEditura').setDisabled(!hasSelection);
     }
+});
+
+var edituraMenu = Ext.create('Ext.menu.Menu', {
+    items: [
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-add',
+            text: 'Adauga editura',
+            id: 'addEditura',
+            handler: function (widget, event) {
+                edituraMenu.controller.addEditura();
+            }
+        }),
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-mod',
+            text: 'Modifica editura',
+            id: 'modEditura',
+            handler: function (widget, event) {
+                edituraMenu.controller.modEditura();
+            }
+        }),
+        Ext.create('Ext.Action', {
+            iconCls: 'icon-delete',
+            text: 'Sterge editura',
+            id: 'delEditura',
+            handler: function (widget, event) {
+                edituraMenu.controller.delEditura();
+            }
+        })
+    ]
 });
