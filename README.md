@@ -46,6 +46,7 @@ Currently, some of the cool technologies implemented in this application are:
 * Image uploads
 * Multi platform compatibility (tested on Windows, MacOS and Ubuntu)
 * Travis CI integration
+* Spring MVC tests
     
 #Front-end
   
@@ -56,7 +57,9 @@ Currently, some of the cool technologies implemented in this application are:
 * Grids, trees, forms, sorting, filtering
 * CRUD operations
 * Basic form validation
-* Image upload and delete uploaded file
+* Image upload and delete uploaded file using Base64 encoding
+* Custom error handling
+* Grid pagination
     
 <i>Future plans</i>
 
@@ -74,7 +77,12 @@ Currently, some of the cool technologies implemented in this application are:
 * :thumbsup: ~~Fix bug with the last page on grid pagination for all object types~~
 * :thumbsup: ~~Fix bug with partial records in combo boxes~~
 * :thumbsup: ~~Filter to display image-only files on upload~~
+* :thumbsup: ~~Fix the books grid filtering to take into account current tree selection. Fixed pagination after tree selection also.
 * Introduce ExtJS menus for all grids
+* Reload left tree when new book is created
+* Create filtering for authors with books only, etc
+* Fix author save failed when using dataNasterii field value
+* To wrap sql errors into human-readable messages (e.g. when an author with the same name already exists)
 * Info area redesign, and upload image display on left side, not center
 * Spring security with login form
 * Return a ResponseEntity for all REST requests, for error and also for success
@@ -83,16 +91,9 @@ Currently, some of the cool technologies implemented in this application are:
 * Form validation using vtypes
 * Junit tests
 * Selenium tests
-* Quartz scheduler to clean-up the upload folder
 * Create a new tab containing a tree (files, directory listing?) to play around with more complicated tree structures
-* Reload left tree when new book is created
-* Create info area for authors, categories, publishing houses, to display the associated books
-* Create filtering for authors with books only, etc
-* Fix the books grid filtering to take into account current tree selection. Also need to fix pagination to work with the selected tree
-entry
-* Fix author save failed when using dataNasterii field value
 * To convert image upload API into a document upload API, with items displayed on a new tab, based on their type. Server file explorer!
-* To wrap sql errors into human-readable messages (e.g. when an author with the same name already exists)
+* To create some settings for the app
     
 <i>More future plans :-) </i>
   
