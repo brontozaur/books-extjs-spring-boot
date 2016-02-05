@@ -5,6 +5,16 @@ Ext.define('BM.view.book.BooksGrid', {
     columnLines: true,
     store: 'BookStore',
     stripeRows: true,
+    viewConfig: {
+        listeners: {
+            refresh: function (dataview) {
+                Ext.each(dataview.panel.columns, function (column) {
+                    if (column.autoSizeColumn === true)
+                        column.autoSize();
+                })
+            }
+        }
+    },
     dockedItems: [
         {
             xtype: 'pagingtoolbar',
@@ -69,7 +79,7 @@ Ext.define('BM.view.book.BooksGrid', {
                 filterValue: me.store.filterValue,
                 searchType: me.store.searchType
             },
-            callback: function(records, operation, success) {
+            callback: function (records, operation, success) {
                 if (!success) {
                     me.store.removeAll();
                 }
@@ -82,69 +92,65 @@ Ext.define('BM.view.book.BooksGrid', {
             {
                 header: 'Id',
                 dataIndex: 'bookId',
-                flex: 1
+                autoSizeColumn: true
             },
             {
                 header: 'Autor',
                 dataIndex: 'authorName',
-                flex: 2,
+                autoSizeColumn: true,
                 editor: 'textfield'
             },
             {
                 header: 'Titlu',
                 dataIndex: 'title',
-                flex: 2
+                autoSizeColumn: true
             },
             {
-                header: 'Data aparitie',
-                dataIndex: 'dataAparitie',
-                flex: 1,
+                header: 'An aparitie',
+                dataIndex: 'anAparitie',
                 editor: 'datefield',
-                renderer: Ext.util.Format.dateRenderer('m/d/Y'),
-                hidden: true
+                renderer: Ext.util.Format.dateRenderer('Y'),
+                autoSizeColumn: true
             },
             {
                 header: 'Titlu original',
                 dataIndex: 'originalTitle',
-                flex: 1
+                autoSizeColumn: true
             },
             {
                 header: 'ISBN',
                 dataIndex: 'isbn',
-                flex: 1
+                autoSizeColumn: true
             },
             {
                 header: 'Serie',
                 dataIndex: 'serie',
-                flex: 1,
-                hidden: true
+                autoSizeColumn: true
             },
             {
                 header: 'Nr pagini',
                 dataIndex: 'nrPagini',
-                flex: 1
+                autoSizeColumn: true
             },
             {
                 header: 'Editura',
                 dataIndex: 'numeEditura',
-                flex: 1
+                autoSizeColumn: true
             },
             {
                 header: 'Gen',
                 dataIndex: 'numeCategorie',
-                flex: 1
+                autoSizeColumn: true
             },
             {
                 header: 'Latime (mm)',
                 dataIndex: 'width',
-                flex: 1,
-                hidden: true
+                autoSizeColumn: true
             },
             {
                 header: 'Inaltime (mm)',
                 dataIndex: 'height',
-                flex: 1,
-                hidden: true
+                autoSizeColumn: true
             },
             {
                 xtype: 'booleancolumn',
@@ -152,19 +158,7 @@ Ext.define('BM.view.book.BooksGrid', {
                 trueText: 'Da',
                 header: 'Citita',
                 dataIndex: 'citita',
-                flex: 1
-            },
-            {
-                header: 'Front cover',
-                dataIndex: 'frontCover',
-                flex: 1,
-                hidden: true
-            },
-            {
-                header: 'Back cover',
-                dataIndex: 'backCover',
-                flex: 1,
-                hidden: true
+                autoSizeColumn: true
             }
         ];
     }

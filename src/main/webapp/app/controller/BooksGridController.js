@@ -76,9 +76,9 @@ Ext.define('BM.controller.BooksGridController', {
         titleField.setValue(record.get('title'));
         titleField.setVisible(!Ext.isEmpty(titleField.getValue()));
 
-        var dateField = fieldContainer.down('displayfield[itemId=data]');
-        dateField.setValue(Ext.util.Format.date(record.get('dataAparitie')));
-        dateField.setVisible(!Ext.isEmpty(dateField.getValue()));
+        var anField = fieldContainer.down('displayfield[itemId=data]');
+        anField.setValue(record.get('anAparitie'));
+        anField.setVisible(!Ext.isEmpty(anField.getValue()));
 
         var originalTitleField = fieldContainer.down('displayfield[itemId=originalTitle]');
         originalTitleField.setValue(record.get('originalTitle'));

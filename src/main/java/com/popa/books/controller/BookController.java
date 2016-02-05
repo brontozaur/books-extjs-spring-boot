@@ -162,7 +162,7 @@ public class BookController {
                 || "true".equals(dto.getCitita())
                 || "1".equals(dto.getCitita())
                 || "yes".equals(dto.getCitita()));
-        book.setDataAparitie(RequestUtils.parseDate(dto.getDataAparitie()));
+        book.setAnAparitie(dto.getAnAparitie());
         if (dto.getIdEditura() != null) {
             book.setEditura(edituraRepository.findOne(dto.getIdEditura()));
         } else {

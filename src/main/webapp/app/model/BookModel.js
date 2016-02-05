@@ -31,10 +31,7 @@ Ext.define('BM.model.BookModel', {
             name: 'authorName',
             mapping: 'author.nume'
         },
-        {
-            name: 'dataAparitie',
-            type: 'date'
-        },
+        'anAparitie',
         {
             name: 'idEditura',
             mapping: 'editura.idEditura'

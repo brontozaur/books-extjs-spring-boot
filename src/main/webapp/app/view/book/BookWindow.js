@@ -131,10 +131,12 @@ Ext.define('BM.view.book.BookWindow', {
                                 {
                                     xtype: 'datefield',
                                     fieldLabel: 'An aparitie',
-                                    name: 'dataAparitie',
+                                    name: 'anAparitie',
                                     width: 190,
                                     labelWidth: 95,
-                                    margin: '0 0 5 0'
+                                    margin: '0 0 5 0',
+                                    format: 'Y',
+                                    submitFormat: 'Y'
                                 },
                                 {
                                     xtype: 'container',

@@ -6,7 +6,7 @@ public class BookDTO implements Serializable {
 
     private String title;
     private String originalTitle;
-    private String dataAparitie;
+    private Integer anAparitie;
     private Long idAutor;
     private Integer nrPagini;
     private Integer width;
@@ -39,12 +39,12 @@ public class BookDTO implements Serializable {
         this.originalTitle = originalTitle;
     }
 
-    public String getDataAparitie() {
-        return dataAparitie;
+    public Integer getAnAparitie() {
+        return anAparitie;
     }
 
-    public void setDataAparitie(String dataAparitie) {
-        this.dataAparitie = dataAparitie;
+    public void setAnAparitie(Integer anAparitie) {
+        this.anAparitie = anAparitie;
     }
 
     public Long getIdAutor() {

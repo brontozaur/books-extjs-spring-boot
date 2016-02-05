@@ -1,7 +1,6 @@
 package com.popa.books.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 import javax.persistence.*;
 
@@ -22,8 +21,8 @@ public class Book implements Serializable {
     @Column(name = "originalTitle", nullable = true)
     private String originalTitle;
 
-    @Column(name = "dataAparitie", nullable = true)
-    private Date dataAparitie = null;
+    @Column(name = "anAparitie", nullable = true)
+    private Integer anAparitie = null;
 
     @Column(name = "nrPagini", nullable = true)
     private Integer nrPagini;
@@ -83,12 +82,12 @@ public class Book implements Serializable {
         this.originalTitle = originalTitle;
     }
 
-    public Date getDataAparitie() {
-        return dataAparitie;
+    public Integer getAnAparitie() {
+        return anAparitie;
     }
 
-    public void setDataAparitie(Date dataAparitie) {
-        this.dataAparitie = dataAparitie;
+    public void setAnAparitie(Integer anAparitie) {
+        this.anAparitie = anAparitie;
     }
 
     public Autor getAuthor() {
