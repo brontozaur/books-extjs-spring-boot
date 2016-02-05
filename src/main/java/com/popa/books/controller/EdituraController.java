@@ -48,8 +48,8 @@ public class EdituraController {
             bean.setLeaf(true);
             bean.setLoaded(true);
             bean.setHowManyBooks(booksWithNoEditura);
-            bean.setName(Node.NOT_AVAILABLE_STR);
-            bean.setId(Node.NOT_AVAILABLE_STR);
+            bean.setName(Node.NOT_AVAILABLE);
+            bean.setId(Node.NOT_AVAILABLE_ID);
             edituri.add(bean);
         }
 
@@ -61,7 +61,7 @@ public class EdituraController {
             bean.setLoaded(true);
             bean.setHowManyBooks(nodeSQL.getCount());
             bean.setName(nodeSQL.getName());
-            bean.setId(nodeSQL.getName());
+            bean.setId(nodeSQL.getId());
             edituri.add(bean);
         }
 

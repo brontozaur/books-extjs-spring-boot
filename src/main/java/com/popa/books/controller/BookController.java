@@ -12,6 +12,7 @@ import com.popa.books.repository.CategorieRepository;
 import com.popa.books.repository.EdituraRepository;
 import com.popa.books.util.RequestUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,11 @@ public class BookController {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
+    private static final String SEARCH_TYPE_BOOKS_TREE = "treeBooks";
+    private static final String SEARCH_TYPE_AUTORI_TREE = "treeAutori";
+    private static final String SEARCH_TYPE_EDITURI_TREE = "treeEdituri";
+    private static final String SEARCH_TYPE_GRID = "grid";
+
     @Autowired
     private BookRepository repository;
 
@@ -50,21 +56,43 @@ public class BookController {
     private final static String BASE64_PREFIX = "data:image/jpeg;base64,";
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Book getBook(@PathVariable Long id){
+    public Book getBook(@PathVariable Long id) {
         return repository.findOne(id);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public Page<Book> getBooks(@RequestParam(value = "page") Integer currentPage,
-                               @RequestParam(value = "limit") Integer pageSize) {
-        Pageable pageable = new PageRequest(currentPage-1, pageSize);
-        return repository.findAll(pageable);
+                               @RequestParam(value = "limit") Integer pageSize,
+                               @RequestParam(value = "filterValue") Object filterValue,
+                               @RequestParam(value = "searchType") String searchType) throws ServletException {
+        Pageable pageable = new PageRequest(currentPage - 1, pageSize);
+        if (SEARCH_TYPE_GRID.equals(searchType)) {
+            return repository.findAll(pageable);
+        } else if (SEARCH_TYPE_BOOKS_TREE.equals(searchType)) {
+            if (StringUtils.isEmpty(filterValue.toString())) { //books with no title
+                return repository.findByTitleIsNull(pageable);
+            }
+            return repository.findByTitleStartingWith(pageable, filterValue.toString());
+        } else if (SEARCH_TYPE_AUTORI_TREE.equals(searchType)) {
+            Long autorId = Long.valueOf(filterValue.toString());
+            if (Node.NOT_AVAILABLE_ID == autorId) {
+                return repository.findByAuthorIsNull(pageable);
+            }
+            return repository.findByAuthorAutorId(pageable, Long.valueOf(filterValue.toString()));
+        } else if (SEARCH_TYPE_EDITURI_TREE.equals(searchType)) {
+            Long idEditura = Long.valueOf(filterValue.toString());
+            if (Node.NOT_AVAILABLE_ID == idEditura) {
+                return repository.findByEdituraIsNull(pageable);
+            }
+            return repository.findByEdituraIdEditura(pageable, Long.valueOf(filterValue.toString()));
+        }
+        throw new ServletException("invalid request configuration!");
     }
 
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    public List<Node> getBooksTree(){
+    public List<Node> getBooksTree() {
 
-        List<Node> books =  new ArrayList<>();
+        List<Node> books = new ArrayList<>();
 
         // we count books with no name filled
         Long booksWithNoTitle = repository.countByTitleIsNull();
@@ -74,8 +102,8 @@ public class BookController {
             bean.setLeaf(true);
             bean.setLoaded(true);
             bean.setHowManyBooks(booksWithNoTitle);
-            bean.setName(Node.NOT_AVAILABLE_STR);
-            bean.setId(Node.NOT_AVAILABLE_STR);
+            bean.setName(Node.NOT_AVAILABLE);
+            bean.setId(Node.NOT_AVAILABLE_ID);
             books.add(bean);
         }
 
@@ -85,8 +113,8 @@ public class BookController {
             BookNode bean = new BookNode();
             bean.setLeaf(true);
             bean.setLoaded(true);
-            bean.setName(objects[0].toString());
-            bean.setId(objects[0].toString());
+            bean.setName(objects[0].toString().toUpperCase());
+            bean.setId(RandomUtils.nextLong()); //we need a random id, because "id" is used internally by extjs
             bean.setHowManyBooks(Long.valueOf(objects[1].toString()));
             books.add(bean);
         }
@@ -115,7 +143,7 @@ public class BookController {
     //delete cover is not necessary, since is done by hibernate/jpa automatically
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteBook(@PathVariable Long id){
+    public void deleteBook(@PathVariable Long id) {
         repository.delete(id);
     }
 

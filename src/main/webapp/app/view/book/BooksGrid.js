@@ -9,6 +9,7 @@ Ext.define('BM.view.book.BooksGrid', {
         {
             xtype: 'pagingtoolbar',
             store: 'BookStore',
+            itemId: 'booksPaging',
             dock: 'bottom',
             displayInfo: true,
             border: false
@@ -60,10 +61,13 @@ Ext.define('BM.view.book.BooksGrid', {
         var me = this;
         me.columns = this.buildColumns();
         me.callParent(arguments);
-
+        me.store.filterValue = '';
+        me.store.searchType = 'grid';
         me.store.loadPage(1, {
             params: {
-                limit: booksPerPage
+                limit: booksPerPage,
+                filterValue: me.store.filterValue,
+                searchType: me.store.searchType
             },
             callback: function(records, operation, success) {
                 if (!success) {

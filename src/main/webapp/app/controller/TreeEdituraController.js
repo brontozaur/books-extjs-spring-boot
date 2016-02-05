@@ -32,31 +32,26 @@ Ext.define('BM.controller.TreeEdituraController', {
     },
 
     itemClick: function (tree, recordItem, item, index, e, eOpts) {
-        var treeItemValue = recordItem.get('name');
+        var treeItemName = recordItem.get('id');
         var isRoot = recordItem.isRoot();
         var grid = Ext.ComponentQuery.query('booksgrid')[0];
+        //we need to reload books tree. Because of the pagination, the store filtering is now broken
+        //To be able to work with pagination and selection in the left tree, some additional info is required
         var store = grid.getStore();
-        store.clearFilter(true);
-        store.filter([
-            {
-                filterFn: function (record) {
-                    if (isRoot || Ext.isEmpty(treeItemValue)) {
-                        return true;
-                    }
-                    var numeEditura = record.get('numeEditura');
-                    if (!numeEditura) {
-                        if ("#" === treeItemValue) {
-                            return true;
-                        }
-                        numeEditura = '';
-                    }
-                    numeEditura = numeEditura.toLowerCase();
-                    return numeEditura.indexOf(treeItemValue.toLowerCase()) === 0; // starts with this letter
+        store.filterValue = treeItemName;
+        store.searchType = isRoot? 'grid' : 'treeEdituri';
+        store.loadPage(1, {
+            params: {
+                limit: booksPerPage,
+                filterValue: store.filterValue,
+                searchType: store.searchType
+            },
+            callback: function(records, operation, success) {
+                if (!success) {
+                    store.removeAll();
                 }
             }
-        ]);
-        clearInfoAreaFields();
-        enableEdituraGridButtons(false);
+        });
     },
 
     add: function () {

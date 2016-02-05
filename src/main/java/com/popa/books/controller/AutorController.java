@@ -48,8 +48,8 @@ public class AutorController {
             bean.setLeaf(true);
             bean.setLoaded(true);
             bean.setHowManyBooks(booksWithNoAuthor);
-            bean.setName(Node.NOT_AVAILABLE_STR);
-            bean.setId(Node.NOT_AVAILABLE_STR);
+            bean.setName(Node.NOT_AVAILABLE);
+            bean.setId(Node.NOT_AVAILABLE_ID);
             autori.add(bean);
         }
 
@@ -61,7 +61,7 @@ public class AutorController {
             bean.setLoaded(true);
             bean.setHowManyBooks(nodeSQL.getCount());
             bean.setName(nodeSQL.getName());
-            bean.setId(nodeSQL.getName());
+            bean.setId(nodeSQL.getId());
             autori.add(bean);
         }
         return autori;

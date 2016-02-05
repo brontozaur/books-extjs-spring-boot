@@ -30,6 +30,18 @@ Ext.define('BM.controller.BooksGridController', {
             },
             'booksgrid button[action=search]': {
                 click: this.handleClick
+            },
+            /**
+             * This event is used to append listeners to store's proxy when paging controls are used
+             * (previous, next, moveLast or moveFirst). Make sure that store has the required parameters set:
+             *  - filterValue: (first letter of the book, autor id, editura id or root name (ignored in this case)
+             *  - searchType: see @BookController: grid, treeBooks, treeEdituri or treeAutori
+             */
+            'booksgrid pagingtoolbar[itemId=booksPaging]' : {
+                'beforechange': function (toolbar, page, options) {
+                    var store = Ext.ComponentQuery.query('booksgrid')[0].getStore();
+                    appendBooksStoreExtraParameters(store);
+                }
             }
         });
     },

@@ -5,7 +5,7 @@ public abstract class AbstractNode implements Node {
     private String name;
     private boolean leaf;
     private boolean loaded;
-    private String id;
+    private long id;
 
     @Override
     public boolean isLeaf() {
@@ -33,11 +33,11 @@ public abstract class AbstractNode implements Node {
         this.loaded = loaded;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

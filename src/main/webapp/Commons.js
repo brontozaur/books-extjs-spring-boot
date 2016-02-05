@@ -236,3 +236,11 @@ function setCurrentTheme(themeName){
     }
     document.getElementById(themeName).disabled = false;
 }
+
+function appendBooksStoreExtraParameters(store) {
+    if (!store.pageSize) { //no parameters are appended for combo stores, which should not pe paged
+        return;
+    }
+    store.proxy.extraParams.filterValue = store.filterValue;
+    store.proxy.extraParams.searchType = store.searchType;
+}
