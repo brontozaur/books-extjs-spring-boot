@@ -59,7 +59,7 @@ Currently, some of the cool technologies implemented in this application are:
 * Basic form validation
 * Image upload and delete uploaded file using Base64 encoding
 * Custom error handling
-* Grid pagination
+* Grid pagination and filtering
     
 <i>Future plans</i>
 
@@ -77,7 +77,7 @@ Currently, some of the cool technologies implemented in this application are:
 * :thumbsup: ~~Fix bug with the last page on grid pagination for all object types~~
 * :thumbsup: ~~Fix bug with partial records in combo boxes~~
 * :thumbsup: ~~Filter to display image-only files on upload~~
-* :thumbsup: ~~Fix the books grid filtering to take into account current tree selection. Fixed pagination after tree selection also.
+* :thumbsup: ~~Fix the books grid filtering to take into account current tree selection. Fixed pagination after tree selection also.~~
 * Introduce ExtJS menus for all grids
 * Reload left tree when new book is created
 * Create filtering for authors with books only, etc
