@@ -25,7 +25,10 @@ Ext.define('BM.view.autor.AutorWindow', {
                 {
                     xtype: 'datefield',
                     fieldLabel: 'Data nasterii',
-                    name: 'dataNasterii'
+                    name: 'dataNasterii',
+                    format: 'd.m.Y',
+                    submitFormat: 'Y-m-d',
+                    submitValue : true
                 }
             ]
         }
