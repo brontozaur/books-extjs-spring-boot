@@ -8,6 +8,11 @@ Ext.define('BM.store.TreeBooksStore', {
         reader: {
             type: 'json',
             method: 'POST'
+        },
+        listeners : {
+            exception : function(proxy, response, operation) {
+                createErrorWindow(response);
+            }
         }
     },
     root: {

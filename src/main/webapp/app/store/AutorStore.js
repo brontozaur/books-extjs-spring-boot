@@ -9,6 +9,11 @@ Ext.define('BM.store.AutorStore', {
             type: 'json',
             root: 'content',
             totalProperty: 'totalElements'
+        },
+        listeners : {
+            exception : function(proxy, response, operation) {
+                createErrorWindow(response);
+            }
         }
     },
     sorters: [

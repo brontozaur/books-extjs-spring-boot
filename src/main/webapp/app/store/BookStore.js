@@ -11,6 +11,11 @@ Ext.define('BM.store.BookStore', {
             type: 'json',
             root: 'content',
             totalProperty: 'totalElements'
+        },
+        listeners : {
+            exception : function(proxy, response, operation) {
+                createErrorWindow(response);
+            }
         }
     },
     sorters: [
