@@ -70,7 +70,7 @@ Ext.define('BM.view.autor.AutorGrid', {
             {
                 header: 'Nume',
                 dataIndex: 'nume',
-                flex: 1,
+                width: 200,
                 editor: 'textfield'
             },
             {

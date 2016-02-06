@@ -5,16 +5,6 @@ Ext.define('BM.view.book.BooksGrid', {
     columnLines: true,
     store: 'BookStore',
     stripeRows: true,
-    viewConfig: {
-        listeners: {
-            refresh: function (dataview) {
-                Ext.each(dataview.panel.columns, function (column) {
-                    if (column.autoSizeColumn === true)
-                        column.autoSize();
-                })
-            }
-        }
-    },
     dockedItems: [
         {
             xtype: 'pagingtoolbar',
@@ -92,65 +82,65 @@ Ext.define('BM.view.book.BooksGrid', {
             {
                 header: 'Id',
                 dataIndex: 'bookId',
-                autoSizeColumn: true
+                width: 50
             },
             {
                 header: 'Autor',
                 dataIndex: 'authorName',
-                autoSizeColumn: true,
+                flex: 1,
                 editor: 'textfield'
             },
             {
                 header: 'Titlu',
                 dataIndex: 'title',
-                autoSizeColumn: true
+                flex: 2
             },
             {
                 header: 'An aparitie',
                 dataIndex: 'anAparitie',
                 editor: 'datefield',
                 renderer: Ext.util.Format.dateRenderer('Y'),
-                autoSizeColumn: true
+                width: 50
             },
             {
                 header: 'Titlu original',
                 dataIndex: 'originalTitle',
-                autoSizeColumn: true
+                flex: 2
             },
             {
                 header: 'ISBN',
                 dataIndex: 'isbn',
-                autoSizeColumn: true
+                flex: 1
             },
             {
                 header: 'Serie',
                 dataIndex: 'serie',
-                autoSizeColumn: true
+                flex: 1
             },
             {
                 header: 'Nr pagini',
                 dataIndex: 'nrPagini',
-                autoSizeColumn: true
+                flex: 1
             },
             {
                 header: 'Editura',
                 dataIndex: 'numeEditura',
-                autoSizeColumn: true
+                flex: 1
             },
             {
                 header: 'Gen',
                 dataIndex: 'numeCategorie',
-                autoSizeColumn: true
+                flex: 1
             },
             {
                 header: 'Latime (mm)',
                 dataIndex: 'width',
-                autoSizeColumn: true
+                width: 50
             },
             {
                 header: 'Inaltime (mm)',
                 dataIndex: 'height',
-                autoSizeColumn: true
+                width: 50
             },
             {
                 xtype: 'booleancolumn',
@@ -158,7 +148,7 @@ Ext.define('BM.view.book.BooksGrid', {
                 trueText: 'Da',
                 header: 'Citita',
                 dataIndex: 'citita',
-                autoSizeColumn: true
+                width: 50
             }
         ];
     }

@@ -36,6 +36,8 @@ Ext.define('BM.controller.AbstractLeftTreeAreaController', {
         var store = activeTree.getStore();
         store.getRootNode().removeAll();
         store.load();
+        var booksGrid = Ext.ComponentQuery.query('booksgrid')[0];
+        booksGrid.getStore().removeAll();
     },
 
     setTitle: function (title) {

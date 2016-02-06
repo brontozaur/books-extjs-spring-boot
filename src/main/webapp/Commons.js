@@ -23,8 +23,10 @@ function enableBookGridButtons(enable) {
         delButton.disable();
     }
     var grid = Ext.ComponentQuery.query('booksgrid')[0];
-    grid.booksMenu.items.get('modBook').setDisabled(!enable);
-    grid.booksMenu.items.get('delBook').setDisabled(!enable);
+    if (grid.booksMenu) {
+        grid.booksMenu.items.get('modBook').setDisabled(!enable);
+        grid.booksMenu.items.get('delBook').setDisabled(!enable);
+    }
 }
 
 function clearInfoAreaFields() {
@@ -200,8 +202,10 @@ function enableAutorGridButtons(enable) {
         delButton.disable();
     }
     var grid = Ext.ComponentQuery.query('autorgrid')[0];
-    grid.autorMenu.items.get('modAutor').setDisabled(!enable);
-    grid.autorMenu.items.get('delAutor').setDisabled(!enable);
+    if (grid.autorMenu) {
+        grid.autorMenu.items.get('modAutor').setDisabled(!enable);
+        grid.autorMenu.items.get('delAutor').setDisabled(!enable);
+    }
 }
 
 function enableEdituraGridButtons(enable) {
@@ -215,8 +219,10 @@ function enableEdituraGridButtons(enable) {
         delButton.disable();
     }
     var grid = Ext.ComponentQuery.query('edituragrid')[0];
-    grid.edituraMenu.items.get('modEditura').setDisabled(!enable);
-    grid.edituraMenu.items.get('delEditura').setDisabled(!enable);
+    if (grid.edituraMenu) {
+        grid.edituraMenu.items.get('modEditura').setDisabled(!enable);
+        grid.edituraMenu.items.get('delEditura').setDisabled(!enable);
+    }
 }
 
 function enableCategorieGridButtons(enable) {
@@ -230,8 +236,10 @@ function enableCategorieGridButtons(enable) {
         delButton.disable();
     }
     var grid = Ext.ComponentQuery.query('categoriegrid')[0];
-    grid.categorieMenu.items.get('modCategorie').setDisabled(!enable);
-    grid.categorieMenu.items.get('delCategorie').setDisabled(!enable);
+    if (grid.categorieMenu) {
+        grid.categorieMenu.items.get('modCategorie').setDisabled(!enable);
+        grid.categorieMenu.items.get('delCategorie').setDisabled(!enable);
+    }
 }
 
 //this is how you can construct a singleton store, if required
