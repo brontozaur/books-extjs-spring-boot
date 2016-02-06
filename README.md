@@ -81,21 +81,20 @@ Currently, some of the cool technologies implemented in this application are:
 * :thumbsup: ~~Fix author save failed when using dataNasterii field value~~
 * :thumbsup: ~~To wrap sql errors into human-readable messages (e.g. when an author with the same name already exists)~~
 * :thumbsup: ~~Introduce ExtJS menus for all grids~~
-* Create filtering for authors with books only, etc
-* Info area redesign, and upload image display on left side, not center
 * Spring security with login form
 * Return a ResponseEntity for all REST requests, for error and also for success
-* File import for books, authors, etc
-* Export to .csv, .doc, .xls, .pdf
 * Form validation using vtypes
 * Junit tests
-* Selenium tests
-* Create a new tab containing a tree (files, directory listing?) to play around with more complicated tree structures
-* To convert image upload API into a document upload API, with items displayed on a new tab, based on their type. Server file explorer!
+* Create a server file explorer with features like: create folders, upload files, content display with tree in the left area 
+and grid with files in the right. Double click on a folder opens the folder and expands the tree structure. For files, they are
+accessed.
 * To create some settings for the app
     
 <i>More future plans :-) </i>
-  
+
+* Selenium tests
+* File import for books, authors, etc
+* Export to .csv, .doc, .xls, .pdf
 * To port the UI to angular JS
 * Create posility to choose your front-end
 * Mobile testing
