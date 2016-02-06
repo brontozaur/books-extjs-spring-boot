@@ -102,7 +102,11 @@ Ext.define('BM.controller.BookWindowController', {
                             } else {
                                 grid.getStore().add(record);
                             }
-                            enableBookGridButtons(grid.getSelectionModel().getSelection().length > 0);
+                            var gridSelection = grid.getSelectionModel().getSelection();
+                            enableBookGridButtons(gridSelection.length > 0);
+                            if (gridSelection.length >0) {
+                                fillInfoArea(grid.getSelectionModel().getSelection()[0]);
+                            }
                         }
                     });
                 },

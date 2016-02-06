@@ -29,6 +29,71 @@ function enableBookGridButtons(enable) {
     }
 }
 
+function fillInfoArea (record) {
+    var bookInfo = Ext.ComponentQuery.query('bookinfo')[0];
+    var fieldContainer = bookInfo.down('container[itemId=bookInfoFields]');
+
+    var autorField = fieldContainer.down('displayfield[itemId=autor]');
+    autorField.setValue(record.get('authorName'));
+    autorField.setVisible(!Ext.isEmpty(autorField.getValue()));
+
+    var titleField = fieldContainer.down('displayfield[itemId=title]');
+    titleField.setValue(record.get('title'));
+    titleField.setVisible(!Ext.isEmpty(titleField.getValue()));
+
+    var anField = fieldContainer.down('displayfield[itemId=data]');
+    anField.setValue(record.get('anAparitie'));
+    anField.setVisible(!Ext.isEmpty(anField.getValue()));
+
+    var originalTitleField = fieldContainer.down('displayfield[itemId=originalTitle]');
+    originalTitleField.setValue(record.get('originalTitle'));
+    originalTitleField.setVisible(!Ext.isEmpty(originalTitleField.getValue()));
+
+    var isbnField = fieldContainer.down('displayfield[itemId=isbn]');
+    isbnField.setValue(record.get('isbn'));
+    isbnField.setVisible(!Ext.isEmpty(isbnField.getValue()));
+
+    var cititaField = fieldContainer.down('displayfield[itemId=citita]');
+    cititaField.setValue(record.get('citita') ? "Da" : "Nu");
+    cititaField.setVisible(true);
+
+    var serieField = fieldContainer.down('displayfield[itemId=serie]');
+    serieField.setValue(record.get('serie'));
+    serieField.setVisible(!Ext.isEmpty(serieField.getValue()));
+
+    var nrPaginiField = fieldContainer.down('displayfield[itemId=nrPagini]');
+    nrPaginiField.setValue(record.get('nrPagini'));
+    nrPaginiField.setVisible(nrPaginiField.getValue() > 0);
+
+    var dimensiuniField = fieldContainer.down('displayfield[itemId=dimensiuni]');
+    if (record.get('width') > 0 || record.get('height') > 0) {
+        dimensiuniField.setValue(record.get('width') + ' x ' + record.get('height'));
+    } else {
+        dimensiuniField.setValue('');
+    }
+    dimensiuniField.setVisible(!Ext.isEmpty(dimensiuniField.getValue()));
+
+    var edituraField = fieldContainer.down('displayfield[itemId=numeEditura]');
+    edituraField.setValue(record.get('numeEditura'));
+    edituraField.setVisible(!Ext.isEmpty(edituraField.getValue()));
+
+    var genField = fieldContainer.down('displayfield[itemId=numeCategorie]');
+    genField.setValue(record.get('numeCategorie'));
+    genField.setVisible(!Ext.isEmpty(genField.getValue()));
+
+    var frontImageContainer = bookInfo.down('image[itemId=frontCoverInfo]');
+    var hasFrontCover = !Ext.isEmpty(record.get('frontCover'));
+    bookInfo.down('label[itemId=frontCoverLabel]').setVisible(hasFrontCover);
+    frontImageContainer.setVisible(hasFrontCover);
+    frontImageContainer.setSrc('data:image/jpeg;base64,' + record.get('frontCover'));
+
+    var backImageContainer = bookInfo.down('image[itemId=backCoverInfo]');
+    var hasBackCover = !Ext.isEmpty(record.get('backCover'));
+    bookInfo.down('label[itemId=backCoverLabel]').setVisible(hasBackCover);
+    backImageContainer.setVisible(hasBackCover);
+    backImageContainer.setSrc('data:image/jpeg;base64,' + record.get('backCover'));
+}
+
 function clearInfoAreaFields() {
     var bookInfo = Ext.ComponentQuery.query('bookinfo')[0];
 
