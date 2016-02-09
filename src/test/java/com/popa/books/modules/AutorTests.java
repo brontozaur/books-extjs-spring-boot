@@ -1,25 +1,8 @@
-package com.popa.books;
+package com.popa.books.modules;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.popa.books.util.BookConstants;
-import org.junit.Assert;
-import org.junit.Before;
+import com.popa.books.AbstractBooksApplicationTests;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -32,37 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = BooksApplication.class)
-@WebAppConfiguration
-@ActiveProfiles(BookConstants.PROFILE_TEST)
-@SqlGroup({
-        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql"),
-        @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql")
-})
-public class BooksApplicationTests {
-
-    private MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext wac;
-    @Autowired
-    private MockHttpSession session;
-
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                .alwaysExpect(status().isOk())
-                .build();
-    }
-
-    @Test
-    public void contextLoads() {
-        Assert.assertTrue(true);
-    }
+public class AutorTests extends AbstractBooksApplicationTests {
 
     /**
      * Tests the url: /autor, method: GET, params: page, limit
@@ -194,5 +147,4 @@ public class BooksApplicationTests {
 
                 andExpect(status().isOk());
     }
-
 }
