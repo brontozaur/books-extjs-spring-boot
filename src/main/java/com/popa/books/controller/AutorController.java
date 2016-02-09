@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,21 +27,21 @@ public class AutorController {
     @Autowired
     private BookRepository bookRepository;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Autor getAutor(@PathVariable Long id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Autor getAutor(@PathVariable Long id) {
         return repository.findOne(id);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Page<Autor> getAutori(@RequestParam(value = "page") Integer currentPage,
                                  @RequestParam(value = "limit") Integer pageSize) {
-        Pageable pageable = new PageRequest(currentPage-1, pageSize);
+        Pageable pageable = new PageRequest(currentPage - 1, pageSize);
         return repository.findAll(pageable);
     }
 
-    @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    public List<Node> getAutoriTree(){
-        List<Node> autori =  new ArrayList<>();
+    @RequestMapping(value = "/tree", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Node> getAutoriTree() {
+        List<Node> autori = new ArrayList<>();
 
         // we count books without authors first
         Long booksWithNoAuthor = bookRepository.countByAuthorIsNull();
@@ -67,18 +69,26 @@ public class AutorController {
         return autori;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Autor createNewAutor(@RequestBody Autor autor){
+    @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Autor createNewAutor(@RequestBody Autor autor) {
         return repository.save(autor);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public Autor updateAutor(@RequestBody Autor autor){
-        return repository.save(autor);
+    @RequestMapping(method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Autor updateAutor(@RequestBody Autor autor) throws ServletException {
+        Autor dbAutor = repository.findOne(autor.getAutorId());
+        if (dbAutor == null) {
+            throw new ServletException("There is no autor record with id = " + autor.getAutorId());
+        }
+        return repository.saveAndFlush(autor);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteAutor(@PathVariable Long id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void deleteAutor(@PathVariable Long id) throws ServletException {
+        Autor dbAutor = repository.findOne(id);
+        if (dbAutor == null) {
+            throw new ServletException("There is no autor record with id = " + id);
+        }
         repository.delete(id);
     }
 }
