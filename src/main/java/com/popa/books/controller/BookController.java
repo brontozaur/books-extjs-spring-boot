@@ -33,10 +33,12 @@ public class BookController {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
-    private static final String SEARCH_TYPE_BOOKS_TREE = "treeBooks";
-    private static final String SEARCH_TYPE_AUTORI_TREE = "treeAutori";
-    private static final String SEARCH_TYPE_EDITURI_TREE = "treeEdituri";
-    private static final String SEARCH_TYPE_GRID = "grid";
+    public final static String BASE64_PREFIX = "data:image/jpeg;base64,";
+
+    public static final String SEARCH_TYPE_BOOKS_TREE = "treeBooks";
+    public static final String SEARCH_TYPE_AUTORI_TREE = "treeAutori";
+    public static final String SEARCH_TYPE_EDITURI_TREE = "treeEdituri";
+    public static final String SEARCH_TYPE_GRID = "grid";
 
     @Autowired
     private BookRepository repository;
@@ -53,13 +55,19 @@ public class BookController {
     @Autowired
     private BooksApplicationProperties props;
 
-    private final static String BASE64_PREFIX = "data:image/jpeg;base64,";
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Book getBook(@PathVariable Long id) {
         return repository.findOne(id);
     }
 
+    /**
+     * @param currentPage current page, starting with 1
+     * @param pageSize number of records per page
+     * @param filterValue: first letter of the book, autor id, editura id or root name (ignored in this case
+     * @param searchType: SEARCH_TYPE_AUTORI_TREE, SEARCH_TYPE_BOOKS_TREE, SEARCH_TYPE_EDITURI_TREE, SEARCH_TYPE_GRID
+     * @return
+     * @throws ServletException
+     */
     @RequestMapping(method = RequestMethod.GET)
     public Page<Book> getBooks(@RequestParam(value = "page") Integer currentPage,
                                @RequestParam(value = "limit") Integer pageSize,

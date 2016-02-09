@@ -33,11 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql")
 })
-public abstract class AbstractBooksApplicationTests {
+public abstract class AbstractBooksApplicationTest {
 
     protected MockMvc mockMvc;
 
-    protected static final Logger logger = LoggerFactory.getLogger(AbstractBooksApplicationTests.class);
+    protected static final Logger logger = LoggerFactory.getLogger(AbstractBooksApplicationTest.class);
 
     @Autowired
     protected WebApplicationContext wac;

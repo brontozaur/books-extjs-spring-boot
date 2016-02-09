@@ -81,10 +81,10 @@ Currently, some of the cool technologies implemented in this application are:
 * :thumbsup: ~~Fix author save failed when using dataNasterii field value~~
 * :thumbsup: ~~To wrap sql errors into human-readable messages (e.g. when an author with the same name already exists)~~
 * :thumbsup: ~~Introduce ExtJS menus for all grids~~
+* :thumbsup: ~~Junit tests~~
 * Spring security with login form
 * Return a ResponseEntity for all REST requests, for error and also for success
 * Form validation using vtypes
-* Junit tests
 * Create a server file explorer with features like: create folders, upload files, content display with tree in the left area 
 and grid with files in the right. Double click on a folder opens the folder and expands the tree structure. For files, they are
 accessed.

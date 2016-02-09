@@ -1,6 +1,6 @@
-package com.popa.books.modules;
+package com.popa.books.controller;
 
-import com.popa.books.AbstractBooksApplicationTests;
+import com.popa.books.AbstractBooksApplicationTest;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 
@@ -15,52 +15,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class AutorTests extends AbstractBooksApplicationTests {
+public class AutorControllerTest extends AbstractBooksApplicationTest {
 
-    /**
-     * Tests the url: /autor, method: GET, params: page, limit
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testGetAutorList() throws Exception {
-        this.mockMvc.perform(get("/autor").
-                session(session).
-                param("page", "1").
-                param("limit", "10").
-                accept(MediaType.APPLICATION_JSON)).
-
-                andDo(print()).
-
-                andExpect(status().isOk()).
-                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
-                andExpect(jsonPath("$.content[*].autorId").exists()).
-                andExpect(jsonPath("$.totalElements", greaterThan(0))).
-                andExpect(jsonPath("$.totalPages").exists());
-    }
-
-    /**
-     * Tests the url: /autor/tree, method: GET
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testGetAutorTree() throws Exception {
-        this.mockMvc.perform(get("/autor/tree").
-                session(session).
-                accept(MediaType.ALL)).
-
-                andDo(print()).
-
-                andExpect(status().isOk()).
-                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-    }
-
-    /**
-     * Tests the url: /autor/1, method: GET
-     *
-     * @throws Exception
-     */
     @Test
     public void testGetAutor() throws Exception {
         this.mockMvc.perform(get("/autor/1").
@@ -76,13 +32,37 @@ public class AutorTests extends AbstractBooksApplicationTests {
                 andExpect(jsonPath("dataNasterii", is("2016-02-08")));
     }
 
-    /**
-     * Tests the url: /autor, method: POST
-     *
-     * @throws Exception
-     */
     @Test
-    public void testCreateAutor() throws Exception {
+    public void testGetAutori() throws Exception {
+        this.mockMvc.perform(get("/autor").
+                session(session).
+                param("page", "1").
+                param("limit", "10").
+                accept(MediaType.APPLICATION_JSON)).
+
+                andDo(print()).
+
+                andExpect(status().isOk()).
+                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
+                andExpect(jsonPath("$.content[*].autorId").exists()).
+                andExpect(jsonPath("$.totalElements", greaterThan(0))).
+                andExpect(jsonPath("$.totalPages").exists());
+    }
+
+    @Test
+    public void testGetAutoriTree() throws Exception {
+        this.mockMvc.perform(get("/autor/tree").
+                session(session).
+                accept(MediaType.ALL)).
+
+                andDo(print()).
+
+                andExpect(status().isOk()).
+                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+    }
+
+    @Test
+    public void testCreateNewAutor() throws Exception {
         UUID autorName = UUID.randomUUID();
 
         Map<String, Object> requestBody = new HashMap<>();
@@ -102,14 +82,8 @@ public class AutorTests extends AbstractBooksApplicationTests {
                 andExpect(jsonPath("nume", is(autorName.toString())));
     }
 
-    /**
-     * Tests the url: /autor, method: PUT
-     *
-     * @throws Exception
-     */
     @Test
     public void testUpdateAutor() throws Exception {
-
         String updatedNume = "Updated nume " + UUID.randomUUID();
 
         Map<String, Object> requestBody = new HashMap<>();
@@ -130,15 +104,9 @@ public class AutorTests extends AbstractBooksApplicationTests {
                 andExpect(jsonPath("nume", is(updatedNume)));
     }
 
-    /**
-     * Tests the url: /autor/{id}, method: DELETE
-     *
-     * @throws Exception
-     */
     @Test
-    public void deleteAutor() throws Exception {
-
-        this.mockMvc.perform(delete("/autor/1").
+    public void testDeleteAutor() throws Exception {
+        this.mockMvc.perform(delete("/autor/2").
                 session(session).
                 contentType(MediaType.APPLICATION_JSON_VALUE).
                 accept(MediaType.ALL)).
