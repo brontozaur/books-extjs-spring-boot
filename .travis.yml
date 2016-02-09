@@ -1,17 +1,7 @@
 language: java
 
-# optionally specify a list of environments, for example to test different RDBMS
 env:
   - DB=mysql
-
-#jdk:
-#  - oraclejdk8
-
-services:
-  - mysql
-
-before_install:
-  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS books_manager;" -uroot; fi
 
 cache:
   directories:
@@ -23,5 +13,3 @@ notifications:
       - hypercube21@yahoo.com
     on_success: change #options: always never change
     on_failure: always
-
-#script: "mvn clean test"
