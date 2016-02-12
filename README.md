@@ -104,40 +104,39 @@ accessed.
 # How to run ExtJS front-end from /webapp/extjs, instead of default /webapp
 
 1. Required. Move the following items to /webapp/extjs folder:
-``
+
 		/webapp/app => /webapp/extjs/app  
 		/webapp/css => /webapp/extjs/app  
-		/webapp/ext-4 => /webapp/extjs/ext-4  
+		/webapp/ext-4 => /webapp/extjs/ext-4    
 		/webapp/app.js => /webapp/extjs/app.js  
-		/webapp/Commons.js => /webapp/extjs/Commons.js  
+		/webapp/Commons.js => /webapp/extjs/Commons.js    
 		/webapp/index.html => /webapp/extjs/index.html  
-``
+
 2. Optional. To run the app from a folder different than /app, you could change in app.js:
 	
 	``appFolder: '/newFolder/app',``  
 
 	and  
 
-``
 	launch: function() {  
 	    Ext.Loader.setPath('BM', '/newFolder/app');  
 	    console.log("Powered by ExtJS: " + Ext.getVersion());  
 	    setCurrentTheme('classic');  
 	}  
-``	
-3. Remove the following code from com.popa.books.BooksApplication:
+	  
+3. Remove the following code from com.popa.books.BooksApplication:  
 
-    @RequestMapping("/books")
-    String index() {
-        return "/index";
-    }
+    @RequestMapping("/books")  
+    String index() {  
+        return "/index";  
+    }  
     
-4. Adapt the new /webapp/extjs/index.html to point to the new location of the imports. Eg.  
+4. Adapt the new /webapp/extjs/index.html to point to the new location of the imports. Eg.    
 
 ``<script type="text/javascript" src="/extjs/app.js"></script>``
 
 5. Finally, create a possibility for the user to choose his front-end. Create a html file called index.htm under /webapp:  
-``
+
 <html>  
 <head>  
     <title>Books manager</title>  
@@ -153,16 +152,16 @@ accessed.
 </form>  
 </body>  
 </html>  
-``
-This html file is automatically called when the browser access:
 
-http://localhost:8080
+This html file is automatically called when the browser access:  
 
-By pressing the 'ExtJS' button, the following url is called:
+``http://localhost:8080``  
 
-http://localhost:8080/extjs/index.html
+By pressing the 'ExtJS' button, the following url is called:  
 
-This can also be called directly from browser, to skip the front-end selection step.
+``http://localhost:8080/extjs/index.html``  
+
+This can also be called directly from browser, to skip the front-end selection step.  
 
 #Maven dependency tree :date: 2016.02.12
  
