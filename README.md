@@ -82,6 +82,7 @@ Currently, some of the cool technologies implemented in this application are:
 * :thumbsup: ~~To wrap sql errors into human-readable messages (e.g. when an author with the same name already exists)~~
 * :thumbsup: ~~Introduce ExtJS menus for all grids~~
 * :thumbsup: ~~Junit tests~~
+* :thumbsup: ~~Create posility to choose your front-end~~
 * Spring security with login form
 * Return a ResponseEntity for all REST requests, for error and also for success
 * Form validation using vtypes
@@ -96,10 +97,72 @@ accessed.
 * File import for books, authors, etc
 * Export to .csv, .doc, .xls, .pdf
 * To port the UI to angular JS
-* Create posility to choose your front-end
 * Mobile testing
 * Live application!
 * Have more fun with this code ;-)
+
+# How to run ExtJS front-end from /webapp/extjs, instead of default /webapp
+
+1. Required. Move the following items to /webapp/extjs folder:
+``
+		/webapp/app => /webapp/extjs/app  
+		/webapp/css => /webapp/extjs/app  
+		/webapp/ext-4 => /webapp/extjs/ext-4  
+		/webapp/app.js => /webapp/extjs/app.js  
+		/webapp/Commons.js => /webapp/extjs/Commons.js  
+		/webapp/index.html => /webapp/extjs/index.html  
+``
+2. Optional. To run the app from a folder different than /app, you could change in app.js:
+	
+	``appFolder: '/newFolder/app',``  
+
+	and  
+
+``
+	launch: function() {  
+	    Ext.Loader.setPath('BM', '/newFolder/app');  
+	    console.log("Powered by ExtJS: " + Ext.getVersion());  
+	    setCurrentTheme('classic');  
+	}  
+``	
+3. Remove the following code from com.popa.books.BooksApplication:
+
+    @RequestMapping("/books")
+    String index() {
+        return "/index";
+    }
+    
+4. Adapt the new /webapp/extjs/index.html to point to the new location of the imports. Eg.  
+
+``<script type="text/javascript" src="/extjs/app.js"></script>``
+
+5. Finally, create a possibility for the user to choose his front-end. Create a html file called index.htm under /webapp:  
+``
+<html>  
+<head>  
+    <title>Books manager</title>  
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">  
+  
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>  
+  
+</head>  
+<body>  
+<form action="" method="get">  
+    <button type="submit" formaction="/extjs/index.html">ExtJS</button>  
+    <button type="submit" formaction="/angular/index.html">AngularJS</button>  
+</form>  
+</body>  
+</html>  
+``
+This html file is automatically called when the browser access:
+
+http://localhost:8080
+
+By pressing the 'ExtJS' button, the following url is called:
+
+http://localhost:8080/extjs/index.html
+
+This can also be called directly from browser, to skip the front-end selection step.
 
 #Maven dependency tree :date: 2016.02.12
  
