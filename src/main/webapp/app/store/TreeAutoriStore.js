@@ -4,7 +4,7 @@ Ext.define('BM.store.TreeAutoriStore', {
     autoLoad: true,
     proxy: {
         type: 'ajax',
-        url: 'autor/tree',
+        url: '/autor/tree',
         reader: {
             type: 'json',
             method: 'POST'

@@ -114,7 +114,7 @@ Ext.define('BM.controller.AutorGridController', {
             }
             var selectedAutor = selectionModel.getSelection()[0];
             Ext.Ajax.request({
-                url: 'autor/' + selectedAutor.get('autorId'),
+                url: '/autor/' + selectedAutor.get('autorId'),
                 method: 'DELETE',
                 scope: this,
                 success: function (result, request) {
@@ -141,7 +141,7 @@ Ext.define('BM.controller.AutorGridController', {
         var isAdd = Ext.isEmpty(autorId);
         if (form.isValid()) {
             Ext.Ajax.request({
-                url: 'autor',
+                url: '/autor',
                 method: isAdd ? 'POST' : 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 params: Ext.JSON.encode(form.getValues()),

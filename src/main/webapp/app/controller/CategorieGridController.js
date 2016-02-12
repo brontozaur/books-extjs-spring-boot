@@ -140,7 +140,7 @@ Ext.define('BM.controller.CategorieGridController', {
         var isAdd = Ext.isEmpty(idCategorie);
         if (form.isValid()) {
             Ext.Ajax.request({
-                url: 'categorie',
+                url: '/categorie',
                 method: isAdd ? 'POST' : 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 params: Ext.JSON.encode(form.getValues()),

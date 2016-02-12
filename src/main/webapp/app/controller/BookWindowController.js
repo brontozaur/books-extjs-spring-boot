@@ -70,7 +70,7 @@ Ext.define('BM.controller.BookWindowController', {
         //TODO validare pt editura si autor neselectati (scrii in combo, dar nu ai selectie)
         if (form.isValid()) {
             Ext.Ajax.request({
-                url: (isAdd ? 'book' : 'book/' + bookId),
+                url: (isAdd ? '/book' : '/book/' + bookId),
                 method: isAdd ? 'POST' : 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 params: Ext.JSON.encode(form.getValues()),
@@ -127,7 +127,7 @@ Ext.define('BM.controller.BookWindowController', {
         var bookForm = fileUploadField.up('bookwindow').down('form[itemId=bookform]');
         if (form.isValid()) {
             form.submit({
-                url: 'cover/front',
+                url: '/cover/front',
                 method: 'POST',
                 headers: {'Content-type': 'multipart/form-data'},
                 success: function (form, action) {
@@ -158,7 +158,7 @@ Ext.define('BM.controller.BookWindowController', {
         var bookForm = fileUploadField.up('bookwindow').down('form[itemId=bookform]');
         if (form.isValid()) {
             form.submit({
-                url: 'cover/back',
+                url: '/cover/back',
                 method: 'POST',
                 headers: {'Content-type': 'multipart/form-data'},
                 success: function (form, action) {

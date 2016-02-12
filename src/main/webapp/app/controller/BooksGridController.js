@@ -144,7 +144,7 @@ Ext.define('BM.controller.BooksGridController', {
             }
             var selectedBook = selectionModel.getSelection()[0];
             Ext.Ajax.request({
-                url: 'book/' + selectedBook.get('bookId'),
+                url: '/book/' + selectedBook.get('bookId'),
                 method: 'DELETE',
                 scope: this,
                 success: function (result, request) {

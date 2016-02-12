@@ -4,7 +4,7 @@ Ext.define('BM.store.TreeBooksStore', {
     autoLoad: true,
     proxy: {
         type: 'ajax',
-        url: 'book/tree',
+        url: '/book/tree',
         reader: {
             type: 'json',
             method: 'POST'

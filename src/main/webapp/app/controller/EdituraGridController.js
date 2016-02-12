@@ -113,7 +113,7 @@ Ext.define('BM.controller.EdituraGridController', {
             }
             var selectedEditura = selectionModel.getSelection()[0];
             Ext.Ajax.request({
-                url: 'editura/' + selectedEditura.get('idEditura'),
+                url: '/editura/' + selectedEditura.get('idEditura'),
                 method: 'DELETE',
                 scope: this,
                 success: function (result, request) {
@@ -141,7 +141,7 @@ Ext.define('BM.controller.EdituraGridController', {
         var title = form.down('textfield[name=numeEditura]').getValue();
         if (form.isValid()) {
             Ext.Ajax.request({
-                url: 'editura',
+                url: '/editura',
                 method: isAdd ? 'POST' : 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 params: Ext.JSON.encode(form.getValues()),

@@ -1,5 +1,7 @@
 /src/main/webapp/ext-4
 /src/main/webapp/ext-5.0.1
+/src/main/webapp/extjs/ext-4
+/src/main/webapp/extjs/ext-5.0.1
 .idea
 *.iml
 /out
