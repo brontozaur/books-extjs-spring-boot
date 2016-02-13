@@ -52,7 +52,6 @@ Currently, some of the cool technologies implemented in this application are:
   
 * ExtJS 4
 * Multipart form requests
-* JQuery integration
 * MVC architecture
 * Grids, trees, forms, sorting, filtering
 * CRUD operations
