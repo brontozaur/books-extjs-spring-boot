@@ -101,9 +101,9 @@ accessed.
 * Live application!
 * Have more fun with this code ;-)
 
-# How to run ExtJS front-end from /webapp/extjs, instead of default /webapp
+# How to run ExtJS front-end from /webapp/extjs
 
-1. Required. Move the following items to /webapp/extjs folder:
+1. Move the following items to /webapp/extjs folder:
 
 		/webapp/app => /webapp/extjs/app  
 		/webapp/css => /webapp/extjs/app  
@@ -114,14 +114,13 @@ accessed.
 
 2. Optional. To run the app from a folder different than /app, you could change in app.js:
 	
-	``appFolder: '/newFolder/app',``  
+        appFolder: '/newFolder/app',  
 
 	and  
 
     	launch: function() {  
 	        Ext.Loader.setPath('BM', '/newFolder/app');  
-	        console.log("Powered by ExtJS: " + Ext.getVersion());  
-	        setCurrentTheme('classic');  
+	        ...
 	    }  
 	  
 3. Remove the following code from com.popa.books.BooksApplication:  
@@ -133,7 +132,7 @@ accessed.
     
 4. Adapt the new /webapp/extjs/index.html to point to the new location of the imports. Eg.    
 
-``<script type="text/javascript" src="/extjs/app.js"></script>``
+         <script type="text/javascript" src="/extjs/app.js"></script>    
 
 5. Finally, create a possibility for the user to choose his front-end. Create a html file called index.htm under /webapp:  
 
@@ -155,11 +154,11 @@ accessed.
 
 This html file is automatically called when the browser access:  
 
-``http://localhost:8080``  
+        http://localhost:8080  
 
 By pressing the 'ExtJS' button, the following url is called:  
 
-``http://localhost:8080/extjs/index.html``  
+        http://localhost:8080/extjs/index.html    
 
 This can also be called directly from browser, to skip the front-end selection step.  
 
