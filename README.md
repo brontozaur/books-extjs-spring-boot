@@ -133,7 +133,7 @@ accessed.
 
          <script type="text/javascript" src="/extjs/app.js"></script>    
 
-5. Finally, create a possibility for the user to choose his front-end. Create a html file called index.htm under /webapp:  
+5. Finally, create a possibility for the user to choose his front-end. Create a html file called index.html under /webapp:  
 
         <html>  
         <head>  
@@ -144,7 +144,8 @@ accessed.
   
         </head>  
         <body>  
-        <form action="" method="get">  
+        <form action="" method="get">
+            <h1> Choose your frontend: </h1> <br />
             <button type="submit" formaction="/extjs/index.html">ExtJS</button>  
             <button type="submit" formaction="/angular/index.html">AngularJS</button>  
         </form>  
