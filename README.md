@@ -118,18 +118,18 @@ accessed.
 
 	and  
 
-	launch: function() {  
-	    Ext.Loader.setPath('BM', '/newFolder/app');  
-	    console.log("Powered by ExtJS: " + Ext.getVersion());  
-	    setCurrentTheme('classic');  
-	}  
+    	launch: function() {  
+	        Ext.Loader.setPath('BM', '/newFolder/app');  
+	        console.log("Powered by ExtJS: " + Ext.getVersion());  
+	        setCurrentTheme('classic');  
+	    }  
 	  
 3. Remove the following code from com.popa.books.BooksApplication:  
 
-    @RequestMapping("/books")  
-    String index() {  
-        return "/index";  
-    }  
+        @RequestMapping("/books")  
+        String index() {  
+            return "/index";  
+        }  
     
 4. Adapt the new /webapp/extjs/index.html to point to the new location of the imports. Eg.    
 
@@ -137,21 +137,21 @@ accessed.
 
 5. Finally, create a possibility for the user to choose his front-end. Create a html file called index.htm under /webapp:  
 
-<html>  
-<head>  
-    <title>Books manager</title>  
-    <meta http-equiv="content-type" content="text/html;charset=utf-8">  
+        <html>  
+        <head>  
+            <title>Books manager</title>  
+            <meta http-equiv="content-type" content="text/html;charset=utf-8">  
   
-    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>  
+            <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>  
   
-</head>  
-<body>  
-<form action="" method="get">  
-    <button type="submit" formaction="/extjs/index.html">ExtJS</button>  
-    <button type="submit" formaction="/angular/index.html">AngularJS</button>  
-</form>  
-</body>  
-</html>  
+        </head>  
+        <body>  
+        <form action="" method="get">  
+            <button type="submit" formaction="/extjs/index.html">ExtJS</button>  
+            <button type="submit" formaction="/angular/index.html">AngularJS</button>  
+        </form>  
+        </body>  
+        </html>  
 
 This html file is automatically called when the browser access:  
 
