@@ -36,7 +36,7 @@ public class Book implements Serializable {
     @Column(name = "isbn", nullable = true)
     private String isbn;
 
-    @Column(name = "citita", nullable = true)
+    @Column(name = "citita", nullable = true, columnDefinition="BIT")
     private Boolean citita;
 
     @Column(name = "serie", nullable = true)
